@@ -1,0 +1,25 @@
+{
+  "name": "amplify-for-games",
+  "version": "1.0.0",
+  "description": "This project will provide sample code and explanation on how to build and deploy a game with AWS Amplify. We are using the populare open source game engine Godot: https://godotengine.org/",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@aws-amplify/backend": "^1.0.2",
+    "@aws-amplify/backend-cli": "^1.0.3",
+    "aws-cdk": "^2.143.1",
+    "aws-cdk-lib": "^2.143.1",
+    "constructs": "^10.3.0",
+    "esbuild": "^0.21.4",
+    "tsx": "^4.11.0",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "aws-amplify": "^6.3.4"
+  }
+}

@@ -1,6 +1,7 @@
-## My Project
+## AWS Amplify for Games
 
-TODO: Fill this README out!
+This project will provide sample code and explanation on how to build and deploy a game with AWS Amplify.
+We are using the populare open source gameengine Godot
 
 Be sure to:
 

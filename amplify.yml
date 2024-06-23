@@ -3,7 +3,8 @@ frontend:
     phases:
         build:
             commands:
-                - echo "Build Web Site..."   
+                - echo "Build Web Site..."
+                - cd website   
                 - npm run build
                 #- echo "Build Game Server..."            
                 #- echo "Build Game Client..."
@@ -14,6 +15,6 @@ frontend:
         #baseDirectory: /build/mac/
         #files:
         #    - '**/*'
-        baseDirectory: build
+        baseDirectory: website/build
         files:
             - '**/*'

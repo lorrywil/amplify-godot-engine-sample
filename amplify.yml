@@ -1,0 +1,19 @@
+version: 1
+frontend:
+    phases:
+        build:
+            commands:
+                - echo "Build Web Site..."   
+                - npm run build
+                #- echo "Build Game Server..."            
+                #- echo "Build Game Client..."
+                #- 'mkdir -v -p build/mac && cd game/client && godot --headless --verbose --export-release "macOS"'
+                #- 'ls ../../'
+                #- 'ls ../../build/mac'
+    artifacts:
+        #baseDirectory: /build/mac/
+        #files:
+        #    - '**/*'
+        baseDirectory: build
+        files:
+            - '**/*'

@@ -10,13 +10,13 @@ config_version=5
 
 [application]
 
-config/name="Amplify for Games"
+config/name="Amplify Godot Engine Sample"
 config/features=PackedStringArray("4.2", "Mobile")
 config/icon="res://icon.svg"
 
 [dotnet]
 
-project/assembly_name="Amplify for Games"
+project/assembly_name="Amplify Godot Engine Sample"
 
 [rendering]
 

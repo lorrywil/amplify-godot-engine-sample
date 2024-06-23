@@ -36,8 +36,8 @@ frontend:
                 - cd game-client
                 - mkdir build
                 - godot --headless --verbose --export-release "Web"
-                - mkdir ../website/game/
-                - mv build/* ../website/game/
+                - mkdir ../website/build/game
+                - mv build/* ../website/build/game
                 - cd ..
 
                 #

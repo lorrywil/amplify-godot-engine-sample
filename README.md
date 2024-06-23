@@ -1,7 +1,7 @@
-## AWS Amplify for Games
+## Amplify Godot Engine Sample
 
 This project will provide sample code and explanation on how to build and deploy a game with AWS Amplify.
-We are using the populare open source game engine Godot: https://godotengine.org/
+We are using the popular open source game engine Godot: https://godotengine.org/
 
 ## Security
 

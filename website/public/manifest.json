@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Squash the Creeps",
+  "name": "Squash the creeps and get the best score to win a creep",
   "icons": [
     {
       "src": "favicon.ico",

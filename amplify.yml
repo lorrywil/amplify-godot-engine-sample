@@ -1,4 +1,14 @@
 version: 1
+backend:
+    phases:
+        preBuild:
+            commands:
+                - echo "Setup Game Backend..."  
+                - echo "Setup Game Server..."  
+        build:
+            commands:
+                - echo "Build Game Backend..."  
+                - echo "Build Game Server..."  
 frontend:
     phases:
         preBuild:
@@ -12,8 +22,7 @@ frontend:
                 - echo "Build Web Site..."
                 - cd website   
                 - npm run build
-                - cd ..
-                #- echo "Build Game Server..."            
+                - cd ..         
                 #- echo "Build Game Client..."
                 #- 'mkdir -v -p build/mac && cd game/client && godot --headless --verbose --export-release "macOS"'
                 #- 'ls ../../'
@@ -24,4 +33,7 @@ frontend:
         #    - '**/*'
         baseDirectory: website/build
         files:
-            - '**/*'
+            - '**/*'  
+    cache:
+        paths:
+            - website/node_modules/

@@ -1,24 +1,24 @@
 import './App.css';
 
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Layout from "./pages/Layout";
+import Home from "./pages/Home";
+import Play from "./pages/Play";
+import Downloads from "./pages/Downloads";
+import NoPage from "./pages/NoPage";
+
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Squash the Creeps
-        </p>
-        <img src="squash-the-creeps-final.webp"></img>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <br></br>
-          Play
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="play" element={<Play />} />
+          <Route path="downloads" element={<Downloads />} />
+          <Route path="*" element={<NoPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 

@@ -13,17 +13,34 @@ frontend:
     phases:
         preBuild:
             commands:
+                # Web Site
                 - echo "Setup Web Site..."  
                 - cd website   
                 - npm install
                 - cd ..
+
+                # Game Client
+                - echo "Setup Game Client..."
+                - cd game-client
+                - cd ..   
         build:
             commands:
+                # Web Site
                 - echo "Build Web Site..."
                 - cd website   
                 - npm run build
-                - cd ..         
-                #- echo "Build Game Client..."
+                - cd ..     
+
+                # Game Client (Web)
+                - echo "Export Game Client (Web)..."
+                - cd game-client
+                - mkdir build
+                - godot --headless --verbose --export-release "Web"
+                - mkdir ../website/game/
+                - mv build/* ../website/game/
+                - cd ..
+
+                #
                 #- 'mkdir -v -p build/mac && cd game/client && godot --headless --verbose --export-release "macOS"'
                 #- 'ls ../../'
                 #- 'ls ../../build/mac'

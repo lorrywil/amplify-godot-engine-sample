@@ -1,18 +1,19 @@
 import './Home.css';
 
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { Button } from '@aws-amplify/ui-react';
 
 function Home() {
+    const navigate = useNavigate()
+
+    function play() {
+      navigate("/play");
+    } 
+
     return (
       <div className="Home">
-        <header className="Home-header">
-          <p>
-            Squash the Creeps
-          </p>
-          <img width="500" height="400" alt="Squash the Creeps" src="squash-the-creeps-final.webp"></img>
-          <br></br>
-          <Link to="/play" className="Home-link">Play</Link>
-        </header>
+          <img className="Home-Image" width="478" height="360" alt="Squash the Creeps" src="squash-the-creeps-final.webp"></img>
+          <Button className="Home-Button" variation="primary" size="large" onClick={() => play()}>Play</Button>
       </div>
     );
   }

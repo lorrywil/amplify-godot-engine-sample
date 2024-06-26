@@ -1,4 +1,16 @@
 .Play {
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
-  
+
+.Play-Iframe {
+    margin-top: 100px;
+    padding: 30px;
+}
+
+.Play-Button {
+    margin-top: 50px;
+} 

@@ -1,0 +1,9 @@
+.Layout {
+    padding: 10px;
+    text-align: left;
+    display: flex;
+}
+
+.Layout-Filler {
+    width: 100%;
+}

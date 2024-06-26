@@ -7,8 +7,10 @@
 }
 
 .Play-Iframe {
-    margin-top: 100px;
-    padding: 30px;
+    padding: 0;
+    margin: 30px;
+    margin-top: 50px;
+    border: none;
 }
 
 .Play-Button {

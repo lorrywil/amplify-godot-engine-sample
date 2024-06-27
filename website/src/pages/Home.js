@@ -11,9 +11,9 @@ function Home() {
     } 
 
     return (
-      <div className="Home">
-          <img className="Home-Image" width="478" height="360" alt="Squash the Creeps" src="squash-the-creeps-final.webp"></img>
-          <Button className="Home-Button" variation="primary" size="large" onClick={() => play()}>Play</Button>
+      <div className="home">
+          <img className="home-image" width="478" height="360" alt="Squash the Creeps" src="squash-the-creeps-final.webp"></img>
+          <Button className="home-button" variation="primary" size="large" onClick={() => play()}>Play</Button>
       </div>
     );
   }

@@ -1,4 +1,4 @@
-.Play {
+.play {
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -6,13 +6,13 @@
     justify-content: center;
 }
 
-.Play-Iframe {
+.play-iframe {
     padding: 0;
     margin: 30px;
     margin-top: 50px;
     border: none;
 }
 
-.Play-Button {
+.play-button {
     margin-top: 50px;
 } 

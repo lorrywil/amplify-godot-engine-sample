@@ -2,11 +2,8 @@ import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
 
 const schema = a.schema({
   Leaderboard: a.model({
-    userId: a.id().required(),
-    username: a.string().required(),
-    score: a.integer().required(),
-    rank: a.integer(),
-    lastUpdated: a.datetime()
+    username: a.id().required(),
+    score: a.integer().required()
   }).authorization(allow => [allow.authenticated()])
 });
 

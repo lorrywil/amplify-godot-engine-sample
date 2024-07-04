@@ -2,7 +2,7 @@ import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
 
 const schema = a.schema({
   Leaderboard: a.model({
-    userId: a.string().required(),
+    userId: a.id().required(),
     username: a.string().required(),
     score: a.integer().required(),
     rank: a.integer(),

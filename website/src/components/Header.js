@@ -22,6 +22,7 @@ const Header = () => {
             <Link onClick={() => navigate("/")}>Home</Link>
             <Link onClick={() => navigate("/play")}>Play</Link>
             <Link onClick={() => navigate("/download")}>Download</Link>
+            <Link onClick={() => navigate("/leaderboard")}>Leaderboard</Link>
             {/* <Link href="/play">Play</Link> */}
           </Flex>
           {

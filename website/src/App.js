@@ -13,7 +13,7 @@ import Play from "./pages/Play";
 import NoPage from "./pages/NoPage";
 import Login from "./pages/Login"
 import Download from "./pages/Download"
-
+import Leaderboard from './pages/Leaderboard';
 
 import ProtectedRoute from './components/ProtectedRoute';
 // import ProtectedPage from './components/ProtectedPage';
@@ -40,6 +40,12 @@ function App() {
               <Route path="download" element={
                 <ProtectedRoute>
                   <Download />
+                </ProtectedRoute>
+              }
+              />
+              <Route path="leaderboard" element={
+                <ProtectedRoute>
+                  <Leaderboard />
                 </ProtectedRoute>
               }
               />

@@ -17,7 +17,7 @@ func _on_test_button_pressed():
 	print(AwsAmplify.auth_token)
 
 func _on_button_pressed():
-	
+	AwsAmplify.email = mail_input.text
 	print(mail_input.text + " " + password_input.text)
 	
 	var success = await AwsAmplify.authenticate(mail_input.text, password_input.text)

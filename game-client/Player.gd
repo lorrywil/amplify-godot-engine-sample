@@ -10,7 +10,8 @@ signal hit
 @export var bounce_impulse = 16
 ## The downward acceleration when in the air, in meters per second.
 @export var fall_acceleration = 75
-
+## The player score
+var score = 0
 
 func _physics_process(delta):
 	var direction = Vector3.ZERO
@@ -56,6 +57,7 @@ func _physics_process(delta):
 			var mob = collision.get_collider()
 			if Vector3.UP.dot(collision.get_normal()) > 0.1:
 				mob.squash()
+				score+=1
 				velocity.y = bounce_impulse
 				# Prevent this block from running more than once,
 				# which would award the player more than 1 point for squashing a single mob.
@@ -67,6 +69,7 @@ func _physics_process(delta):
 
 func die():
 	hit.emit()
+	await AwsAmplify.update_score(score)
 	queue_free()
 
 

@@ -7,7 +7,7 @@ const schema = a.schema({
     score: a.integer().required(),
     rank: a.integer(),
     lastUpdated: a.datetime()
-  })
+  }).authorization(allow => [allow.authenticated()])
 });
 
 export type Schema = ClientSchema<typeof schema>;

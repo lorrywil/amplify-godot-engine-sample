@@ -69,7 +69,7 @@ func _physics_process(delta):
 
 func die():
 	hit.emit()
-	await AwsAmplify.update_score(score)
+	await AwsAmplify.data.mutate("{ createLeaderboard(input: {score: " + str(score) + ", username: \"" + AwsAmplify.auth.current_user.email + "\"}) { id } }", "DataMutation")
 	queue_free()
 
 

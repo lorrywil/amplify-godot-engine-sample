@@ -9,21 +9,29 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_7wopv")
 
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+layout_mode = 0
+offset_right = 1156.0
+offset_bottom = 645.0
+color = Color(0.982209, 0.567552, 0.445094, 1)
+
 [node name="MailLabel" type="Label" parent="."]
 layout_mode = 0
-offset_left = 112.0
-offset_top = 57.0
-offset_right = 155.0
-offset_bottom = 80.0
+offset_left = 115.0
+offset_top = 56.0
+offset_right = 158.0
+offset_bottom = 79.0
 text = "Email"
 
 [node name="MailInput" type="LineEdit" parent="."]
 layout_mode = 0
-offset_left = 113.0
-offset_top = 86.0
-offset_right = 505.0
-offset_bottom = 117.0
-placeholder_text = "enter you mail"
+offset_left = 112.0
+offset_top = 93.0
+offset_right = 504.0
+offset_bottom = 124.0
+text = "kacom39001@luravel.com"
+placeholder_text = "Enter you mail"
 
 [node name="SignInButton" type="Button" parent="."]
 layout_mode = 0
@@ -55,4 +63,6 @@ offset_left = 113.0
 offset_top = 171.0
 offset_right = 507.0
 offset_bottom = 202.0
-placeholder_text = "enter your password"
+text = "Amplify4g_10"
+placeholder_text = "Enter your password"
+secret = true

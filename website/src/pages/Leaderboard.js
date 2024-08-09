@@ -14,13 +14,21 @@ const Leaderboard = () => {
   const [leaderboardData, setLeaderboardData] = useState([]);
 
   const fetchLeaderboard = async () => {
-    const { data: leaderboard, errors } = await client.models.Leaderboard.list({
-      
-    });
-    leaderboard.sort((a, b) => b.score - a.score)
-    setLeaderboardData(leaderboard.sort((a, b) => b.score - a.score))
-    console.log(leaderboard)
+    const { data: leaderboard, errors } = await client.models.Leaderboard.list({});
+    var uniqueBestScores = filterLeaderboard(leaderboard);
+    setLeaderboardData(uniqueBestScores)
   };
+
+  const filterLeaderboard = (leaderboard) => {
+    const uniqueBestScores = {};
+    leaderboard.forEach(record => {
+      const { username, score } = record;
+      if (!uniqueBestScores[username] || score > uniqueBestScores[username].score) {
+        uniqueBestScores[username] = record;
+      }
+    });
+    return Object.values(uniqueBestScores);
+  }
 
   useEffect(() => {
     fetchLeaderboard();

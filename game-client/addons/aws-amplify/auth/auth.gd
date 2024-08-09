@@ -30,6 +30,8 @@ func sign_in_with_user_password(email, password):
 		var user = await get_current_user()
 		if !user:
 			return false
+			
+		print("Current User : ", user)
 		current_user = user
 		return true
 	return false
@@ -91,6 +93,21 @@ func get_current_user():
 		
 	return false
 	
+func get_user_attribute(attribute):
+	if current_user == null:
+		print("No current user")
+		return null
+	
+	if not current_user.has(attribute):
+		print("User does not have attribute attribute")
+		return null
+	
+	var attribute_value = current_user[attribute]
+	if attribute_value == null:
+		print("attribute is null")
+		return null
+	
+	return attribute_value
 	
 func handle_authentication():
 	if !refresh_token || refresh_token == '':

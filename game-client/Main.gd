@@ -2,9 +2,15 @@ extends Node
 
 @export var mob_scene: PackedScene
 
-
 func _ready():
 	$UserInterface/Retry.hide()
+	var avatar_name = AwsAmplify.auth.get_user_attribute("custom:avatar_name")
+	if avatar_name:
+		$UserInterface/AvatarLabel.text = avatar_name
+		
+	var avatar_color = AwsAmplify.auth.get_user_attribute("custom:avatar_color")
+	if avatar_color:
+		$Player.change_player_color(avatar_color)
 
 
 func _unhandled_input(event):

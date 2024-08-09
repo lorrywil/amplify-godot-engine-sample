@@ -14,6 +14,7 @@ import NoPage from "./pages/NoPage";
 import Login from "./pages/Login"
 import Download from "./pages/Download"
 import Leaderboard from './pages/Leaderboard';
+import Profile from './pages/Profile';
 
 import ProtectedRoute from './components/ProtectedRoute';
 // import ProtectedPage from './components/ProtectedPage';
@@ -49,6 +50,7 @@ function App() {
                 </ProtectedRoute>
               }
               />
+              <Route path="profile" element={<Profile />} />
               <Route path="*" element={<NoPage />} />
             </Route>
           </Routes>

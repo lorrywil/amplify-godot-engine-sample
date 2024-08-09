@@ -65,7 +65,29 @@ func _physics_process(delta):
 
 	# This makes the character follow a nice arc when jumping
 	rotation.x = PI / 6 * velocity.y / jump_impulse
+	
+func change_player_color(hex_color):
+	
+	var color = Color(hex_color)
+	
+	var mesh_instance = $Pivot/Character/Sphere_001
+	if mesh_instance && mesh_instance is MeshInstance3D:
+		print(mesh_instance.name)
+		
+		var material = mesh_instance.get_surface_override_material(0)
+		
+		# If there's no override material, get the original material
+		if not material:
+			material = mesh_instance.get_active_material(1)
+			
+		if material:
+			material = material.duplicate()
+			mesh_instance.set_surface_override_material(1, material)
 
+			# Assuming it's a StandardMaterial3D
+			if material is StandardMaterial3D:
+				material.albedo_color = color
+				
 
 func die():
 	hit.emit()

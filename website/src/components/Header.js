@@ -37,7 +37,7 @@ const Header = () => {
                     </View>
                   }
                 >
-                  <MenuItem>Profile</MenuItem>
+                  <MenuItem onClick={() => navigate("/profile")}>Profile</MenuItem>
                   <MenuItem onClick={() => signOut()}>Logout</MenuItem>
                 </Menu>
               </Flex> : <Link onClick={() => navigate("/login")}>Login / Sign Up</Link>

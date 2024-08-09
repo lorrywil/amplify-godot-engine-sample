@@ -5,6 +5,12 @@ const schema = a.schema({
     username: a.id().required(),
     score: a.integer().required()
   }).authorization(allow => [allow.authenticated()])
+  // ,
+  // User: a.model({
+  //   userId: a.id().required(),
+  //   avatarName: a.string(),
+  //   avatarColor: a.enum(["red", "blue", "green", "yellow"])
+  // }).authorization(allow => [allow.authenticated()])
 });
 
 export type Schema = ClientSchema<typeof schema>;

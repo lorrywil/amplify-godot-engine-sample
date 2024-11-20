@@ -207,10 +207,14 @@ text = "Music On/Off"
 
 [node name="DisconnectButton" type="Button" parent="UserInterface"]
 layout_mode = 1
-offset_left = 13.0
-offset_top = 64.0
-offset_right = 160.0
-offset_bottom = 103.0
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -163.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = 62.0
+grow_horizontal = 0
 theme_override_font_sizes/font_size = 24
 text = "Disconnect"
 

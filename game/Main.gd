@@ -2,10 +2,11 @@ extends Node
 
 @export var mob_scene: PackedScene
 
+@onready var commercial_container: Control = %CommercialContainer
+@onready var leaderboard_container: Control = %LeaderboardContainer
 
 @onready var score_label: Label = %ScoreLabel
 @onready var leaderboard: ItemList = %Leaderboard
-
 
 func _ready():
 	$UserInterface/Retry.hide()
@@ -95,3 +96,25 @@ func _on_user_attributes_button_pressed(toggled) -> void:
 	else:
 		$MobTimer.start()
 		$UserInterface/PlayerAttributes.visible = false
+
+
+func _on_commercial_1_pressed() -> void:
+	# TODO: Log the selected commercial to the player profile
+	print("Commercial 1 Selected")
+	_on_commercial_pressed() 
+
+
+func _on_commercial_2_pressed() -> void:
+	# TODO: Log the selected commercial to the player profile
+	print("Commercial 2 Selected")
+	_on_commercial_pressed() 
+
+
+func _on_commercial_3_pressed() -> void:
+	# TODO: Log the selected commercial to the player profile
+	print("Commercial 3 Selected")
+	_on_commercial_pressed() 
+
+func _on_commercial_pressed() -> void:
+	commercial_container.visible = false
+	leaderboard_container.visible = true

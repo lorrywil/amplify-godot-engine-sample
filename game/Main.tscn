@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://2y3ar4s86yra"]
+[gd_scene load_steps=19 format=3 uid="uid://2y3ar4s86yra"]
 
 [ext_resource type="Script" path="res://Main.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://dp478jyugrn7o" path="res://Player.tscn" id="2"]
@@ -6,6 +6,9 @@
 [ext_resource type="Theme" uid="uid://cqquurjk1i7yw" path="res://ui_theme.tres" id="4_gnyca"]
 [ext_resource type="Script" path="res://ScoreLabel.gd" id="6"]
 [ext_resource type="PackedScene" uid="uid://bm3oa0co08npg" path="res://PlayerAttributes.tscn" id="6_rlj8c"]
+[ext_resource type="Texture2D" uid="uid://bt3x5o3vdsed0" path="res://advertising/cocacola1.jpg" id="7_agemx"]
+[ext_resource type="Texture2D" uid="uid://cmr6rqanofhbb" path="res://advertising/cocacola3.png" id="8_gg656"]
+[ext_resource type="Texture2D" uid="uid://bb121bjs0x7aj" path="res://advertising/cocacola2.jpg" id="9_b3ufb"]
 
 [sub_resource type="BoxShape3D" id="1"]
 size = Vector3(60, 2, 60)
@@ -160,66 +163,6 @@ theme_override_font_sizes/font_size = 32
 text = "Score: 0"
 script = ExtResource("6")
 
-[node name="Retry" type="ColorRect" parent="UserInterface"]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 0.447059)
-
-[node name="LeaderboardTitle" type="Label" parent="UserInterface/Retry"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -55.0
-offset_top = -278.0
-offset_right = 38.0
-offset_bottom = -257.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 40
-text = "Top Players"
-horizontal_alignment = 1
-
-[node name="Leaderboard" type="ItemList" parent="UserInterface/Retry"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 400)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -275.0
-offset_right = 275.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 25
-
-[node name="Label" type="Label" parent="UserInterface/Retry"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -239.0
-offset_top = 232.0
-offset_right = 221.0
-offset_bottom = 272.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 32
-text = "Press Space or Enter to retry"
-horizontal_alignment = 1
-vertical_alignment = 2
-
 [node name="MusicPlayerContainer" type="HBoxContainer" parent="UserInterface"]
 layout_mode = 1
 anchors_preset = 3
@@ -289,8 +232,157 @@ offset_bottom = 230.0
 grow_horizontal = 0
 grow_vertical = 1
 
+[node name="Retry" type="ColorRect" parent="UserInterface"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.447059)
+
+[node name="CommercialContainer" type="ColorRect" parent="UserInterface/Retry"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.12549, 0.12549, 0.12549, 1)
+
+[node name="CommercialTitle" type="Label" parent="UserInterface/Retry/CommercialContainer"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -224.0
+offset_top = -274.0
+offset_right = 224.0
+offset_bottom = -224.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 40
+text = "Choose a commercial:"
+
+[node name="Commercial1" type="TextureButton" parent="UserInterface/Retry/CommercialContainer"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 50.0
+offset_top = -150.0
+offset_right = 350.0
+offset_bottom = 150.0
+grow_vertical = 2
+texture_normal = ExtResource("7_agemx")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Commercial2" type="TextureButton" parent="UserInterface/Retry/CommercialContainer"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -150.0
+offset_right = 150.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("9_b3ufb")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Commercial3" type="TextureButton" parent="UserInterface/Retry/CommercialContainer"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -352.0
+offset_top = -150.0
+offset_right = -52.0
+offset_bottom = 150.0
+grow_horizontal = 0
+grow_vertical = 2
+texture_normal = ExtResource("8_gg656")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="LeaderboardContainer" type="Control" parent="UserInterface/Retry"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LeaderboardTitle" type="Label" parent="UserInterface/Retry/LeaderboardContainer"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -115.5
+offset_top = -274.0
+offset_right = 115.5
+offset_bottom = -224.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 40
+text = "Top Players"
+horizontal_alignment = 1
+
+[node name="Leaderboard" type="ItemList" parent="UserInterface/Retry/LeaderboardContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 400)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -275.0
+offset_top = -200.0
+offset_right = 275.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 25
+
+[node name="LeaderboardMessage" type="Label" parent="UserInterface/Retry/LeaderboardContainer"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -230.0
+offset_top = 226.0
+offset_right = 230.0
+offset_bottom = 266.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
+text = "Press Space or Enter to retry"
+horizontal_alignment = 1
+vertical_alignment = 2
+
 [connection signal="hit" from="Player" to="." method="_on_player_hit"]
 [connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
 [connection signal="toggled" from="UserInterface/MusicPlayerContainer/MusicPlayerCheckBox" to="." method="_on_music_player_check_box_toggled"]
 [connection signal="pressed" from="UserInterface/DisconnectButton" to="." method="_on_disconnect_button_pressed"]
 [connection signal="toggled" from="UserInterface/PlayerAttributesButton" to="." method="_on_user_attributes_button_pressed"]
+[connection signal="pressed" from="UserInterface/Retry/CommercialContainer/Commercial1" to="." method="_on_commercial_1_pressed"]
+[connection signal="pressed" from="UserInterface/Retry/CommercialContainer/Commercial2" to="." method="_on_commercial_2_pressed"]
+[connection signal="pressed" from="UserInterface/Retry/CommercialContainer/Commercial3" to="." method="_on_commercial_3_pressed"]

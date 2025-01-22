@@ -1,7 +1,8 @@
 extends Node
 
 const AUTH_FORM = preload("res://addons/aws-amplify/runtime/ui/auth_form.tscn")
-const MAIN = preload("res://Main.tscn")
+#const MAIN = preload("res://Main.tscn")
+const MAIN = preload("res://Profiling.tscn")
 
 var auth_form: AuthForm
 var main: Node

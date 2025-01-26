@@ -391,7 +391,7 @@ func refresh_token(refresh_token):
 	]
 	
 	var body = {
-		RequestBody.CLIENT_ID: _config[Config.CLIENT_SECRET],
+		RequestBody.CLIENT_ID: _config[Config.CLIENT_ID],
 		RequestBody.AUTH_FLOW:"REFRESH_TOKEN_AUTH",
 		RequestBody.AUTH_PARAMETERS: {
 			"REFRESH_TOKEN": refresh_token

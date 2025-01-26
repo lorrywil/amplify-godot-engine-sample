@@ -1,8 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://dp478jyugrn7o"]
+[gd_scene load_steps=6 format=3 uid="uid://dp478jyugrn7o"]
 
 [ext_resource type="Script" path="res://Player.gd" id="1"]
-[ext_resource type="PackedScene" uid="uid://d0ypm0v45pwdv" path="res://art/player.glb" id="2"]
-[ext_resource type="Script" path="res://art/player.gd" id="3_kvdm0"]
+[ext_resource type="PackedScene" uid="uid://bo34f8u1qyhaa" path="res://art/ship2.glb" id="3_5cq1v"]
+[ext_resource type="PackedScene" uid="uid://c83l3a50t3vsj" path="res://art/ship.glb" id="4_rccks"]
 
 [sub_resource type="SphereShape3D" id="1"]
 radius = 0.792278
@@ -11,62 +11,27 @@ radius = 0.792278
 height = 0.1438
 radius = 0.907607
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_76fa1"]
-height = 0.144
-radius = 0.2
-
-[sub_resource type="Animation" id="3"]
-length = 1.2
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Pivot/Character:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0.22, 0.7, 1.18),
-"transitions": PackedFloat32Array(0.435275, 2.21914, 1),
-"update": 0,
-"values": [Vector3(0, 0.329753, 0), Vector3(0, 0.660351, 0), Vector3(0, 0.349734, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Pivot/Character:rotation_degrees")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.1, 0.46, 1.18),
-"transitions": PackedFloat32Array(0.482968, 0.535887, 1),
-"update": 0,
-"values": [Vector3(-5.0326, 0, 0), Vector3(10, 0, 0), Vector3(-10, 0, 0)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_aq6tr"]
-_data = {
-"float": SubResource("3")
-}
-
 [node name="Player" type="CharacterBody3D"]
 collision_mask = 2147483654
 script = ExtResource("1")
 
 [node name="Pivot" type="Node3D" parent="."]
 
-[node name="Character" parent="Pivot" instance=ExtResource("2")]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 0.987214, 0.1594, 0, -0.1594, 0.987214, 0, 0.348069, 0)
-script = ExtResource("3_kvdm0")
-
 [node name="PlayerName" type="Label3D" parent="Pivot"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.39699, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
 offset = Vector2(100, 200)
 billboard = 1
 text = "Placeholder"
 font_size = 150
 outline_size = 30
+
+[node name="Ship" parent="Pivot" instance=ExtResource("4_rccks")]
+transform = Transform3D(-2.18557e-07, 0, 5, 0, 5, 0, -5, 0, -2.18557e-07, 0, 2.5, 0)
+
+[node name="Ship2" parent="Pivot" instance=ExtResource("3_5cq1v")]
+transform = Transform3D(-2.18557e-07, 0, -5, 0, 5, 0, 5, 0, -2.18557e-07, 0, 2.2, 0)
+visible = false
 
 [node name="CollisionShape" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.771765, 0)
@@ -78,31 +43,7 @@ collision_mask = 2
 monitorable = false
 
 [node name="CollisionShape" type="CollisionShape3D" parent="MobDetector"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.06491, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.380701, 0)
 shape = SubResource("2")
 
-[node name="CollisionShape2" type="CollisionShape3D" parent="MobDetector"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.455268, 0.95, 1.1423)
-shape = SubResource("CylinderShape3D_76fa1")
-
-[node name="CollisionShape3" type="CollisionShape3D" parent="MobDetector"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.716365, 0.95, 1.71889)
-shape = SubResource("CylinderShape3D_76fa1")
-
-[node name="CollisionShape4" type="CollisionShape3D" parent="MobDetector"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.730546, 0.95, 1.69713)
-shape = SubResource("CylinderShape3D_76fa1")
-
-[node name="CollisionShape5" type="CollisionShape3D" parent="MobDetector"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.45857, 0.95, 1.15318)
-shape = SubResource("CylinderShape3D_76fa1")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_aq6tr")
-}
-autoplay = "float"
-
 [connection signal="body_entered" from="MobDetector" to="." method="_on_MobDetector_body_entered"]
-
-[editable path="Pivot/Character"]

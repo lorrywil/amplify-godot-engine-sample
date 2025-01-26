@@ -9,7 +9,7 @@ import { storage } from './storage/resource';
 const backend = defineBackend({
     auth,
     data,
-    storage: storage
+    storage
 });
 backend.auth.resources.cfnResources.cfnUserPoolClient.explicitAuthFlows = [
     "ALLOW_CUSTOM_AUTH",

@@ -310,7 +310,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if sign_out.visible:
 		var time_dictionary = Time.get_datetime_dict_from_unix_time(
-			amplify._auth.get_user_access_token_expiration_time()-Time.get_unix_time_from_system()
+			amplify.auth.get_token_expiration_time()-Time.get_unix_time_from_system()
 		)
 		var time = "%d:%d:%d" % [time_dictionary["hour"], time_dictionary["minute"], time_dictionary["second"]]
 		sign_out_refresh_counter.text = time

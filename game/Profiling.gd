@@ -3,6 +3,7 @@ class_name Profiling
 
 @onready var welcome: Label = $Welcome
 @onready var answer: LineEdit = $Answer
+@onready var enter: Button = $Enter
 
 var player_name: String = ""
 
@@ -11,7 +12,11 @@ func _ready() -> void:
 	welcome.text = generate_welcome()
 	answer.grab_focus()
 
-func _on_validate_pressed() -> void:
+func _on_text_changed(new_text: String) -> void:
+	if answer.text.length() > 0:
+		enter.disabled = false
+
+func _on_button_pressed() -> void:
 	# TODO: update player profile and generate a dynamic commercial
 	get_parent().change_scene("res://Game.tscn")
 

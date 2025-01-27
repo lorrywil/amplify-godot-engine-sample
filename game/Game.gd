@@ -1,17 +1,30 @@
 extends Node
 
+const COMERCIAL_TIMEOUT = 10
+
 @export var mob_scene: PackedScene
 
-@onready var commercial_container: Control = %CommercialContainer
-@onready var leaderboard_container: Control = %LeaderboardContainer
-
 @onready var score: Control = %Score
+
+@onready var commercial_container: Control = %CommercialContainer
+@onready var commercial_progress_bar: ProgressBar = %CommercialProgressBar
+@onready var commercial_timeout: float = COMERCIAL_TIMEOUT
+
+@onready var leaderboard_container: Control = %LeaderboardContainer
 @onready var leaderboard: ItemList = %Leaderboard
 @onready var leaderboard_retry: Button = %LeaderboardRetry
 @onready var leaderboard_quit: Button = %LeaderboardQuit
 
 func _ready():
 	$UserInterface/Retry.hide()
+
+func _process(delta: float) -> void:
+	if commercial_container.visible:
+		if commercial_timeout > 0:
+			commercial_timeout -= delta
+			commercial_progress_bar.value = 100 * (1.0 - commercial_timeout / COMERCIAL_TIMEOUT)
+		else:
+			_on_commercial_pressed()
 
 func _on_mob_timer_timeout():
 	# Create a new instance of the Mob scene.
@@ -31,13 +44,12 @@ func _on_mob_timer_timeout():
 	# We connect the mob to the score label to update the score upon squashing a mob.
 	mob.squashed.connect($UserInterface/Score._on_Mob_squashed)
 
-
 func _on_player_hit():
 	$MobTimer.stop()
 	$UserInterface/Retry.show()
 	await _update_player_score()
 	await _refresh_leaderboard()
-	leaderboard_retry.grab_focus()
+	commercial_container.visible = true
 
 func _update_player_score():	
 	var current_score = int(score.score)
@@ -52,7 +64,6 @@ func _update_player_score():
 	else:
 		print("Error: " + get_score_response.error.message)
 		
-
 func _refresh_leaderboard():
 	var request = """listScoreByLeaderboardAndScore(leaderboard: "%s", sortDirection: DESC, limit:%s) { items { score username } }""" % ["global", "30"]
 	var response = await aws_amplify.data.query(request)
@@ -65,7 +76,6 @@ func _refresh_leaderboard():
 			leaderboard.add_item("%s | %s %s" % [str(i+1), item.username, item.score])
 	else:
 		print(response.error.message)
-
 
 func _on_disconnect_button_pressed() -> void:
 	var response = await aws_amplify.auth.sign_out(true)
@@ -84,7 +94,6 @@ func _on_user_attributes_update_button_pressed() -> void:
 	$MobTimer.start()
 	$UserInterface/PlayerAttributes.visible = false
 
-
 func _on_user_attributes_button_pressed(toggled) -> void:
 	if toggled:
 		$MobTimer.stop()
@@ -93,18 +102,15 @@ func _on_user_attributes_button_pressed(toggled) -> void:
 		$MobTimer.start()
 		$UserInterface/PlayerAttributes.visible = false
 
-
 func _on_commercial_1_pressed() -> void:
 	# TODO: Log the selected commercial to the player profile
 	print("Commercial 1 Selected")
 	_on_commercial_pressed() 
 
-
 func _on_commercial_2_pressed() -> void:
 	# TODO: Log the selected commercial to the player profile
 	print("Commercial 2 Selected")
 	_on_commercial_pressed() 
-
 
 func _on_commercial_3_pressed() -> void:
 	# TODO: Log the selected commercial to the player profile
@@ -114,3 +120,4 @@ func _on_commercial_3_pressed() -> void:
 func _on_commercial_pressed() -> void:
 	commercial_container.visible = false
 	leaderboard_container.visible = true
+	leaderboard_retry.grab_focus()

@@ -11,12 +11,10 @@ func _ready() -> void:
 	change_scene(DEFAULT, false)
 	
 func _enter_tree() -> void:
-	print("ENTER TREE")
 	aws_amplify.auth.user_signed_in.connect(_user_signed_in)
 	aws_amplify.auth.user_signed_out.connect(_user_signed_out)
 
 func _exit_tree() -> void:
-	print("EXIT TREE")
 	aws_amplify.auth.user_signed_in.disconnect(_user_signed_in)
 	aws_amplify.auth.user_signed_out.disconnect(_user_signed_out)
 

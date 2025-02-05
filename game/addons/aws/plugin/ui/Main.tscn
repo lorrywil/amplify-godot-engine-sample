@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=3 uid="uid://ce74xtfpa67ny"]
+
+[ext_resource type="PackedScene" uid="uid://bics2noo8ojws" path="res://addons/aws/plugin/ui/TestUI.tscn" id="1_1a4gq"]
+
+[node name="ScrollContainer" type="ScrollContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+scroll_vertical_custom_step = 1.0
+horizontal_scroll_mode = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+
+[node name="AWSTestUI" parent="MarginContainer" instance=ExtResource("1_1a4gq")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4

@@ -18,6 +18,7 @@ config/icon="res://icon.webp"
 [autoload]
 
 aws_amplify="*res://addons/aws-amplify/runtime/main.gd"
+aws="*res://addons/aws/runtime/main.gd"
 
 [display]
 
@@ -26,7 +27,7 @@ window/stretch/aspect="expand"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/aws-amplify/plugin.cfg")
+enabled=PackedStringArray("res://addons/aws-amplify/plugin.cfg", "res://addons/aws/plugin.cfg")
 
 [filesystem]
 

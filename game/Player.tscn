@@ -28,10 +28,10 @@ outline_size = 30
 
 [node name="Ship" parent="Pivot" instance=ExtResource("4_rccks")]
 transform = Transform3D(-2.18557e-07, 0, 5, 0, 5, 0, -5, 0, -2.18557e-07, 0, 2.5, 0)
+visible = false
 
 [node name="Ship2" parent="Pivot" instance=ExtResource("3_5cq1v")]
 transform = Transform3D(-2.18557e-07, 0, -5, 0, 5, 0, 5, 0, -2.18557e-07, 0, 2.2, 0)
-visible = false
 
 [node name="CollisionShape" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.771765, 0)

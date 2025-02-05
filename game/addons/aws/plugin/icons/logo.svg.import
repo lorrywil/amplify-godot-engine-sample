@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://de2iiepvwop7q"
-path="res://.godot/imported/logo.svg-12ab1823c917939a7f117b35a860d5f5.ctex"
+uid="uid://c0rerui1tkw2x"
+path="res://.godot/imported/logo.svg-bd02cf540a9e0475e65dfbaee8b53958.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/aws-amplify/plugin/icons/logo.svg"
-dest_files=["res://.godot/imported/logo.svg-12ab1823c917939a7f117b35a860d5f5.ctex"]
+source_file="res://addons/aws/plugin/icons/logo.svg"
+dest_files=["res://.godot/imported/logo.svg-bd02cf540a9e0475e65dfbaee8b53958.ctex"]
 
 [params]
 

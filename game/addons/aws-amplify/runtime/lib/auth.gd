@@ -1,5 +1,3 @@
-extends Node
-
 ## AWS Amplify Authentication client for Godot.
 ##
 ## Provides methods for user authentication, sign up, sign in, password management,
@@ -7,6 +5,8 @@ extends Node
 ##
 ## @tutorial: https://docs.amplify.aws/lib/auth/getting-started/q/platform/js
 class_name AWSAmplifyAuth
+extends Node
+
 
 ## Emitted when a user successfully signs in.
 signal user_signed_in

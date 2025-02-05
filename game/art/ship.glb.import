@@ -15,16 +15,16 @@ dest_files=["res://.godot/imported/ship.glb-505ab8b0ae789f29579aa9ba0c23e576.scn
 
 nodes/root_type=""
 nodes/root_name=""
-nodes/apply_root_scale=true
+nodes/apply_root_scale=false
 nodes/root_scale=1.0
 nodes/import_as_skeleton_bones=false
-meshes/ensure_tangents=true
+meshes/ensure_tangents=false
 meshes/generate_lods=false
 meshes/create_shadow_meshes=false
-meshes/light_baking=2
+meshes/light_baking=3
 meshes/lightmap_texel_size=0.001
 meshes/force_disable_compression=false
-skins/use_named_skins=true
+skins/use_named_skins=false
 animation/import=false
 animation/fps=30
 animation/trimming=false
@@ -34,7 +34,7 @@ import_script/path=""
 _subresources={
 "materials": {
 "material_0": {
-"use_external/enabled": true,
+"use_external/enabled": false,
 "use_external/path": ""
 }
 },
@@ -47,6 +47,12 @@ _subresources={
 "lods/normal_split_angle": 25.0,
 "save_to_file/enabled": false,
 "save_to_file/path": ""
+}
+},
+"nodes": {
+"PATH:AnimationPlayer": {
+"import/skip_import": true,
+"optimizer/enabled": false
 }
 }
 }

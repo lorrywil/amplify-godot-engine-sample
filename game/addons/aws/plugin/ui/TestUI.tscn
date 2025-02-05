@@ -1,0 +1,144 @@
+[gd_scene load_steps=2 format=3 uid="uid://bics2noo8ojws"]
+
+[ext_resource type="Script" path="res://addons/aws/plugin/ui/TestUI.gd" id="1_u4j5m"]
+
+[node name="AWSTestUI" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_u4j5m")
+
+[node name="RequestSection" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="RequestSection"]
+layout_mode = 2
+text = "Request Details"
+
+[node name="MethodOption" type="OptionButton" parent="RequestSection"]
+layout_mode = 2
+size_flags_horizontal = 0
+selected = 0
+item_count = 6
+popup/item_0/text = "GET"
+popup/item_1/text = "POST"
+popup/item_1/id = 1
+popup/item_2/text = "PUT"
+popup/item_2/id = 2
+popup/item_3/text = "DELETE"
+popup/item_3/id = 3
+popup/item_4/text = "PATCH"
+popup/item_4/id = 4
+popup/item_5/text = "HEAD"
+popup/item_5/id = 5
+
+[node name="URIInput" type="LineEdit" parent="RequestSection"]
+layout_mode = 2
+text = "/"
+
+[node name="HostInput" type="LineEdit" parent="RequestSection"]
+layout_mode = 2
+text = "s3.us-east-1.amazonaws.com"
+placeholder_text = "s3.us-east-1.amazonaws.com"
+
+[node name="RegionInput" type="LineEdit" parent="RequestSection"]
+layout_mode = 2
+text = "us-east-1"
+placeholder_text = "us-east-1"
+
+[node name="ServiceInput" type="LineEdit" parent="RequestSection"]
+layout_mode = 2
+text = "s3"
+placeholder_text = "s3"
+
+[node name="CredsSection" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CredsSection"]
+layout_mode = 2
+text = "AWS Credentials"
+
+[node name="AccessKeyInput" type="LineEdit" parent="CredsSection"]
+layout_mode = 2
+placeholder_text = "Access Key"
+
+[node name="SecretKeyInput" type="LineEdit" parent="CredsSection"]
+layout_mode = 2
+placeholder_text = "Secret Key"
+secret = true
+
+[node name="SessionTokenInput" type="TextEdit" parent="CredsSection"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+placeholder_text = "Session Token (optional)"
+wrap_mode = 1
+
+[node name="HeadersSection" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HeadersSection"]
+layout_mode = 2
+text = "Custom Headers (JSON)"
+
+[node name="HeadersInput" type="TextEdit" parent="HeadersSection"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+placeholder_text = "{
+    \"Content-Type\": \"application/json\"
+}"
+wrap_mode = 1
+
+[node name="BodySection" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="BodySection"]
+layout_mode = 2
+text = "Request Body"
+
+[node name="BodyInput" type="TextEdit" parent="BodySection"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+placeholder_text = "{
+    \"key\": \"value\"
+}"
+wrap_mode = 1
+
+[node name="ButtonSection" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="SendButton" type="Button" parent="ButtonSection"]
+layout_mode = 2
+text = "Send Request"
+
+[node name="ClearButton" type="Button" parent="ButtonSection"]
+layout_mode = 2
+text = "Clear"
+
+[node name="StatusSection" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="StatusLabel" type="Label" parent="StatusSection"]
+layout_mode = 2
+text = "Ready"
+
+[node name="ResponseSection" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ResponseSection"]
+layout_mode = 2
+text = "Response"
+
+[node name="ResponseOutput" type="TextEdit" parent="ResponseSection"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+editable = false
+wrap_mode = 1
+
+[connection signal="pressed" from="ButtonSection/SendButton" to="." method="_on_send_button_pressed"]
+[connection signal="pressed" from="ButtonSection/ClearButton" to="." method="_on_clear_button_pressed"]

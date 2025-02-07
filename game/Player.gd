@@ -1,7 +1,6 @@
 extends CharacterBody3D
 
 signal hit
-
 ## How fast the player moves in meters per second.
 @export var speed = 14
 ## Vertical impulse applied to the character upon jumping in meters per second.
@@ -11,8 +10,8 @@ signal hit
 ## The downward acceleration when in the air, in meters per second.
 @export var fall_acceleration = 75
 
-
 func _physics_process(delta):
+	var score_label = $"../UserInterface/ScoreLabel"
 	var direction = Vector3.ZERO
 	if Input.is_action_pressed("move_right"):
 		direction.x += 1
@@ -57,6 +56,7 @@ func _physics_process(delta):
 			if Vector3.UP.dot(collision.get_normal()) > 0.1:
 				mob.squash()
 				velocity.y = bounce_impulse
+				aws_amplify.auth.analytics_event("SCORE",str(score_label.score),str(global_position))
 				# Prevent this block from running more than once,
 				# which would award the player more than 1 point for squashing a single mob.
 				break
@@ -66,6 +66,8 @@ func _physics_process(delta):
 
 
 func die():
+	var score_label = $"../UserInterface/ScoreLabel"
+	aws_amplify.auth.analytics_event("GAME_END",str(score_label.score),str(global_position))
 	hit.emit()
 	queue_free()
 

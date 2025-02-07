@@ -8,8 +8,7 @@ class CONFIG:
 class TOKEN:
 	const ACCESS_TOKEN = "AccessToken"
 	const ACCESS_TOKEN_EXPIRATION_TIME = "AccessTokenExpirationTime"
-	const REFRESH_TOKEN = "RefreshToken"	
-
+	const REFRESH_TOKEN = "RefreshToken"
 class JWT:
 	const HEADER = "header"
 	const PAYLOAD = "payload"
@@ -19,14 +18,38 @@ var _client: AWSAmplifyClient
 var _config: Dictionary
 var _endpoint: String
 var _client_id: String
-
+var username = ""
 var _tokens: Dictionary
 var _user_attributes: Dictionary
-
+var analytics_endpoint = ""
+var idtoken = ""
 signal user_signed_in
 signal user_changed
 signal user_signed_out
 signal user_signed_up
+
+func _ready():
+	var file_path = "res://amplify_outputs.json"
+	var file = FileAccess.open(file_path, FileAccess.READ)
+
+	if file:
+		var content = file.get_as_text()
+		file.close()
+		
+		var json = JSON.new()
+		var parse_result = json.parse(content)
+		
+		if parse_result == OK:
+			var result = json.get_data()
+			var auth_data = result["auth"]
+			var region = auth_data["aws_region"]
+			_endpoint = "https://cognito-idp." + region + ".amazonaws.com/"
+			_client_id = auth_data["user_pool_client_id"]
+			analytics_endpoint = result["custom"]["API"]["AnalyticsRESTAPI"]["endpoint"] + "data/"
+		else:
+			print("Failed to parse JSON")
+	else:
+		print("File does not exist: ", file_path)
 
 func _init(client: AWSAmplifyClient, config: Dictionary) -> void:
 	_client = client
@@ -144,14 +167,14 @@ func sign_in_with_username_password(username, password, auth_mode: AuthMode = Au
 			_tokens[TOKEN.ACCESS_TOKEN] = authenticated_result[BODY.ACCESS_TOKEN]
 			_tokens[TOKEN.ACCESS_TOKEN_EXPIRATION_TIME] = _get_access_token_expiration_time(_tokens[TOKEN.ACCESS_TOKEN])
 			_tokens[TOKEN.REFRESH_TOKEN] = authenticated_result[BODY.REFRESH_TOKEN]
-			
+			analytics_event("LOGIN","NULL","NULL")
 			var refresh_user_attributes_response = await _refresh_user_attributes(_tokens[TOKEN.ACCESS_TOKEN])
+			
 			if refresh_user_attributes_response.success:
 				user_signed_in.emit(_user_attributes)
 			else:
 				_clear_user_attributes()
 			return refresh_user_attributes_response
-		
 	return response
 
 func forgot_password(email):
@@ -196,6 +219,7 @@ func global_sign_out():
 	var response = await _client.make_http_post(_endpoint, headers, body)
 	if response.success:
 		user_signed_out.emit(_user_attributes)
+		analytics_event("SIGN_OUT","NULL","NULL")
 		_clean_tokens()
 	return response
 	
@@ -348,3 +372,13 @@ func _base64URL_decode(input: String) -> PackedByteArray:
 
 func _parse_json(field: PackedByteArray) -> Dictionary:
 	return JSON.parse_string(field.get_string_from_utf8())
+func analytics_event(event,score,position):
+	var abody = JSON.stringify({
+		"UserID": _user_attributes[USER_ATTRIBUTES.PHONE_NUMBER],
+		"Event": event,
+		"Score": score,
+		"Position": position,
+		"Time": str(int(Time.get_unix_time_from_system()))
+		})
+	var header = ["Content-Type: application/json"]
+	var success = await make_authenticated_http_request(analytics_endpoint,header,HTTPClient.METHOD_PUT,abody)

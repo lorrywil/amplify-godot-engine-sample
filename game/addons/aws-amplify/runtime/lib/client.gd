@@ -36,7 +36,6 @@ func make_http_request(endpoint, headers, method, body):
 	var response_code = response[1]
 	var response_headers = response[2]
 	var response_body = response[3]
-	
 	if result == HTTPRequest.RESULT_SUCCESS:
 		var json = JSON.parse_string(response_body.get_string_from_utf8())
 		if !json:

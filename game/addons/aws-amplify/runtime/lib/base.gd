@@ -7,6 +7,8 @@ class HEADERS:
 		return "X-Amz-Target: AWSCognitoIdentityProviderService." + target
 	static func AUTHORIZATION_BEARER(access_token) -> String:
 		return "Authorization: Bearer " + access_token
+	static func IDENTITY_AUTHORIZATION_BEARER(identity_token) -> String:
+		return "Authorization: Bearer " + identity_token
 
 class BODY:
 	const CLIENT_ID = "ClientId"
@@ -19,7 +21,7 @@ class BODY:
 	const AUTHENTICATED_RESULT = "AuthenticationResult"
 	const ACCESS_TOKEN = "AccessToken"
 	const REFRESH_TOKEN = "RefreshToken"
-
+	const ID_TOKEN = "IdToken"
 class USER_ATTRIBUTES:
 	const NAME = "name"
 	const FAMILY_NAME = "family_name"

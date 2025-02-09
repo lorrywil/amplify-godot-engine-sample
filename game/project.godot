@@ -20,6 +20,7 @@ config/icon="res://icon.webp"
 aws_amplify="*res://addons/aws-amplify/runtime/main.gd"
 aws="*res://addons/aws/runtime/main.gd"
 game_genres="*res://GameGenres.gd"
+music_player="*res://MusicPlayer.tscn"
 
 [display]
 

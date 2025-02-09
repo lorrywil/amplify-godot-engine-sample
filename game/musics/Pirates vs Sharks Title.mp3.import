@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://sii0wmtx0y7n"
+path="res://.godot/imported/Pirates vs Sharks Title.mp3-72e4b8300c8afb92e113d0e9f366111c.mp3str"
+
+[deps]
+
+source_file="res://musics/Pirates vs Sharks Title.mp3"
+dest_files=["res://.godot/imported/Pirates vs Sharks Title.mp3-72e4b8300c8afb92e113d0e9f366111c.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

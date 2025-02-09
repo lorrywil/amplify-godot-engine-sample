@@ -23,6 +23,8 @@ func _ready():
 	var genre = game_genres.selected_genre
 	comercial_b.label.text = genre.name
 	comercial_b.image.texture = load(genre.ads[randi() % genre.ads.size()])
+	
+	music_player.play_loop()
 
 func _on_mob_timer_timeout():
 	# Create a new instance of the Mob scene.
@@ -43,6 +45,8 @@ func _on_mob_timer_timeout():
 	mob.squashed.connect($UserInterface/Score._on_Mob_squashed)
 
 func _on_player_hit():
+	music_player.play_commercial()
+	
 	$MobTimer.stop()
 	$UserInterface/Retry.show()
 	await _update_player_score()

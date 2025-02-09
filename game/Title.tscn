@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://bcttjf4h7pxsv"]
+[gd_scene load_steps=6 format=3 uid="uid://bcttjf4h7pxsv"]
 
 [ext_resource type="Texture2D" uid="uid://vvdc2qdu005e" path="res://art/title_screen.png" id="1_mma6t"]
 [ext_resource type="FontFile" uid="uid://bgvm365e5dpl5" path="res://fonts/Attack Of Monster.otf" id="2_6pu4l"]
 [ext_resource type="Script" path="res://Title.gd" id="2_ad3ou"]
 [ext_resource type="PackedScene" uid="uid://b40jg8sk1vno1" path="res://BlinkingButton.tscn" id="4_vojkn"]
+[ext_resource type="AudioStream" uid="uid://bgtuvs0785t56" path="res://musics/Pirates vs Sharks Adventure 1.mp3" id="5_orkya"]
 
 [node name="Title" type="TextureRect"]
 anchors_preset = 15
@@ -11,7 +12,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 4
 texture = ExtResource("1_mma6t")
+expand_mode = 1
 script = ExtResource("2_ad3ou")
 
 [node name="Welcome" type="ColorRect" parent="."]
@@ -45,14 +48,21 @@ layout_mode = 1
 anchors_preset = 7
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = -116.0
-offset_top = -117.0
-offset_right = 116.0
-offset_bottom = -57.0
+offset_left = -278.0
+offset_top = -138.0
+offset_right = 278.0
+offset_bottom = -70.0
 grow_vertical = 0
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 20
 theme_override_font_sizes/font_size = 60
 text = "Press A Button"
+
+[node name="PiratesVsSharksAdventure1" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_orkya")
+volume_db = -10.0
+autoplay = true
+playback_type = 1
+parameters/looping = true
 
 [connection signal="pressed" from="Welcome/Start" to="." method="_on_start_pressed"]

@@ -2,7 +2,7 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d8srxe3elsfk"
+uid="uid://54loficfftvq"
 path.s3tc="res://.godot/imported/island_0.png-00201334637ca655a2f449a1a04a6eae.s3tc.ctex"
 path.etc2="res://.godot/imported/island_0.png-00201334637ca655a2f449a1a04a6eae.etc2.ctex"
 metadata={
@@ -10,7 +10,7 @@ metadata={
 "vram_texture": true
 }
 generator_parameters={
-"md5": "c51153d73da2416b7bc440ba69edef83"
+"md5": "2ac9d2a731eb49a2ab465cef6a8aa1e8"
 }
 
 [deps]

@@ -2,7 +2,7 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dggsv4pqqityn"
+uid="uid://qsojvrjfo023"
 path.s3tc="res://.godot/imported/squid_0.png-d97939853d0f9fb8ba4f868b67c59769.s3tc.ctex"
 path.etc2="res://.godot/imported/squid_0.png-d97939853d0f9fb8ba4f868b67c59769.etc2.ctex"
 metadata={
@@ -10,7 +10,7 @@ metadata={
 "vram_texture": true
 }
 generator_parameters={
-"md5": "c4b61ccb45dc8591ab86e95d5456d236"
+"md5": "12f16801859dcbb1ae1f2fc9663c516c"
 }
 
 [deps]

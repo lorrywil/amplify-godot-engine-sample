@@ -3,7 +3,7 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://bo34f8u1qyhaa"
+uid="uid://d2g4hyuh28p37"
 path="res://.godot/imported/ship2.glb-dcfaa5f8d9196548edac768d755a2f48.scn"
 
 [deps]
@@ -21,7 +21,7 @@ nodes/import_as_skeleton_bones=false
 meshes/ensure_tangents=true
 meshes/generate_lods=true
 meshes/create_shadow_meshes=true
-meshes/light_baking=3
+meshes/light_baking=1
 meshes/lightmap_texel_size=0.2
 meshes/force_disable_compression=false
 skins/use_named_skins=true

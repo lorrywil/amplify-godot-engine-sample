@@ -7,6 +7,8 @@ const COMERCIAL_TIMEOUT = 10
 @onready var score: Control = %Score
 
 @onready var commercial_container: Control = %CommercialContainer
+@onready var comercial_a: AdButton = %ComercialA
+@onready var comercial_b: AdButton = %ComercialB
 @onready var commercial_progress_bar: ProgressBar = %CommercialProgressBar
 @onready var commercial_timeout: float = COMERCIAL_TIMEOUT
 
@@ -17,14 +19,10 @@ const COMERCIAL_TIMEOUT = 10
 
 func _ready():
 	$UserInterface/Retry.hide()
-
-func _process(delta: float) -> void:
-	if commercial_container.visible:
-		if commercial_timeout > 0:
-			commercial_timeout -= delta
-			commercial_progress_bar.value = 100 * (1.0 - commercial_timeout / COMERCIAL_TIMEOUT)
-		else:
-			_on_commercial_pressed()
+	
+	var genre = game_genres.selected_genre
+	comercial_b.label.text = genre.name
+	comercial_b.image.texture = load(genre.ads[randi() % genre.ads.size()])
 
 func _on_mob_timer_timeout():
 	# Create a new instance of the Mob scene.
@@ -50,6 +48,7 @@ func _on_player_hit():
 	await _update_player_score()
 	await _refresh_leaderboard()
 	commercial_container.visible = true
+	comercial_a.grab_focus()
 
 func _update_player_score():	
 	var current_score = int(score.score)
@@ -102,19 +101,14 @@ func _on_user_attributes_button_pressed(toggled) -> void:
 		$MobTimer.start()
 		$UserInterface/PlayerAttributes.visible = false
 
-func _on_commercial_1_pressed() -> void:
+func _on_commercial_a_pressed() -> void:
 	# TODO: Log the selected commercial to the player profile
-	print("Commercial 1 Selected")
+	print("Commercial A Selected")
 	_on_commercial_pressed() 
 
-func _on_commercial_2_pressed() -> void:
+func _on_commercial_b_pressed() -> void:
 	# TODO: Log the selected commercial to the player profile
-	print("Commercial 2 Selected")
-	_on_commercial_pressed() 
-
-func _on_commercial_3_pressed() -> void:
-	# TODO: Log the selected commercial to the player profile
-	print("Commercial 3 Selected")
+	print("Commercial B Selected")
 	_on_commercial_pressed() 
 
 func _on_commercial_pressed() -> void:

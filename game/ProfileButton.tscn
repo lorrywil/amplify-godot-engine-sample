@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://dyua4ochdamnk"]
 
 [ext_resource type="Script" path="res://ProfileButton.gd" id="1_m7xxx"]
-[ext_resource type="Texture2D" uid="uid://dipeak3vmxcmt" path="res://profiles/ow_1.png" id="1_rxnak"]
+[ext_resource type="Texture2D" uid="uid://dipeak3vmxcmt" path="res://icons/open_world_1.png" id="1_rxnak"]
 [ext_resource type="FontFile" uid="uid://bgvm365e5dpl5" path="res://fonts/Attack Of Monster.otf" id="2_w6ecv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i0q88"]

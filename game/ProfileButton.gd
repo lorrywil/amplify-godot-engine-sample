@@ -10,7 +10,7 @@ var data: GameGenres.GenreData
 
 func _ready() -> void:
 	label.text = data.name
-	image.texture = data.images[0]
+	image.texture = load(data.icons[0])
 	
 func _on_pressed() -> void:
 	profile_selected.emit(data)

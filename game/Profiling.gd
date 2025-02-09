@@ -24,7 +24,7 @@ func _ready() -> void:
 	answer_1.get_children()[0].grab_focus()
 
 func _on_profile_selected(data):
-	game_genre_data = data
+	game_genres.selected_genre = data
 	question_1.visible = false
 	answer_1.visible = false
 	get_parent().change_scene("res://Game.tscn")

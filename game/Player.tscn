@@ -1,8 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://dp478jyugrn7o"]
+[gd_scene load_steps=10 format=3 uid="uid://dp478jyugrn7o"]
 
 [ext_resource type="Script" path="res://Player.gd" id="1"]
-[ext_resource type="PackedScene" uid="uid://bo34f8u1qyhaa" path="res://art/ship2.glb" id="3_5cq1v"]
-[ext_resource type="PackedScene" uid="uid://c83l3a50t3vsj" path="res://art/ship.glb" id="4_rccks"]
+[ext_resource type="PackedScene" uid="uid://d2g4hyuh28p37" path="res://art/ship2.glb" id="3_5cq1v"]
+[ext_resource type="PackedScene" uid="uid://bnp4vn40j5y75" path="res://art/ship.glb" id="4_rccks"]
 
 [sub_resource type="SphereShape3D" id="1"]
 radius = 0.792278
@@ -10,6 +10,99 @@ radius = 0.792278
 [sub_resource type="CylinderShape3D" id="2"]
 height = 0.1438
 radius = 0.907607
+
+[sub_resource type="Animation" id="Animation_op87t"]
+resource_name = "sink"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pivot:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.7, 3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, -0.5), Vector3(0, -5, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pivot:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.13333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(1.5708, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Pivot:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(3),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_ley6y"]
+resource_name = "sail"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pivot:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.03333, 2.13333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, -0.3, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_7fr24"]
+resource_name = "idle"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pivot:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.03333, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, -0.3, 0), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pivot:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.66, 1.33, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(-0.0872665, 0, 0), Vector3(0.0872665, 0, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6qaau"]
+_data = {
+"idle": SubResource("Animation_7fr24"),
+"sail": SubResource("Animation_ley6y"),
+"sink": SubResource("Animation_op87t")
+}
 
 [node name="Player" type="CharacterBody3D"]
 collision_mask = 2147483654
@@ -31,7 +124,7 @@ transform = Transform3D(-2.18557e-07, 0, 5, 0, 5, 0, -5, 0, -2.18557e-07, 0, 2.5
 visible = false
 
 [node name="Ship2" parent="Pivot" instance=ExtResource("3_5cq1v")]
-transform = Transform3D(-2.18557e-07, 0, -5, 0, 5, 0, 5, 0, -2.18557e-07, 0, 2.2, 0)
+transform = Transform3D(-2.18557e-07, 0, -5, -0.150337, 4.99774, 6.57146e-09, 4.99774, 0.150337, -2.18458e-07, 0, 2.2, 0)
 
 [node name="CollisionShape" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.771765, 0)
@@ -46,4 +139,12 @@ monitorable = false
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.380701, 0)
 shape = SubResource("2")
 
+[node name="Animation" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_6qaau")
+}
+
+[node name="Timer" type="Timer" parent="."]
+
 [connection signal="body_entered" from="MobDetector" to="." method="_on_MobDetector_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

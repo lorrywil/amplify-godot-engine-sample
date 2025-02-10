@@ -15,6 +15,7 @@ var game_genre_data: GameGenres.GenreData = null
 
 func _ready() -> void:
 	player_name = generate_pirate_name()
+	GlobalData.player_name = player_name
 	welcome.text = generate_welcome()
 	for type in game_genres.genres:
 		var profile_button = PRFILE_BUTTON.instantiate()

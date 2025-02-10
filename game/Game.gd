@@ -17,12 +17,53 @@ const COMERCIAL_TIMEOUT = 10
 @onready var leaderboard_retry: Button = %LeaderboardRetry
 @onready var leaderboard_quit: Button = %LeaderboardQuit
 
+@onready var username: String = ""
+
+func _sanitize_string(input: String) -> String:
+	var output = input
+	# Remove or replace problematic characters
+	output = output.replace("\"", "") # Remove double quotes
+	output = output.replace("'", "") # Remove single quotes
+	output = output.replace("\\", "") # Remove backslashes
+	return output
+
+func _get_ad_image(genre) -> String:
+	var generate_image = await aws_amplify.data.query("""adsImageGenerator(prompt: "%s", negativePrompt: "%s")""" % [_sanitize_string(genre.prompt), _sanitize_string(genre.negative_prompt)], "GetImage", true, "API_KEY")
+	
+	print(generate_image.result)
+	
+	var raw_image_string = generate_image.result.data.adsImageGenerator
+
+	##Cleanup the string
+	var start_index = raw_image_string.find("{\"images\"")
+	var cleaned_string = raw_image_string.substr(start_index)
+	# Remove the last closing brace
+	cleaned_string = cleaned_string.trim_suffix("}")
+
+	var json = JSON.new()
+	var error = json.parse(cleaned_string)
+
+	if error == OK:
+		var result_json = json.get_data()
+		var b64image = result_json.images[0]
+
+		return b64image
+
+	print("Failed to parse JSON: ", json.get_error_message())
+	return "error"
+
 func _ready():
 	$UserInterface/Retry.hide()
-	
+
+	username = GlobalData.player_name
 	var genre = game_genres.selected_genre
+
+	var generated_image_b64 = await _get_ad_image(genre)
+
+	var img = Image.new()
+	img.load_png_from_buffer(Marshalls.base64_to_raw(generated_image_b64))
+	comercial_b.image.texture = ImageTexture.create_from_image(img)		
 	comercial_b.label.text = genre.name
-	comercial_b.image.texture = load(genre.ads[randi() % genre.ads.size()])
 	
 	music_player.play_loop()
 
@@ -54,29 +95,29 @@ func _on_player_hit():
 	commercial_container.visible = true
 	comercial_a.grab_focus()
 
-func _update_player_score():	
+func _update_player_score():
 	var current_score = int(score.score)
-	var username = await aws_amplify.auth.get_user_attribute(AWSAmplifyAuth.UserAttributes.EMAIL)
-	var get_score_response = await aws_amplify.data.query("""getScore(leaderboard: "%s", username: "%s") { score }""" % ["global", username], "GetScore")
+	# var username = await aws_amplify.auth.get_user_attribute(AWSAmplifyAuth.UserAttributes.EMAIL)
+	var get_score_response = await aws_amplify.data.query("""getScore(leaderboard: "%s", username: "%s") { score }""" % ["global", username], "GetScore", true, "API_KEY")
 
 	if get_score_response.result:
 		if get_score_response.result.data.getScore == null:
-			await aws_amplify.data.mutation("""createScore(input: {leaderboard: "%s", score: %s, username: "%s"}) { createdAt }""" % ["global", str(current_score), username], "CreateScore")
+			await aws_amplify.data.mutation("""createScore(input: {leaderboard: "%s", score: %s, username: "%s"}) { createdAt }""" % ["global", str(current_score), username], "CreateScore", true, "API_KEY")
 		elif int(get_score_response.result.data.getScore.score) < current_score:
-			await aws_amplify.data.mutation("""updateScore(input: {leaderboard: "%s", score: %s, username: "%s"}) { createdAt }""" % ["global", str(current_score), username], "UpdateScore")
+			await aws_amplify.data.mutation("""updateScore(input: {leaderboard: "%s", score: %s, username: "%s"}) { createdAt }""" % ["global", str(current_score), username], "UpdateScore", true, "API_KEY")
 	else:
 		print("Error: " + get_score_response.error.message)
 		
 func _refresh_leaderboard():
 	var request = """listScoreByLeaderboardAndScore(leaderboard: "%s", sortDirection: DESC, limit:%s) { items { score username } }""" % ["global", "30"]
-	var response = await aws_amplify.data.query(request)
+	var response = await aws_amplify.data.query(request, "ListLeaderboard", true, "API_KEY")
 
 	if response.result and response.result.has("data"):
 		var items = response.result.data.listScoreByLeaderboardAndScore.items
 		leaderboard.clear()
 		for i in items.size():
 			var item = items[i]
-			leaderboard.add_item("%s | %s %s" % [str(i+1), item.username, item.score])
+			leaderboard.add_item("%s | %s %s" % [str(i + 1), item.username, item.score])
 	else:
 		print(response.error.message)
 
@@ -108,12 +149,12 @@ func _on_user_attributes_button_pressed(toggled) -> void:
 func _on_commercial_a_pressed() -> void:
 	# TODO: Log the selected commercial to the player profile
 	print("Commercial A Selected")
-	_on_commercial_pressed() 
+	_on_commercial_pressed()
 
 func _on_commercial_b_pressed() -> void:
 	# TODO: Log the selected commercial to the player profile
 	print("Commercial B Selected")
-	_on_commercial_pressed() 
+	_on_commercial_pressed()
 
 func _on_commercial_pressed() -> void:
 	commercial_container.visible = false

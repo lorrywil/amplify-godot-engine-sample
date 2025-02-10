@@ -21,6 +21,7 @@
     "typescript": "^5.5.2"
   },
   "dependencies": {
+    "@aws-sdk/client-bedrock-runtime": "^3.744.0",
     "aws-amplify": "^6.6.3"
   }
 }

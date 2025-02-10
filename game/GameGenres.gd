@@ -48,16 +48,9 @@ class GenreData:
 var genres = {}
 var selected_genre
 
-const GLOBAL_ADDITIONS = """Include: Professional gaming logo design, high-end post-processing effects,
-volumetric lighting, ambient occlusion, ray-traced reflections, and photo-realistic textures. 
-Marketing-quality composition suitable for modern gaming promotional materials. 
-Style of Unreal Engine 5 quality renders."""
+const GLOBAL_ADDITIONS = "Include: Professional gaming logo design, high-end post-processing effects, volumetric lighting, ambient occlusion, ray-traced reflections, and photo-realistic textures. Marketing-quality composition suitable for modern gaming promotional materials. Style of Unreal Engine 5 quality renders."
 
-const GLOBAL_NEGATIVE = """deformed anatomy, watermarks, signatures, text overlays, low-quality
-compression artifacts, poor anti-aliasing, visible polygons, texture seams, inappropriate aspect ratio, 
-overexposed lighting, unclear focal point, poor color grading, incorrect perspective, 
-amateurish post-processing, lens flares, chromatic aberration, poor depth of field, 
-jpeg artifacts, noise, grain, poor composition, blurry details, incorrect shadows"""
+const GLOBAL_NEGATIVE = "deformed anatomy, watermarks, signatures, text overlays, low-quality compression artifacts, poor anti-aliasing, visible polygons, texture seams, inappropriate aspect ratio, overexposed lighting, unclear focal point, poor color grading, incorrect perspective, amateurish post-processing, lens flares, chromatic aberration, poor depth of field, jpeg artifacts, noise, grain, poor composition, blurry details, incorrect shadows"
 
 func _ready():
 	_initialize_genres()
@@ -78,6 +71,8 @@ func _initialize_genres():
 		 "Ghost of Tsushima", "Elden Ring", "Watch Dogs series"],
 		"Create a hyperrealistic promotional image for 'Pirates vs Sharks': A third-person perspective of a weathered pirate captain standing on the bow of a detailed wooden ship, sword drawn, facing a massive megalodon breaching the stormy Caribbean waters. Dramatic lighting, volumetric clouds, ray-traced water reflections, and detailed ship rigging in the style of modern AAA games like Assassin's Creed Black Flag. 8k, cinematic composition. " + GLOBAL_ADDITIONS,
 		"cartoon, anime, cel-shading, low resolution, blurry, pixelated, amateur, mobile game graphics, flat lighting, simplified textures, poor composition, stick figures, children's illustration style, low-poly, unrealistic water effects, basic shadows, missing reflections, plastic-looking materials. " + GLOBAL_NEGATIVE
+		# "Create a hyperrealistic promotional image for 'Pirates vs Sharks': A third-person perspective of a weathered pirate captain standing on the bow of a detailed wooden ship, sword drawn, facing a massive megalodon breaching the stormy Caribbean waters. Dramatic lighting, volumetric clouds, ray-traced water reflections, and detailed ship rigging in the style of modern AAA games like Assassin's Creed Black Flag. 8k, cinematic composition. ",
+		# "cartoon, anime, cel-shading, low resolution, blurry, pixelated, amateur, mobile game graphics, flat lighting, simplified textures, poor composition, stick figures, children's illustration style, low-poly, unrealistic water effects, basic shadows, missing reflections, plastic-looking materials. "
 	)
 
 	# Battle Royale

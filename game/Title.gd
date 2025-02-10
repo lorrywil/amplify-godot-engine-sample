@@ -9,4 +9,4 @@ func _ready() -> void:
 	music_player.play_title()
 
 func _on_start_pressed() -> void:
-	get_parent().change_scene(PROFILING, true)
+	get_parent().change_scene(PROFILING, false)

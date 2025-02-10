@@ -12,8 +12,8 @@ extends Node
 ## @param operation_name The name of the query operation.
 ## @param authenticated Whether the request should be authenticated.
 ## @return The result of the query operation.
-func query(operation, operation_name = "MyQuery", authenticated: bool = true):
-	return await send(operation, operation_name, GraphQLMethod.QUERY, authenticated)
+func query(operation, operation_name = "MyQuery", authenticated: bool = true, auth_type: String = "AMAZON_COGNITO_USER_POOLS"):
+	return await send(operation, operation_name, GraphQLMethod.QUERY, authenticated, auth_type)
 
 ## Performs a GraphQL mutation operation.
 ##
@@ -21,8 +21,8 @@ func query(operation, operation_name = "MyQuery", authenticated: bool = true):
 ## @param operation_name The name of the mutation operation.
 ## @param authenticated Whether the request should be authenticated.
 ## @return The result of the mutation operation.
-func mutation(operation, operation_name = "MyMutation", authenticated: bool = true):
-	return await send(operation, operation_name, GraphQLMethod.MUTATION, authenticated)
+func mutation(operation, operation_name = "MyMutation", authenticated: bool = true, auth_type: String = "AMAZON_COGNITO_USER_POOLS"):
+	return await send(operation, operation_name, GraphQLMethod.MUTATION, authenticated, auth_type)
 
 ## Performs a GraphQL subscription operation.
 ##
@@ -30,8 +30,8 @@ func mutation(operation, operation_name = "MyMutation", authenticated: bool = tr
 ## @param operation_name The name of the subscription operation.
 ## @param authenticated Whether the request should be authenticated.
 ## @return The result of the subscription operation.
-func subscription(operation, operation_name = "MySubscription", authenticated: bool = true):
-	return await send(operation, operation_name, GraphQLMethod.SUBSCRIPTION, authenticated)
+func subscription(operation, operation_name = "MySubscription", authenticated: bool = true, auth_type: String = "AMAZON_COGNITO_USER_POOLS"):
+	return await send(operation, operation_name, GraphQLMethod.SUBSCRIPTION, authenticated, auth_type)
 
 ## Sends a GraphQL request to the API endpoint.
 ##
@@ -40,7 +40,7 @@ func subscription(operation, operation_name = "MySubscription", authenticated: b
 ## @param method The GraphQL method type (query, mutation, or subscription).
 ## @param authenticated Whether the request should be authenticated.
 ## @return The result of the GraphQL operation.
-func send(operation, operation_name, method: GraphQLMethod, authenticated: bool = true):
+func send(operation, operation_name, method: GraphQLMethod, authenticated: bool = true, auth_type: String = "AMAZON_COGNITO_USER_POOLS"):
 	var headers = [ 
 		"Content-Type: application/json"
 	]
@@ -62,7 +62,11 @@ func send(operation, operation_name, method: GraphQLMethod, authenticated: bool 
 	}
 	
 	if authenticated:
-		return await _auth.post_json(_endpoint, headers, body)
+		if auth_type == "API_KEY":
+			headers.append("X-Api-Key: " + _api_key)
+			return await _client.post_json(_endpoint, headers, body)
+		else:		
+			return await _auth.post_json(_endpoint, headers, body)
 	else:
 		return await _client.post_json(_endpoint, headers, body)
 
@@ -76,11 +80,14 @@ func _init(client: AWSAmplifyClient, auth: AWSAmplifyAuth, config: Dictionary) -
 	_auth = auth
 	_config = config
 	_endpoint = _config[Config.URL]
+	if _config.has(Config.API_KEY):
+		_api_key = _config[Config.API_KEY]
 
 ## Configuration constants for the AWSAmplifyData class.
 class Config:
 	## The URL key for the API endpoint.
 	const URL = "url"
+	const API_KEY = "api_key"
 
 ## Enum representing different GraphQL operation types.
 enum GraphQLMethod {
@@ -100,3 +107,6 @@ var _config: Dictionary
 
 ## The API endpoint URL.
 var _endpoint: String
+
+## The API Key.
+var _api_key: String

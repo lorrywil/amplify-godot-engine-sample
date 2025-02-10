@@ -34,7 +34,9 @@ var config_path: String
 
 ## Loaded configuration data.
 var config: Dictionary
-
+var Analytics_Endpoint = ""
+var key = ""
+var Analytics_Header = ""
 ## AWS Amplify client instance.
 var client: AWSAmplifyClient
 
@@ -50,7 +52,12 @@ var data: AWSAmplifyData
 func _init(_config_path = DEFAULT_CONFIG_PATH):
 	config_path = _config_path
 	config = _get_config(_config_path)
-	
+	Analytics_Endpoint = config["custom"]["API"]["AnalyticsRESTAPI"]["endpoint"] + "data/"
+	key = config["custom"]["API"]["AnalyticsRESTAPI"]["apiKeyValue"]
+	Analytics_Header = [ 
+		"Content-Type: application/json",
+		"x-api-key: " + key
+	]
 	client = AWSAmplifyClient.new()
 	
 	if config.has(CONFIG.AUTH):

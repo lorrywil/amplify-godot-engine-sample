@@ -16,6 +16,8 @@ signal hit
 @export var fall_acceleration = 75
 
 @onready var player_name: Label3D = %PlayerName
+@onready var sessionID = str(int(Time.get_unix_time_from_system()))
+var username = await aws_amplify.auth.get_user_attribute(AWSAmplifyAuth.UserAttributes.EMAIL)	
 @onready var animation: AnimationPlayer = $Animation
 @onready var timer: Timer = $Timer 
 
@@ -25,6 +27,7 @@ func _ready() -> void:
 	animation.play("idle")
 
 func _physics_process(delta):
+	var score_label = $"../UserInterface/Score"
 	if not dead:
 	
 		var direction = Vector3.ZERO
@@ -71,6 +74,7 @@ func _physics_process(delta):
 				if Vector3.UP.dot(collision.get_normal()) > 0.1:
 					mob.squash()
 					velocity.y = bounce_impulse
+					aws_amplify.client.analytics_post(aws_amplify.Analytics_Endpoint,aws_amplify.Analytics_Header,username,"SCORE",score_label.score,global_position.x,(-1 * global_position.z),sessionID,"")
 					# Prevent this block from running more than once,
 					# which would award the player more than 1 point for squashing a single mob.
 					break
@@ -82,6 +86,8 @@ func _physics_process(delta):
 		animation.play("sink")
 
 func die():
+	var score_label = $"../UserInterface/Score"
+	aws_amplify.client.analytics_post(aws_amplify.Analytics_Endpoint,aws_amplify.Analytics_Header,username,"GAME_END",score_label.score,global_position.x,(-1 * global_position.z),sessionID,"")
 	hit.emit()
 	queue_free()
 

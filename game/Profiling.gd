@@ -4,7 +4,7 @@ class_name Profiling
 const PRFILE_BUTTON = preload("res://ProfileButton.tscn")
 
 @onready var welcome: Label = $Welcome
-
+var username = await aws_amplify.auth.get_user_attribute(AWSAmplifyAuth.UserAttributes.EMAIL)
 @onready var question_1: Label = $Question1
 @onready var answer_1: GridContainer = $Answer1
 @onready var answer_2: LineEdit = $Answer2
@@ -27,6 +27,7 @@ func _on_profile_selected(data):
 	game_genres.selected_genre = data
 	question_1.visible = false
 	answer_1.visible = false
+	aws_amplify.client.analytics_post(aws_amplify.Analytics_Endpoint,aws_amplify.Analytics_Header,username,"GAME_START",0,0,0,"","")
 	get_parent().change_scene("res://Game.tscn")
 
 func _on_text_changed(_new_text: String) -> void:
@@ -35,6 +36,7 @@ func _on_text_changed(_new_text: String) -> void:
 
 func _on_button_pressed() -> void:
 	# TODO: update player profile and generate a dynamic commercial
+	aws_amplify.client.analytics_post(aws_amplify.Analytics_Endpoint,aws_amplify.Analytics_Header,username,"GAME_START",0,0,0,"","")
 	get_parent().change_scene("res://Game.tscn")
 
 # Pirate name generator

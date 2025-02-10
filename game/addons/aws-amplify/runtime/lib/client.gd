@@ -158,7 +158,18 @@ func _response(status: ResponseStatus, result, error):
 		return Response.new(status, result, null)
 	else:
 		return Response.new(status, null, error)
-
+func analytics_post(endpoint,headers,userid,event,score,xpos,ypos,sessionid,adclicked):
+		var body = JSON.stringify({
+		"UserID": userid,
+		"SessionID": sessionid,
+		"Event": event,
+		"Score": score,
+		"X-Position": xpos,
+		"Y-Position": ypos,
+		"AD-Clicked": adclicked,
+		"Time": str(int(Time.get_unix_time_from_system()))
+		})
+		await send(endpoint,headers,HTTPClient.METHOD_PUT,body)
 ## Enum representing possible response statuses.
 enum ResponseStatus {
 	SUCCESS,

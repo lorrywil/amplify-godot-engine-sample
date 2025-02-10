@@ -11,6 +11,7 @@ const COMERCIAL_TIMEOUT = 10
 @onready var comercial_b: AdButton = %ComercialB
 @onready var commercial_progress_bar: ProgressBar = %CommercialProgressBar
 @onready var commercial_timeout: float = COMERCIAL_TIMEOUT
+var username = await aws_amplify.auth.get_user_attribute(AWSAmplifyAuth.UserAttributes.EMAIL)
 
 @onready var leaderboard_container: Control = %LeaderboardContainer
 @onready var leaderboard: ItemList = %Leaderboard
@@ -87,6 +88,7 @@ func _on_disconnect_button_pressed() -> void:
 		print(response.error.message)
 
 func _on_leaderboard_retry_pressed() -> void:
+	aws_amplify.client.analytics_post(aws_amplify.Analytics_Endpoint,aws_amplify.Analytics_Header,username,"GAME_START",0,0,0,"","")
 	get_parent().change_scene("res://Game.tscn")
 
 func _on_leaderboard_quit_pressed() -> void:
@@ -108,11 +110,13 @@ func _on_user_attributes_button_pressed(toggled) -> void:
 
 func _on_commercial_a_pressed() -> void:
 	# TODO: Log the selected commercial to the player profile
+	aws_amplify.client.analytics_post(aws_amplify.Analytics_Endpoint,aws_amplify.Analytics_Header,username,"AD_CLICK",0,0,0,"","A")
 	print("Commercial A Selected")
 	_on_commercial_pressed() 
 
 func _on_commercial_b_pressed() -> void:
 	# TODO: Log the selected commercial to the player profile
+	aws_amplify.client.analytics_post(aws_amplify.Analytics_Endpoint,aws_amplify.Analytics_Header,username,"AD_CLICK",0,0,0,"","B")
 	print("Commercial B Selected")
 	_on_commercial_pressed() 
 

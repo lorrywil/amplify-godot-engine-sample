@@ -16,17 +16,18 @@ signal hit
 @export var fall_acceleration = 75
 
 @onready var player_name: Label3D = %PlayerName
+@onready var timer: Timer = $Timer
 @onready var animation: AnimationPlayer = $Animation
-@onready var timer: Timer = $Timer 
 
 var dead = false
+var idle = false
 
 func _ready() -> void:
+	idle = true
 	animation.play("idle")
 
 func _physics_process(delta):
 	if not dead:
-	
 		var direction = Vector3.ZERO
 		if Input.is_action_pressed("move_right"):
 			direction.x += 1
@@ -38,13 +39,10 @@ func _physics_process(delta):
 			direction.z -= 1
 
 		if direction != Vector3.ZERO:
-			animation.play("sail")
 			# In the lines below, we turn the character when moving and make the animation play faster.
 			direction = direction.normalized()
 			# Setting the basis property will affect the rotation of the node.
 			basis = Basis.looking_at(direction)
-		else:
-			animation.play("idle")
 
 		velocity.x = direction.x * speed
 		velocity.z = direction.z * speed
@@ -77,9 +75,6 @@ func _physics_process(delta):
 
 		# This makes the character follow a nice arc when jumping
 		rotation.x = PI / 6 * velocity.y / jump_impulse
-	
-	else:
-		animation.play("sink")
 
 func die():
 	hit.emit()
@@ -87,7 +82,9 @@ func die():
 
 func _on_MobDetector_body_entered(_body):
 	dead = true
-	timer.start(2)
+	player_name.visible = false
+	animation.play("sink")
+	timer.start(3)
 
 func _on_timer_timeout() -> void:
 	die()

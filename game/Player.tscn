@@ -1,15 +1,13 @@
-[gd_scene load_steps=10 format=3 uid="uid://dp478jyugrn7o"]
+[gd_scene load_steps=9 format=3 uid="uid://dp478jyugrn7o"]
 
 [ext_resource type="Script" path="res://Player.gd" id="1"]
-[ext_resource type="PackedScene" uid="uid://d2g4hyuh28p37" path="res://art/ship2.glb" id="3_5cq1v"]
 [ext_resource type="PackedScene" uid="uid://bnp4vn40j5y75" path="res://art/ship.glb" id="4_rccks"]
 
-[sub_resource type="SphereShape3D" id="1"]
-radius = 0.792278
+[sub_resource type="BoxShape3D" id="BoxShape3D_wk2ti"]
+size = Vector3(2, 0.5, 4)
 
-[sub_resource type="CylinderShape3D" id="2"]
-height = 0.1438
-radius = 0.907607
+[sub_resource type="BoxShape3D" id="BoxShape3D_cwc1o"]
+size = Vector3(2, 1, 4)
 
 [sub_resource type="Animation" id="Animation_op87t"]
 resource_name = "sink"
@@ -21,10 +19,10 @@ tracks/0/path = NodePath("Pivot:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.7, 3),
+"times": PackedFloat32Array(0, 1.13333, 3),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0, 0, -0.5), Vector3(0, -5, 0)]
+"values": [Vector3(0, 0, 0), Vector3(0, -1, 0), Vector3(0, -5, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -33,10 +31,10 @@ tracks/1/path = NodePath("Pivot:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 1.13333),
+"times": PackedFloat32Array(0, 0.766667),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector3(0, 0, 0), Vector3(1.5708, 0, 0)]
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 1.5708)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -45,10 +43,10 @@ tracks/2/path = NodePath("Pivot:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(3),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [false]
+"values": [true, false]
 }
 
 [sub_resource type="Animation" id="Animation_ley6y"]
@@ -120,15 +118,10 @@ font_size = 150
 outline_size = 30
 
 [node name="Ship" parent="Pivot" instance=ExtResource("4_rccks")]
-transform = Transform3D(-2.18557e-07, 0, 5, 0, 5, 0, -5, 0, -2.18557e-07, 0, 2.5, 0)
-visible = false
-
-[node name="Ship2" parent="Pivot" instance=ExtResource("3_5cq1v")]
-transform = Transform3D(-2.18557e-07, 0, -5, -0.150337, 4.99774, 6.57146e-09, 4.99774, 0.150337, -2.18458e-07, 0, 2.2, 0)
+transform = Transform3D(-2.18557e-07, 0, 5, 0, 5, 0, -5, 0, -2.18557e-07, 0, 2, -0.5)
 
 [node name="CollisionShape" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.771765, 0)
-shape = SubResource("1")
+shape = SubResource("BoxShape3D_wk2ti")
 
 [node name="MobDetector" type="Area3D" parent="."]
 collision_layer = 0
@@ -136,8 +129,8 @@ collision_mask = 2
 monitorable = false
 
 [node name="CollisionShape" type="CollisionShape3D" parent="MobDetector"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.380701, 0)
-shape = SubResource("2")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.725, 0)
+shape = SubResource("BoxShape3D_cwc1o")
 
 [node name="Animation" type="AnimationPlayer" parent="."]
 libraries = {

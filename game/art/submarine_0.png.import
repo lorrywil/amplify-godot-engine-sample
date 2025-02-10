@@ -2,7 +2,7 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bq7wwwdp0tqlq"
+uid="uid://bqxtrrwrxhfur"
 path.s3tc="res://.godot/imported/submarine_0.png-4ad3db64b8438aa301e3c248dd24f43b.s3tc.ctex"
 path.etc2="res://.godot/imported/submarine_0.png-4ad3db64b8438aa301e3c248dd24f43b.etc2.ctex"
 metadata={
@@ -10,7 +10,7 @@ metadata={
 "vram_texture": true
 }
 generator_parameters={
-"md5": "4f6ffb0bb97f269c84bc12e58f20bc00"
+"md5": "71799edb46cdcf866f009b7026c088d9"
 }
 
 [deps]

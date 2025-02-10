@@ -14,10 +14,12 @@ func _ready() -> void:
 	music_player.play_title()
 
 func _on_start_pressed() -> void:
+	music_player.audio_stream_player.volume_db = -10
 	timer.start(5)
 	video.play()
 	speech.play()
 	player.play("hide")
 
 func _on_timer_timeout():
+	music_player.audio_stream_player.volume_db = 0
 	get_parent().change_scene(PROFILING, true)

@@ -46,13 +46,14 @@ func _on_mob_timer_timeout():
 
 func _on_player_hit():
 	music_player.play_commercial()
-	
+	commercial_container.visible = true
+	comercial_a.grab_focus()
+		
 	$MobTimer.stop()
 	$UserInterface/Retry.show()
 	await _update_player_score()
 	await _refresh_leaderboard()
-	commercial_container.visible = true
-	comercial_a.grab_focus()
+
 
 func _update_player_score():	
 	var current_score = int(score.score)

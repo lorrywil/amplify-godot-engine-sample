@@ -4,3 +4,5 @@ amplify_outputs*
 amplifyconfiguration*
 .$branches.drawio.bkp
 .$branches.drawio.dtmp
+amplify/functions/.DS_Store
+game/addons/.DS_Store

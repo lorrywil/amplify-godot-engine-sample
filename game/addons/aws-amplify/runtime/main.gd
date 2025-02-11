@@ -1,9 +1,9 @@
+## AWS Amplify Runtime Singleton for Godot Engine.
+##
+## This class serves as the primary interface for AWS Amplify functionality in Godot Engine projects.
+## It handles configuration loading, client initialization, and manages auth and data modules.
 class_name AWSAmplify
 extends Node
-## Main AWS Amplify class for Godot integration.
-##
-## This class serves as the primary interface for AWS Amplify functionality in Godot projects.
-## It handles configuration loading, client initialization, and manages auth and data modules.
 
 ## Configuration constants.
 class CONFIG:
@@ -11,20 +11,8 @@ class CONFIG:
 	const AUTH = "auth"
 	## Data configuration key.
 	const DATA = "data"
-
-## Error message handling class.
-class ERROR:
-	## Generates an error message for a missing module.
-	##
-	## [param name]: The name of the missing module.
-	## [return]: A formatted error message string.
-	static func MODULE_NULL(name):
-		return "No %s module! The %s configuration file doesn't contain an auth section." % name
-	
-	## Error message for missing auth module.
-	var AUTH_NULL = MODULE_NULL(CONFIG.AUTH)
-	## Error message for missing data module.
-	var DATA_NULL = MODULE_NULL(CONFIG.DATA)
+	## Analytics configuration key.
+	const ANALYTICS = "analytics"
 
 ## Default path for the Amplify configuration file.
 const DEFAULT_CONFIG_PATH := "res://amplify_outputs.json"
@@ -44,6 +32,9 @@ var auth: AWSAmplifyAuth
 ## AWS Amplify data module.
 var data: AWSAmplifyData
 
+## AWS Amplify analytics module.
+var analytics: AWSAmplifyAnalytics
+
 ## Initializes the AWSAmplify instance.
 ##
 ## [param _config_path]: Optional custom path for the configuration file.
@@ -59,6 +50,10 @@ func _init(_config_path = DEFAULT_CONFIG_PATH):
 		if config.has(CONFIG.DATA):
 			data = AWSAmplifyData.new(client, auth, config[CONFIG.DATA])
 
+		if config.has(CONFIG.ANALYTICS):
+			analytics = AWSAmplifyAnalytics.new(client, auth, config[CONFIG.ANALYTICS])
+
+
 ## Sets up child nodes when the node enters the scene tree.
 func _ready():
 	add_child(client)
@@ -68,6 +63,9 @@ func _ready():
 	
 		if data:
 			add_child(data)
+		
+		if analytics:
+			add_child(analytics)
 		
 ## Loads and parses the configuration file.
 ##

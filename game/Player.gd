@@ -17,13 +17,18 @@ signal hit
 
 @onready var player_name: Label3D = %PlayerName
 @onready var timer: Timer = $Timer
+@onready var sessionID = str(int(Time.get_unix_time_from_system()))
 @onready var animation: AnimationPlayer = $Animation
+@onready var mob_detector: Area3D = $MobDetector
 
 var dead = false
 var idle = false
+var username = null
 
 func _ready() -> void:
+	dead = false
 	idle = true
+	username = await aws_amplify.auth.get_user_attribute(AWSAmplifyAuth.UserAttributes.EMAIL)
 	animation.play("idle")
 
 func _physics_process(delta):
@@ -48,8 +53,12 @@ func _physics_process(delta):
 		velocity.z = direction.z * speed
 
 		# Jumping.
-		if is_on_floor() and Input.is_action_just_pressed("jump"):
-			velocity.y += jump_impulse
+		if is_on_floor():			
+			if Input.is_action_just_pressed("jump"):
+				mob_detector.monitoring = false
+				velocity.y += jump_impulse
+			elif not mob_detector.monitoring:
+				mob_detector.monitoring = true
 
 		# We apply gravity every frame so the character always collides with the ground when moving.
 		# This is necessary for the is_on_floor() function to work as a body can always detect
@@ -69,22 +78,27 @@ func _physics_process(delta):
 				if Vector3.UP.dot(collision.get_normal()) > 0.1:
 					mob.squash()
 					velocity.y = bounce_impulse
+					# TODO: Move that out of the _physics_process function
+					# aws_amplify.analytics.send(username,"SCORE",score_label.score,global_position.x,(-1 * global_position.z),sessionID,"")
 					# Prevent this block from running more than once,
 					# which would award the player more than 1 point for squashing a single mob.
 					break
 
 		# This makes the character follow a nice arc when jumping
-		rotation.x = PI / 6 * velocity.y / jump_impulse
+		#rotation.x = PI / 6 * velocity.y / jump_impulse
 
 func die():
+	# TODO: Need to update configuration
+	# aws_amplify.analytics.send(username,"GAME_END",score_label.score,global_position.x,(-1 * global_position.z),sessionID,"")
 	hit.emit()
 	queue_free()
 
 func _on_MobDetector_body_entered(_body):
-	dead = true
-	player_name.visible = false
-	animation.play("sink")
-	timer.start(3)
+	if not dead:
+		dead = true
+		player_name.visible = false
+		animation.play("sink")
+		timer.start(2)
 
 func _on_timer_timeout() -> void:
 	die()

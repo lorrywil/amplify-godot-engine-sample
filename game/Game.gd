@@ -11,14 +11,17 @@ const COMERCIAL_TIMEOUT = 10
 @onready var comercial_b: AdButton = %ComercialB
 @onready var commercial_progress_bar: ProgressBar = %CommercialProgressBar
 @onready var commercial_timeout: float = COMERCIAL_TIMEOUT
-
 @onready var leaderboard_container: Control = %LeaderboardContainer
 @onready var leaderboard: ItemList = %Leaderboard
 @onready var leaderboard_retry: Button = %LeaderboardRetry
 @onready var leaderboard_quit: Button = %LeaderboardQuit
 
+var username
+
 func _ready():
 	$UserInterface/Retry.hide()
+	
+	username = await aws_amplify.auth.get_user_attribute(AWSAmplifyAuth.UserAttributes.EMAIL)
 	
 	var genre = game_genres.selected_genre
 	comercial_b.label.text = genre.name
@@ -57,7 +60,6 @@ func _on_player_hit():
 
 func _update_player_score():	
 	var current_score = int(score.score)
-	var username = await aws_amplify.auth.get_user_attribute(AWSAmplifyAuth.UserAttributes.EMAIL)
 	var get_score_response = await aws_amplify.data.query("""getScore(leaderboard: "%s", username: "%s") { score }""" % ["global", username], "GetScore")
 
 	if get_score_response.result:
@@ -87,6 +89,8 @@ func _on_disconnect_button_pressed() -> void:
 		print(response.error.message)
 
 func _on_leaderboard_retry_pressed() -> void:
+	# TODO: refactor analytics config
+	# aws_amplify.analytics.send(username,"GAME_START",0,0,0,"","")
 	get_parent().change_scene("res://Game.tscn")
 
 func _on_leaderboard_quit_pressed() -> void:
@@ -107,12 +111,14 @@ func _on_user_attributes_button_pressed(toggled) -> void:
 		$UserInterface/PlayerAttributes.visible = false
 
 func _on_commercial_a_pressed() -> void:
-	# TODO: Log the selected commercial to the player profile
+	# TODO: Log the selected commercial to the player profile, We need more info such as if the commercial is neutral or personalized
+	# aws_amplify.analytics.send(username,"AD_CLICK",0,0,0,"","A")
 	print("Commercial A Selected")
 	_on_commercial_pressed() 
 
 func _on_commercial_b_pressed() -> void:
-	# TODO: Log the selected commercial to the player profile
+	# TODO: Log the selected commercial to the player profile, We need more info such as if the commercial is neutral or personalized
+	# aws_amplify.analytics.send(username,"AD_CLICK",0,0,0,"","B")
 	print("Commercial B Selected")
 	_on_commercial_pressed() 
 

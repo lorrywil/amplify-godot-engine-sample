@@ -7,8 +7,9 @@ const COMERCIAL_TIMEOUT = 10
 @onready var score: Control = %Score
 
 @onready var commercial_container: Control = %CommercialContainer
-@onready var comercial_a: AdButton = %ComercialA
-@onready var comercial_b: AdButton = %ComercialB
+@onready var commercial_a: AdButton = %CommercialA
+@onready var commercial_b: AdButton = %CommercialB
+@onready var commercial_c: AdButton = %CommercialC
 @onready var commercial_progress_bar: ProgressBar = %CommercialProgressBar
 @onready var commercial_timeout: float = COMERCIAL_TIMEOUT
 @onready var leaderboard_container: Control = %LeaderboardContainer
@@ -24,8 +25,20 @@ func _ready():
 	username = await aws_amplify.auth.get_user_attribute(AWSAmplifyAuth.UserAttributes.EMAIL)
 	
 	var genre = game_genres.selected_genre
-	comercial_b.label.text = genre.name
-	comercial_b.image.texture = load(genre.ads[randi() % genre.ads.size()])
+	var commercials = [commercial_a, commercial_b, commercial_c]
+	
+	var personalized_commercial_index = randi() % commercials.size()
+	var personalized_commercial = commercials[personalized_commercial_index]
+	personalized_commercial.label.text = "Pirates vs Sharks"
+	personalized_commercial.image.texture = load(genre.ads[randi() % genre.ads.size()])
+	commercials.remove_at(personalized_commercial_index)
+	
+	var neutral_commercial_indices = [1, 2, 3, 4, 5]
+	for neutral_commercial in commercials:
+		var neutral_commercial_index = neutral_commercial_indices[randi() % neutral_commercial_indices.size()]
+		neutral_commercial.label.text = "Pirates vs Sharks"
+		neutral_commercial.image.texture = load("res://ads/neutral_%d.png" % neutral_commercial_index)
+		neutral_commercial_indices.remove_at(neutral_commercial_index)
 	
 	music_player.play_loop()
 
@@ -50,7 +63,9 @@ func _on_mob_timer_timeout():
 func _on_player_hit():
 	music_player.play_commercial()
 	commercial_container.visible = true
-	comercial_a.grab_focus()
+	
+	var commercials = [commercial_a, commercial_b, commercial_c]
+	commercials[randi() % commercials.size()].grab_focus()
 		
 	$MobTimer.stop()
 	$UserInterface/Retry.show()
@@ -120,6 +135,12 @@ func _on_commercial_b_pressed() -> void:
 	# TODO: Log the selected commercial to the player profile, We need more info such as if the commercial is neutral or personalized
 	# aws_amplify.custom_analytics.record(username,"AD_CLICK",0,0,0,"","B")
 	print("Commercial B Selected")
+	_on_commercial_pressed() 
+
+func _on_commercial_c_pressed() -> void:
+	# TODO: Log the selected commercial to the player profile, We need more info such as if the commercial is neutral or personalized
+	# aws_amplify.custom_analytics.record(username,"AD_CLICK",0,0,0,"","B")
+	print("Commercial C Selected")
 	_on_commercial_pressed() 
 
 func _on_commercial_pressed() -> void:

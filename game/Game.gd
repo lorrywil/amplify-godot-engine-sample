@@ -112,13 +112,13 @@ func _on_user_attributes_button_pressed(toggled) -> void:
 
 func _on_commercial_a_pressed() -> void:
 	# TODO: Log the selected commercial to the player profile, We need more info such as if the commercial is neutral or personalized
-	# aws_amplify.analytics.send(username,"AD_CLICK",0,0,0,"","A")
+	# aws_amplify.custom_analytics.record(username,"AD_CLICK",0,0,0,"","A")
 	print("Commercial A Selected")
 	_on_commercial_pressed() 
 
 func _on_commercial_b_pressed() -> void:
 	# TODO: Log the selected commercial to the player profile, We need more info such as if the commercial is neutral or personalized
-	# aws_amplify.analytics.send(username,"AD_CLICK",0,0,0,"","B")
+	# aws_amplify.custom_analytics.record(username,"AD_CLICK",0,0,0,"","B")
 	print("Commercial B Selected")
 	_on_commercial_pressed() 
 

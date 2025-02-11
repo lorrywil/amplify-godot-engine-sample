@@ -11,8 +11,12 @@ class CONFIG:
 	const AUTH = "auth"
 	## Data configuration key.
 	const DATA = "data"
-	## Analytics configuration key.
-	const ANALYTICS = "analytics"
+
+	## Custom configuration key.
+	const CUSTOM= "custom"
+	
+	## Custom analytics configuration key.
+	const CUSTOM_ANALYTICS = "analytics"
 
 ## Default path for the Amplify configuration file.
 const DEFAULT_CONFIG_PATH := "res://amplify_outputs.json"
@@ -32,8 +36,8 @@ var auth: AWSAmplifyAuth
 ## AWS Amplify data module.
 var data: AWSAmplifyData
 
-## AWS Amplify analytics module.
-var analytics: AWSAmplifyAnalytics
+## AWS Amplify custom analytics module.
+var custom_analytics: AWSAmplifyCustomAnalytics
 
 ## Initializes the AWSAmplify instance.
 ##
@@ -50,8 +54,11 @@ func _init(_config_path = DEFAULT_CONFIG_PATH):
 		if config.has(CONFIG.DATA):
 			data = AWSAmplifyData.new(client, auth, config[CONFIG.DATA])
 
-		if config.has(CONFIG.ANALYTICS):
-			analytics = AWSAmplifyAnalytics.new(client, auth, config[CONFIG.ANALYTICS])
+		if config.has(CONFIG.CUSTOM):
+			var custom_config = config[CONFIG.CUSTOM]
+			
+			if config.has(CONFIG.CUSTOM_ANALYTICS):
+				custom_analytics = AWSAmplifyCustomAnalytics.new(client, auth, custom_config[CONFIG.CUSTOM_ANALYTICS])
 
 
 ## Sets up child nodes when the node enters the scene tree.
@@ -64,8 +71,8 @@ func _ready():
 		if data:
 			add_child(data)
 		
-		if analytics:
-			add_child(analytics)
+		if custom_analytics:
+			add_child(custom_analytics)
 		
 ## Loads and parses the configuration file.
 ##

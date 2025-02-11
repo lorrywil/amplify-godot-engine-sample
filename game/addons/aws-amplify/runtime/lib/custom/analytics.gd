@@ -1,12 +1,13 @@
 ## A class for handling AWS Amplify analytics operations.
 ##
-class_name AWSAmplifyAnalytics
+class_name AWSAmplifyCustomAnalytics
 extends Node
 
 # TODO: Need to make that function generic and just send a JSON event
 # TODO: It could also be interesting to define a genereric event enveloppe with all common parameters such as time, userid, sessionid and more 
-# func push(endpoint, headers, event):
-func send(userid, event, score, xpos, ypos, sessionid, adclicked):
+# func record(event):
+# 
+func record(userid, event, score, xpos, ypos, sessionid, adclicked):
 	var body = JSON.stringify({
 		"UserID": userid,
 		"SessionID": sessionid,
@@ -28,8 +29,8 @@ func _init(client: AWSAmplifyClient, auth: AWSAmplifyAuth, config: Dictionary) -
 	_client = client
 	_auth = auth
 	_config = config
-	_endpoint = config["API"]["AnalyticsRESTAPI"]["endpoint"] + "data/"
-	_key = config["API"]["AnalyticsRESTAPI"]["apiKeyValue"]
+	_endpoint = config["endpoint"] + "data/"
+	_key = config["apiKeyValue"]
 	_headers = [ 
 		"Content-Type: application/json",
 		"x-api-key: " + _key

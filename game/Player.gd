@@ -89,7 +89,7 @@ func _physics_process(delta):
 
 func die():
 	# TODO: Need to update configuration
-	# aws_amplify.analytics.send(username,"GAME_END",score_label.score,global_position.x,(-1 * global_position.z),sessionID,"")
+	# aws_amplify.custom_analytics.record(username,"GAME_END",score_label.score,global_position.x,(-1 * global_position.z),sessionID,"")
 	hit.emit()
 	queue_free()
 

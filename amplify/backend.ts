@@ -73,14 +73,12 @@ const apiGateway = new ApiGatewayConstruct(apiStack, "AnalyticsApi", {
 // add outputs to the configuration file
 backend.addOutput({
   custom: {
-    API: {
-      [apiGateway.api.restApiName]: {
-        endpoint: apiGateway.api.url,
-        region: Stack.of(apiGateway.api).region,
-        apiName: apiGateway.api.restApiName,
-        apiKeyID: apiGateway.apiKey.keyId,
-        apiKeyValue: "run [aws apigateway get-api-key --api-key <api-key-id> --include-value --query \"value\" --output text] and paste here"
-      },
-    },
-  },
+    analytics: {
+      endpoint: apiGateway.api.url,
+      region: Stack.of(apiGateway.api).region,
+      apiName: apiGateway.api.restApiName,
+      apiKeyID: apiGateway.apiKey.keyId,
+      apiKeyValue: "run [aws apigateway get-api-key --api-key <api-key-id> --include-value --query \"value\" --output text] and paste here"
+    }
+  }
 });

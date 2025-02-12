@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://gg3vsx7b2lqb"
-path="res://.godot/imported/squid.glb-db63cae8f8ca125efd192732c1970758.scn"
+path="res://.godot/imported/squid.glb-1ec4f71e3ca5b7dfaa583d652d652448.scn"
 
 [deps]
 
-source_file="res://art/squid.glb"
-dest_files=["res://.godot/imported/squid.glb-db63cae8f8ca125efd192732c1970758.scn"]
+source_file="res://art/3d/level/squid.glb"
+dest_files=["res://.godot/imported/squid.glb-1ec4f71e3ca5b7dfaa583d652d652448.scn"]
 
 [params]
 

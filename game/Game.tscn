@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" path="res://Game.gd" id="1_3phx5"]
 [ext_resource type="PackedScene" uid="uid://ha0ar5s2c3m4" path="res://Mob.tscn" id="2_8hth3"]
-[ext_resource type="Shader" path="res://art/ocean.gdshader" id="3_xgfe4"]
-[ext_resource type="PackedScene" uid="uid://c75lyfrnhp6ei" path="res://art/island.glb" id="4_5nrlo"]
-[ext_resource type="PackedScene" uid="uid://gg3vsx7b2lqb" path="res://art/squid.glb" id="5_iy51o"]
+[ext_resource type="Shader" path="res://shaders/ocean.gdshader" id="3_xgfe4"]
+[ext_resource type="PackedScene" uid="uid://c75lyfrnhp6ei" path="res://art/3d/level/island.glb" id="4_5nrlo"]
+[ext_resource type="PackedScene" uid="uid://gg3vsx7b2lqb" path="res://art/3d/level/squid.glb" id="5_iy51o"]
 [ext_resource type="PackedScene" uid="uid://dp478jyugrn7o" path="res://Player.tscn" id="6_wt1qd"]
 [ext_resource type="Script" path="res://Score.gd" id="7_3kca3"]
 [ext_resource type="FontFile" uid="uid://bgvm365e5dpl5" path="res://fonts/Attack Of Monster.otf" id="8_didmm"]

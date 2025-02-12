@@ -2,21 +2,21 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ck0aunp4cx2f5"
-path.s3tc="res://.godot/imported/ship2_0.png-3b7993bcd16c1f7cc088c746b21221e8.s3tc.ctex"
-path.etc2="res://.godot/imported/ship2_0.png-3b7993bcd16c1f7cc088c746b21221e8.etc2.ctex"
+uid="uid://54loficfftvq"
+path.s3tc="res://.godot/imported/island_0.png-79083a70ca572aa77603d502b17058c6.s3tc.ctex"
+path.etc2="res://.godot/imported/island_0.png-79083a70ca572aa77603d502b17058c6.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "9e02b953ae33930da4771f6d4462ced8"
+"md5": "2ac9d2a731eb49a2ab465cef6a8aa1e8"
 }
 
 [deps]
 
-source_file="res://art/ship2_0.png"
-dest_files=["res://.godot/imported/ship2_0.png-3b7993bcd16c1f7cc088c746b21221e8.s3tc.ctex", "res://.godot/imported/ship2_0.png-3b7993bcd16c1f7cc088c746b21221e8.etc2.ctex"]
+source_file="res://art/3d/level/island_0.png"
+dest_files=["res://.godot/imported/island_0.png-79083a70ca572aa77603d502b17058c6.s3tc.ctex", "res://.godot/imported/island_0.png-79083a70ca572aa77603d502b17058c6.etc2.ctex"]
 
 [params]
 

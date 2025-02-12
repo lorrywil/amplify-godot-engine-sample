@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://bcttjf4h7pxsv"]
 
-[ext_resource type="Texture2D" uid="uid://vvdc2qdu005e" path="res://art/title_screen.png" id="1_mma6t"]
+[ext_resource type="Texture2D" uid="uid://vvdc2qdu005e" path="res://art/ui/main.png" id="1_mma6t"]
 [ext_resource type="FontFile" uid="uid://bgvm365e5dpl5" path="res://fonts/Attack Of Monster.otf" id="2_6pu4l"]
 [ext_resource type="Script" path="res://Title.gd" id="2_ad3ou"]
 [ext_resource type="PackedScene" uid="uid://b40jg8sk1vno1" path="res://BlinkingButton.tscn" id="4_vojkn"]

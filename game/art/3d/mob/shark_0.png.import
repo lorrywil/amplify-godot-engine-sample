@@ -2,21 +2,21 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://54loficfftvq"
-path.s3tc="res://.godot/imported/island_0.png-00201334637ca655a2f449a1a04a6eae.s3tc.ctex"
-path.etc2="res://.godot/imported/island_0.png-00201334637ca655a2f449a1a04a6eae.etc2.ctex"
+uid="uid://cxxjm1a6guhe0"
+path.s3tc="res://.godot/imported/shark_0.png-eed04fc6270a63214ad6acda2fab131d.s3tc.ctex"
+path.etc2="res://.godot/imported/shark_0.png-eed04fc6270a63214ad6acda2fab131d.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "2ac9d2a731eb49a2ab465cef6a8aa1e8"
+"md5": "11b1e1c31f2305b082bdd0aeee938e49"
 }
 
 [deps]
 
-source_file="res://art/island_0.png"
-dest_files=["res://.godot/imported/island_0.png-00201334637ca655a2f449a1a04a6eae.s3tc.ctex", "res://.godot/imported/island_0.png-00201334637ca655a2f449a1a04a6eae.etc2.ctex"]
+source_file="res://art/3d/mob/shark_0.png"
+dest_files=["res://.godot/imported/shark_0.png-eed04fc6270a63214ad6acda2fab131d.s3tc.ctex", "res://.godot/imported/shark_0.png-eed04fc6270a63214ad6acda2fab131d.etc2.ctex"]
 
 [params]
 

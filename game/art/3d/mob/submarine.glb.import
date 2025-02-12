@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://c75lyfrnhp6ei"
-path="res://.godot/imported/island.glb-f6751c652882d78fe22f5f6dd70c7fdc.scn"
+uid="uid://ct7weamf1fecl"
+path="res://.godot/imported/submarine.glb-6c6ec1064bf485509a59558bd5724845.scn"
 
 [deps]
 
-source_file="res://art/island.glb"
-dest_files=["res://.godot/imported/island.glb-f6751c652882d78fe22f5f6dd70c7fdc.scn"]
+source_file="res://art/3d/mob/submarine.glb"
+dest_files=["res://.godot/imported/submarine.glb-6c6ec1064bf485509a59558bd5724845.scn"]
 
 [params]
 

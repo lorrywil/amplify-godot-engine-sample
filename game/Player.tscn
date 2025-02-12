@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://dp478jyugrn7o"]
 
 [ext_resource type="Script" path="res://Player.gd" id="1"]
-[ext_resource type="PackedScene" uid="uid://bnp4vn40j5y75" path="res://art/ship.glb" id="4_rccks"]
+[ext_resource type="PackedScene" uid="uid://bnp4vn40j5y75" path="res://art/3d/player/ship.glb" id="4_rccks"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_wk2ti"]
 size = Vector3(2, 0.5, 4)

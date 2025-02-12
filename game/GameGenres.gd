@@ -33,31 +33,23 @@ class GenreData:
 		prompt = p_prompt
 		negative_prompt = p_neg_prompt
 		icons = [
-			"res://icons/" + p_name.to_lower().replace(" ", "_") + "_1.png",
-			"res://icons/" + p_name.to_lower().replace(" ", "_") + "_2.png",
-			"res://icons/" + p_name.to_lower().replace(" ", "_") + "_3.png"
+			"res://art/genres/" + p_name.to_lower().replace(" ", "_") + "_1.png",
+			"res://art/genres/" + p_name.to_lower().replace(" ", "_") + "_2.png",
+			"res://art/genres/" + p_name.to_lower().replace(" ", "_") + "_3.png"
 		]
 		ads = [
-			"res://ads/" + p_name.to_lower().replace(" ", "_") + "_1.png",
-			"res://ads/" + p_name.to_lower().replace(" ", "_") + "_2.png",
-			"res://ads/" + p_name.to_lower().replace(" ", "_") + "_3.png",
-			"res://ads/" + p_name.to_lower().replace(" ", "_") + "_4.png",
-			"res://ads/" + p_name.to_lower().replace(" ", "_") + "_5.png"
+			"res://art/ads/" + p_name.to_lower().replace(" ", "_") + "_1.png",
+			"res://art/ads/" + p_name.to_lower().replace(" ", "_") + "_2.png",
+			"res://art/ads/" + p_name.to_lower().replace(" ", "_") + "_3.png",
+			"res://art/ads/" + p_name.to_lower().replace(" ", "_") + "_4.png",
+			"res://art/ads/" + p_name.to_lower().replace(" ", "_") + "_5.png"
 		]
 
 var genres = {}
 var selected_genre
 
-const GLOBAL_ADDITIONS = """Include: Professional gaming logo design, high-end post-processing effects,
-volumetric lighting, ambient occlusion, ray-traced reflections, and photo-realistic textures. 
-Marketing-quality composition suitable for modern gaming promotional materials. 
-Style of Unreal Engine 5 quality renders."""
-
-const GLOBAL_NEGATIVE = """deformed anatomy, watermarks, signatures, text overlays, low-quality
-compression artifacts, poor anti-aliasing, visible polygons, texture seams, inappropriate aspect ratio, 
-overexposed lighting, unclear focal point, poor color grading, incorrect perspective, 
-amateurish post-processing, lens flares, chromatic aberration, poor depth of field, 
-jpeg artifacts, noise, grain, poor composition, blurry details, incorrect shadows"""
+const GLOBAL_ADDITIONS = "professional gaming design, high-end post-processing effects, volumetric lighting, ambient occlusion, ray-traced reflections and photo-realistic textures. Marketing-quality composition suitable for modern gaming promotional materials. Style of Unreal Engine 5 quality renders."
+const GLOBAL_NEGATIVE = "deformed anatomy, watermarks, signatures, text overlays, low-quality compression artifacts, poor anti-aliasing, visible polygons, texture seams, inappropriate aspect ratio, overexposed lighting, unclear focal point, poor color grading, incorrect perspective, amateurish post-processing, lens flares, chromatic aberration, poor depth of field, jpeg artifacts, noise, grain, poor composition, blurry details, incorrect shadows"
 
 func _ready():
 	_initialize_genres()

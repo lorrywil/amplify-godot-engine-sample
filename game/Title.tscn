@@ -4,8 +4,8 @@
 [ext_resource type="FontFile" uid="uid://bgvm365e5dpl5" path="res://fonts/Attack Of Monster.otf" id="2_6pu4l"]
 [ext_resource type="Script" path="res://Title.gd" id="2_ad3ou"]
 [ext_resource type="PackedScene" uid="uid://b40jg8sk1vno1" path="res://BlinkingButton.tscn" id="4_vojkn"]
-[ext_resource type="AudioStream" uid="uid://dfhyklmd2e5l1" path="res://sounds/speech.mp3" id="4_xdlky"]
-[ext_resource type="VideoStream" path="res://videos/title_screen.ogv" id="5_2jwp6"]
+[ext_resource type="AudioStream" uid="uid://dfhyklmd2e5l1" path="res://art/sounds/speech.mp3" id="4_xdlky"]
+[ext_resource type="VideoStream" path="res://art/videos/title_screen.ogv" id="5_2jwp6"]
 
 [sub_resource type="Animation" id="Animation_32w8q"]
 resource_name = "hide"

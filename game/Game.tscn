@@ -9,9 +9,9 @@
 [ext_resource type="Script" path="res://Score.gd" id="7_3kca3"]
 [ext_resource type="FontFile" uid="uid://bgvm365e5dpl5" path="res://fonts/Attack Of Monster.otf" id="8_didmm"]
 [ext_resource type="PackedScene" uid="uid://bigiifvn1vgvx" path="res://AdButton.tscn" id="9_7xywj"]
-[ext_resource type="Texture2D" uid="uid://dyj1i8mdku0sk" path="res://ads/neutral_4.png" id="10_byysd"]
-[ext_resource type="Texture2D" uid="uid://b65favwlrnnfo" path="res://ads/neutral_2.png" id="11_ab1dj"]
-[ext_resource type="Texture2D" uid="uid://dch2d3yqlwp0c" path="res://ads/neutral_5.png" id="12_gybgw"]
+[ext_resource type="Texture2D" uid="uid://dyj1i8mdku0sk" path="res://art/ads/neutral_4.png" id="10_byysd"]
+[ext_resource type="Texture2D" uid="uid://b65favwlrnnfo" path="res://art/ads/neutral_2.png" id="11_ab1dj"]
+[ext_resource type="Texture2D" uid="uid://dch2d3yqlwp0c" path="res://art/ads/neutral_5.png" id="12_gybgw"]
 [ext_resource type="PackedScene" uid="uid://b40jg8sk1vno1" path="res://BlinkingButton.tscn" id="12_qh6dn"]
 
 [sub_resource type="BoxShape3D" id="1"]

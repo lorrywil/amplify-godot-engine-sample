@@ -35,9 +35,9 @@ func _ready():
 	
 	var neutral_commercial_indices = [1, 2, 3, 4, 5]
 	for neutral_commercial in commercials:
-		var neutral_commercial_index = neutral_commercial_indices[randi() % neutral_commercial_indices.size()]
+		var neutral_commercial_index = randi() % neutral_commercial_indices.size()
 		neutral_commercial.label.text = "Pirates vs Sharks"
-		neutral_commercial.image.texture = load("res://ads/neutral_%d.png" % neutral_commercial_index)
+		neutral_commercial.image.texture = load("res://ads/neutral_%d.png" % neutral_commercial_indices[neutral_commercial_index])
 		neutral_commercial_indices.remove_at(neutral_commercial_index)
 	
 	music_player.play_loop()

@@ -40,6 +40,10 @@ func _ready():
 		neutral_commercial.image.texture = load("res://art/ads/neutral_%d.png" % neutral_commercial_indices[neutral_commercial_index])
 		neutral_commercial_indices.remove_at(neutral_commercial_index)
 	
+	else:
+		print(generated_image_response)
+
+	comercial_b.label.text = genre.name
 	music_player.play_loop()
 
 func _on_mob_timer_timeout():
@@ -73,7 +77,7 @@ func _on_player_hit():
 	await _refresh_leaderboard()
 
 
-func _update_player_score():	
+func _update_player_score():
 	var current_score = int(score.score)
 	var get_score_response = await aws_amplify.data.query("""getScore(leaderboard: "%s", username: "%s") { score }""" % ["global", username], "GetScore")
 
@@ -87,14 +91,14 @@ func _update_player_score():
 		
 func _refresh_leaderboard():
 	var request = """listScoreByLeaderboardAndScore(leaderboard: "%s", sortDirection: DESC, limit:%s) { items { score username } }""" % ["global", "30"]
-	var response = await aws_amplify.data.query(request)
+	var response = await aws_amplify.data.query(request, "ListLeaderboard")
 
 	if response.result and response.result.has("data"):
 		var items = response.result.data.listScoreByLeaderboardAndScore.items
 		leaderboard.clear()
 		for i in items.size():
 			var item = items[i]
-			leaderboard.add_item("%s | %s %s" % [str(i+1), item.username, item.score])
+			leaderboard.add_item("%s | %s %s" % [str(i + 1), item.username, item.score])
 	else:
 		print(response.error.message)
 
@@ -129,13 +133,13 @@ func _on_commercial_a_pressed() -> void:
 	# TODO: Log the selected commercial to the player profile, We need more info such as if the commercial is neutral or personalized
 	# aws_amplify.custom_analytics.record(username,"AD_CLICK",0,0,0,"","A")
 	print("Commercial A Selected")
-	_on_commercial_pressed() 
+	_on_commercial_pressed()
 
 func _on_commercial_b_pressed() -> void:
 	# TODO: Log the selected commercial to the player profile, We need more info such as if the commercial is neutral or personalized
 	# aws_amplify.custom_analytics.record(username,"AD_CLICK",0,0,0,"","B")
 	print("Commercial B Selected")
-	_on_commercial_pressed() 
+	_on_commercial_pressed()
 
 func _on_commercial_c_pressed() -> void:
 	# TODO: Log the selected commercial to the player profile, We need more info such as if the commercial is neutral or personalized

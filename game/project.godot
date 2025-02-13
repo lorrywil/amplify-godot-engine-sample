@@ -17,10 +17,11 @@ config/icon="res://icon.webp"
 
 [autoload]
 
-aws_amplify="*res://addons/aws-amplify/runtime/main.gd"
 aws="*res://addons/aws/runtime/main.gd"
 game_genres="*res://GameGenres.gd"
 music_player="*res://MusicPlayer.tscn"
+GlobalData="*res://GlobalData.gd"
+aws_amplify="*res://addons/aws-amplify/runtime/main.gd"
 
 [display]
 

@@ -48,7 +48,8 @@ class GenreData:
 var genres = {}
 var selected_genre
 
-const GLOBAL_ADDITIONS = "professional gaming design, high-end post-processing effects, volumetric lighting, ambient occlusion, ray-traced reflections and photo-realistic textures. Marketing-quality composition suitable for modern gaming promotional materials. Style of Unreal Engine 5 quality renders."
+const GLOBAL_ADDITIONS = "professional gaming logo design, high-end post-processing effects, volumetric lighting, ambient occlusion, ray-traced reflections, and photo-realistic textures. Marketing-quality composition suitable for modern gaming promotional materials. Style of Unreal Engine 5 quality renders."
+
 const GLOBAL_NEGATIVE = "deformed anatomy, watermarks, signatures, text overlays, low-quality compression artifacts, poor anti-aliasing, visible polygons, texture seams, inappropriate aspect ratio, overexposed lighting, unclear focal point, poor color grading, incorrect perspective, amateurish post-processing, lens flares, chromatic aberration, poor depth of field, jpeg artifacts, noise, grain, poor composition, blurry details, incorrect shadows"
 
 func _ready():

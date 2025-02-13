@@ -39,13 +39,13 @@ export const handler: Handler = async (event, context) => {
     const result = JSON.parse(responseString);
     return {
       statusCode: 200,
-      body: JSON.stringify(result)
+      body: result
     };
   } catch (error) {
     console.error("Error invoking Bedrock:", error);
     return {
       statusCode: 500,
-      body: JSON.stringify({ "error": "There was an error" })
+      body: { "error": "There was an error" }
     };
   }
 };

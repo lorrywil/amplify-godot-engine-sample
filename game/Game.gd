@@ -27,30 +27,66 @@ func _sanitize_string(input: String) -> String:
 	output = output.replace("\\", "") # Remove backslashes
 	return output
 
-func _get_ad_image(genre) -> String:
-	var generate_image = await aws_amplify.data.query("""adsImageGenerator(prompt: "%s", negativePrompt: "%s")""" % [_sanitize_string(genre.prompt), _sanitize_string(genre.negative_prompt)], "GetImage", true, "API_KEY")
+func _get_ad_image(genre) -> Dictionary:
+
+	var response = {
+		"error": false,
+		"data": ""
+	}
+
+	var generate_image = await aws_amplify.data.query("""adsImageGenerator(prompt: "%s", negativePrompt: "%s")""" % [_sanitize_string(genre.prompt), _sanitize_string(genre.negative_prompt)], "GetImage")
+	var string_response = generate_image.result.data.adsImageGenerator
+	var json_response = JSON.parse_string(string_response)
+
+	print(json_response.statusCode)
+
+	if json_response == null || not(json_response.has("statusCode")):
+		response.error = true
+		response.data = "error while parsing the response"
+		return response
+
+	if json_response.statusCode == 200:
+		if json_response.has("body"):
+			if json_response.body.has("images") && json_response.body.images.size() > 0:
+				response.data = json_response.body.images[0]
+				return response
+			else:
+				response.data = JSON.stringify(json_response.body)
+				response.error = true
+				return response
+	else:
+		if json_response.body.has("body"):
+			response.data = JSON.stringify(json_response.body)
+			response.error = true
+			return response
+
+	response.error = true
+	response.data = "error while parsing the response"
+	return response
+
+	# print(generate_image.result)
+
+
 	
-	print(generate_image.result)
-	
-	var raw_image_string = generate_image.result.data.adsImageGenerator
+	# var raw_image_string = generate_image.result.data.adsImageGenerator
 
-	##Cleanup the string
-	var start_index = raw_image_string.find("{\"images\"")
-	var cleaned_string = raw_image_string.substr(start_index)
-	# Remove the last closing brace
-	cleaned_string = cleaned_string.trim_suffix("}")
+	# ##Cleanup the string
+	# var start_index = raw_image_string.find("{\"images\"")
+	# var cleaned_string = raw_image_string.substr(start_index)
+	# # Remove the last closing brace
+	# cleaned_string = cleaned_string.trim_suffix("}")
 
-	var json = JSON.new()
-	var error = json.parse(cleaned_string)
+	# var json = JSON.new()
+	# var error = json.parse(cleaned_string)
 
-	if error == OK:
-		var result_json = json.get_data()
-		var b64image = result_json.images[0]
+	# if error == OK:
+	# 	var result_json = json.get_data()
+	# 	var b64image = result_json.images[0]
 
-		return b64image
+	# 	return b64image
 
-	print("Failed to parse JSON: ", json.get_error_message())
-	return "error"
+	# print("Failed to parse JSON: ", json.get_error_message())
+	# return "error"
 
 func _ready():
 	$UserInterface/Retry.hide()
@@ -58,13 +94,19 @@ func _ready():
 	username = GlobalData.player_name
 	var genre = game_genres.selected_genre
 
-	var generated_image_b64 = await _get_ad_image(genre)
+	var generated_image_response = await _get_ad_image(genre)
 
-	var img = Image.new()
-	img.load_png_from_buffer(Marshalls.base64_to_raw(generated_image_b64))
-	comercial_b.image.texture = ImageTexture.create_from_image(img)		
-	comercial_b.label.text = genre.name
+	if !generated_image_response.error:
+
+		var generated_image_b64 = generated_image_response.data
+		var img = Image.new()
+		img.load_png_from_buffer(Marshalls.base64_to_raw(generated_image_b64))
+		comercial_b.image.texture = ImageTexture.create_from_image(img)		
 	
+	else:
+		print(generated_image_response)
+
+	comercial_b.label.text = genre.name
 	music_player.play_loop()
 
 func _on_mob_timer_timeout():
@@ -98,19 +140,19 @@ func _on_player_hit():
 func _update_player_score():
 	var current_score = int(score.score)
 	# var username = await aws_amplify.auth.get_user_attribute(AWSAmplifyAuth.UserAttributes.EMAIL)
-	var get_score_response = await aws_amplify.data.query("""getScore(leaderboard: "%s", username: "%s") { score }""" % ["global", username], "GetScore", true, "API_KEY")
+	var get_score_response = await aws_amplify.data.query("""getScore(leaderboard: "%s", username: "%s") { score }""" % ["global", username], "GetScore")
 
 	if get_score_response.result:
 		if get_score_response.result.data.getScore == null:
-			await aws_amplify.data.mutation("""createScore(input: {leaderboard: "%s", score: %s, username: "%s"}) { createdAt }""" % ["global", str(current_score), username], "CreateScore", true, "API_KEY")
+			await aws_amplify.data.mutation("""createScore(input: {leaderboard: "%s", score: %s, username: "%s"}) { createdAt }""" % ["global", str(current_score), username], "CreateScore")
 		elif int(get_score_response.result.data.getScore.score) < current_score:
-			await aws_amplify.data.mutation("""updateScore(input: {leaderboard: "%s", score: %s, username: "%s"}) { createdAt }""" % ["global", str(current_score), username], "UpdateScore", true, "API_KEY")
+			await aws_amplify.data.mutation("""updateScore(input: {leaderboard: "%s", score: %s, username: "%s"}) { createdAt }""" % ["global", str(current_score), username], "UpdateScore")
 	else:
 		print("Error: " + get_score_response.error.message)
 		
 func _refresh_leaderboard():
 	var request = """listScoreByLeaderboardAndScore(leaderboard: "%s", sortDirection: DESC, limit:%s) { items { score username } }""" % ["global", "30"]
-	var response = await aws_amplify.data.query(request, "ListLeaderboard", true, "API_KEY")
+	var response = await aws_amplify.data.query(request, "ListLeaderboard")
 
 	if response.result and response.result.has("data"):
 		var items = response.result.data.listScoreByLeaderboardAndScore.items

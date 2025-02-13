@@ -16,7 +16,7 @@ const schema = a.schema({
       prompt: a.string(),
       negativePrompt: a.string(), //  Example argument
     })
-    .returns(a.string()) // Adjust the return type based on what your function returns
+    .returns(a.json()) // Adjust the return type based on what your function returns
     .handler(a.handler.function(adsImageGenerator))
     .authorization(allow => [allow.publicApiKey()]),
 });

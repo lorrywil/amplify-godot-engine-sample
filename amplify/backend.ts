@@ -1,4 +1,5 @@
 import { defineBackend } from '@aws-amplify/backend';
+import * as iam from "aws-cdk-lib/aws-iam"
 import { auth } from './auth/resource';
 import { data } from './data/resource';
 import { storage,gluestorage,analyticsstorage } from './storage/resource'
@@ -9,6 +10,8 @@ import { FirehoseToS3 } from './analytics/resource';
 import { gluecrawler } from './etl/resources';
 import { Duration } from 'aws-cdk-lib';
 import { ApiGatewayConstruct } from './api/resource';
+import { adsImageGenerator } from './functions/ads-image-generator/resource'
+
 /**
  * @see https://docs.amplify.aws/react/build-a-backend/ to add storage, functions, and more
  */
@@ -18,7 +21,8 @@ export const backend = defineBackend({
     storage,
     myApiFunction,
     analyticsstorage,
-    gluestorage
+    gluestorage,
+    adsImageGenerator
 });
 backend.auth.resources.cfnResources.cfnUserPoolClient.explicitAuthFlows = [
     "ALLOW_CUSTOM_AUTH",
@@ -30,7 +34,7 @@ backend.auth.resources.cfnResources.cfnUserPoolClient.explicitAuthFlows = [
 const analyticsStack = backend.createStack('Gameanalytics');
 
 const analyticsStream = new FirehoseToS3(analyticsStack, "GameAnalyticsStream", {
-  streamName: "analytics-firehosestream",
+  streamName: `${process.env.STACK_NAME}-analytics-firehosestream`,
   bucket: backend.analyticsstorage.resources.bucket,
   bufferInterval: Duration.seconds(60),
   bufferSize: 1,
@@ -47,7 +51,7 @@ firehoselambda.addToRolePolicy(lambdastatement);
 // Export the resources if needed
 const crawler = new gluecrawler(analyticsStack, "GlueCrawler", {
   bucket: backend.analyticsstorage.resources.bucket,
-  databaseName: "gdcgameanalytics",
+  databaseName: `${process.env.STACK_NAME}-gdcgameanalytics`,
   tableName: "squashgodot"
 });
 
@@ -82,3 +86,15 @@ backend.addOutput({
     }
   }
 });
+
+const adsImageGeneratorLambda = backend.adsImageGenerator.resources.lambda
+
+const statement = new iam.PolicyStatement({
+    sid: "AllowInvokeBedrockModelAndGetDynamoDBItem",
+    actions: ["bedrock:InvokeModel"],
+    resources: [
+      "arn:aws:bedrock:us-east-1::foundation-model/*",
+    ],
+  })
+  
+  adsImageGeneratorLambda.addToRolePolicy(statement)

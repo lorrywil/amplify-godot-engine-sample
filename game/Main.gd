@@ -26,7 +26,8 @@ func _user_signed_in(_user_attributes) -> void:
 func _user_signed_out(_user_attributes) -> void:
 	change_scene(DEFAULT, false)
 
-func change_scene(path, secured = true):
+func change_scene(path, secured = false):
+	print(path)
 	if current_scene:
 		current_scene.queue_free()
 		remove_child(current_scene)

@@ -17,12 +17,13 @@ const COMERCIAL_TIMEOUT = 10
 @onready var leaderboard_retry: Button = %LeaderboardRetry
 @onready var leaderboard_quit: Button = %LeaderboardQuit
 
-var username
+@onready var username: String = ""
 
 func _ready():
 	$UserInterface/Retry.hide()
 	
-	username = await aws_amplify.auth.get_user_attribute(AWSAmplifyAuth.UserAttributes.EMAIL)
+	# username = await aws_amplify.auth.get_user_attribute(AWSAmplifyAuth.UserAttributes.EMAIL)
+	username = GlobalData.player_name
 	
 	var genre = game_genres.selected_genre
 	var commercials = [commercial_a, commercial_b, commercial_c]
@@ -30,7 +31,20 @@ func _ready():
 	var personalized_commercial_index = randi() % commercials.size()
 	var personalized_commercial = commercials[personalized_commercial_index]
 	personalized_commercial.label.text = "Pirates vs Sharks"
-	personalized_commercial.image.texture = load(genre.ads[randi() % genre.ads.size()])
+	personalized_commercial.image.texture = null
+	# Dynamic image generation
+	var generated_image_response = await _get_ad_image(genre)
+
+	if !generated_image_response.error:
+
+		var generated_image_b64 = generated_image_response.data
+		var img = Image.new()
+		img.load_png_from_buffer(Marshalls.base64_to_raw(generated_image_b64))
+		personalized_commercial.image.texture = ImageTexture.create_from_image(img)		
+	
+	else:
+		print(generated_image_response)
+
 	commercials.remove_at(personalized_commercial_index)
 	
 	var neutral_commercial_indices = [1, 2, 3, 4, 5]
@@ -39,7 +53,7 @@ func _ready():
 		neutral_commercial.label.text = "Pirates vs Sharks"
 		neutral_commercial.image.texture = load("res://art/ads/neutral_%d.png" % neutral_commercial_indices[neutral_commercial_index])
 		neutral_commercial_indices.remove_at(neutral_commercial_index)
-	
+
 	music_player.play_loop()
 
 func _on_mob_timer_timeout():
@@ -73,7 +87,7 @@ func _on_player_hit():
 	await _refresh_leaderboard()
 
 
-func _update_player_score():	
+func _update_player_score():
 	var current_score = int(score.score)
 	var get_score_response = await aws_amplify.data.query("""getScore(leaderboard: "%s", username: "%s") { score }""" % ["global", username], "GetScore")
 
@@ -87,14 +101,14 @@ func _update_player_score():
 		
 func _refresh_leaderboard():
 	var request = """listScoreByLeaderboardAndScore(leaderboard: "%s", sortDirection: DESC, limit:%s) { items { score username } }""" % ["global", "30"]
-	var response = await aws_amplify.data.query(request)
+	var response = await aws_amplify.data.query(request, "ListLeaderboard")
 
 	if response.result and response.result.has("data"):
 		var items = response.result.data.listScoreByLeaderboardAndScore.items
 		leaderboard.clear()
 		for i in items.size():
 			var item = items[i]
-			leaderboard.add_item("%s | %s %s" % [str(i+1), item.username, item.score])
+			leaderboard.add_item("%s | %s %s" % [str(i + 1), item.username, item.score])
 	else:
 		print(response.error.message)
 
@@ -129,13 +143,13 @@ func _on_commercial_a_pressed() -> void:
 	# TODO: Log the selected commercial to the player profile, We need more info such as if the commercial is neutral or personalized
 	# aws_amplify.custom_analytics.record(username,"AD_CLICK",0,0,0,"","A")
 	print("Commercial A Selected")
-	_on_commercial_pressed() 
+	_on_commercial_pressed()
 
 func _on_commercial_b_pressed() -> void:
 	# TODO: Log the selected commercial to the player profile, We need more info such as if the commercial is neutral or personalized
 	# aws_amplify.custom_analytics.record(username,"AD_CLICK",0,0,0,"","B")
 	print("Commercial B Selected")
-	_on_commercial_pressed() 
+	_on_commercial_pressed()
 
 func _on_commercial_c_pressed() -> void:
 	# TODO: Log the selected commercial to the player profile, We need more info such as if the commercial is neutral or personalized
@@ -147,3 +161,48 @@ func _on_commercial_pressed() -> void:
 	commercial_container.visible = false
 	leaderboard_container.visible = true
 	leaderboard_retry.grab_focus()
+
+func _sanitize_string(input: String) -> String:
+	var output = input
+	# Remove or replace problematic characters
+	output = output.replace("\"", "") # Remove double quotes
+	output = output.replace("'", "") # Remove single quotes
+	output = output.replace("\\", "") # Remove backslashes
+	return output
+
+func _get_ad_image(genre) -> Dictionary:
+
+	var response = {
+		"error": false,
+		"data": ""
+	}
+
+	var generate_image = await aws_amplify.data.query("""adsImageGenerator(prompt: "%s", negativePrompt: "%s")""" % [_sanitize_string(genre.prompt), _sanitize_string(genre.negative_prompt)], "GetImage")
+	var string_response = generate_image.result.data.adsImageGenerator
+	var json_response = JSON.parse_string(string_response)
+
+	print(json_response.statusCode)
+
+	if json_response == null || not(json_response.has("statusCode")):
+		response.error = true
+		response.data = "error while parsing the response"
+		return response
+
+	if json_response.statusCode == 200:
+		if json_response.has("body"):
+			if json_response.body.has("images") && json_response.body.images.size() > 0:
+				response.data = json_response.body.images[0]
+				return response
+			else:
+				response.data = JSON.stringify(json_response.body)
+				response.error = true
+				return response
+	else:
+		if json_response.body.has("body"):
+			response.data = JSON.stringify(json_response.body)
+			response.error = true
+			return response
+
+	response.error = true
+	response.data = "error while parsing the response"
+	return response

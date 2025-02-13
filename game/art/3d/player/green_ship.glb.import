@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://d2g4hyuh28p37"
-path="res://.godot/imported/ship2.glb-238fbf112f6dd3f32c89c9043bebfa6c.scn"
+uid="uid://ridchrtqk57"
+path="res://.godot/imported/green_ship.glb-335623aa723d58b516d04ca728bdb523.scn"
 
 [deps]
 
-source_file="res://art/3d/player/ship2.glb"
-dest_files=["res://.godot/imported/ship2.glb-238fbf112f6dd3f32c89c9043bebfa6c.scn"]
+source_file="res://art/3d/player/green_ship.glb"
+dest_files=["res://.godot/imported/green_ship.glb-335623aa723d58b516d04ca728bdb523.scn"]
 
 [params]
 

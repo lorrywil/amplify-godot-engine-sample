@@ -2,21 +2,21 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ck0aunp4cx2f5"
-path.s3tc="res://.godot/imported/ship2_0.png-d87e7948429d5ec5245cdfc97e7ce341.s3tc.ctex"
-path.etc2="res://.godot/imported/ship2_0.png-d87e7948429d5ec5245cdfc97e7ce341.etc2.ctex"
+uid="uid://17sqy5ifi7d5"
+path.s3tc="res://.godot/imported/pink_ship_0.png-c5625789f5ebd7a830a2eb31ff6d6be4.s3tc.ctex"
+path.etc2="res://.godot/imported/pink_ship_0.png-c5625789f5ebd7a830a2eb31ff6d6be4.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "9e02b953ae33930da4771f6d4462ced8"
+"md5": "67d23227ee6761d8df7714a13c4f3db9"
 }
 
 [deps]
 
-source_file="res://art/3d/player/ship2_0.png"
-dest_files=["res://.godot/imported/ship2_0.png-d87e7948429d5ec5245cdfc97e7ce341.s3tc.ctex", "res://.godot/imported/ship2_0.png-d87e7948429d5ec5245cdfc97e7ce341.etc2.ctex"]
+source_file="res://art/3d/player/pink_ship_0.png"
+dest_files=["res://.godot/imported/pink_ship_0.png-c5625789f5ebd7a830a2eb31ff6d6be4.s3tc.ctex", "res://.godot/imported/pink_ship_0.png-c5625789f5ebd7a830a2eb31ff6d6be4.etc2.ctex"]
 
 [params]
 

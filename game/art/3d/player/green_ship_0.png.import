@@ -2,21 +2,21 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dm2u4omw8k6ko"
-path.s3tc="res://.godot/imported/ship_0.png-c1cc709a014905993a2207ce314a0c18.s3tc.ctex"
-path.etc2="res://.godot/imported/ship_0.png-c1cc709a014905993a2207ce314a0c18.etc2.ctex"
+uid="uid://ti4x1av2153c"
+path.s3tc="res://.godot/imported/green_ship_0.png-46a8adbb900b709d3093552a0b8d6eca.s3tc.ctex"
+path.etc2="res://.godot/imported/green_ship_0.png-46a8adbb900b709d3093552a0b8d6eca.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "fc1395aa8a35ab6c968f4b993335c12e"
+"md5": "a3b7840dc729356b18df190ce29cf0a8"
 }
 
 [deps]
 
-source_file="res://art/3d/player/ship_0.png"
-dest_files=["res://.godot/imported/ship_0.png-c1cc709a014905993a2207ce314a0c18.s3tc.ctex", "res://.godot/imported/ship_0.png-c1cc709a014905993a2207ce314a0c18.etc2.ctex"]
+source_file="res://art/3d/player/green_ship_0.png"
+dest_files=["res://.godot/imported/green_ship_0.png-46a8adbb900b709d3093552a0b8d6eca.s3tc.ctex", "res://.godot/imported/green_ship_0.png-46a8adbb900b709d3093552a0b8d6eca.etc2.ctex"]
 
 [params]
 

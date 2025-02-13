@@ -22,4 +22,4 @@ func _on_start_pressed() -> void:
 
 func _on_timer_timeout():
 	music_player.audio_stream_player.volume_db = 0
-	get_parent().change_scene(PROFILING, true)
+	get_parent().change_scene(PROFILING, false)

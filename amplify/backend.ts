@@ -34,7 +34,7 @@ backend.auth.resources.cfnResources.cfnUserPoolClient.explicitAuthFlows = [
 const analyticsStack = backend.createStack('Gameanalytics');
 
 const analyticsStream = new FirehoseToS3(analyticsStack, "GameAnalyticsStream", {
-  streamName: "analytics-firehosestream",
+  streamName: `${process.env.STACK_NAME}-analytics-firehosestream`,
   bucket: backend.analyticsstorage.resources.bucket,
   bufferInterval: Duration.seconds(60),
   bufferSize: 1,
@@ -51,7 +51,7 @@ firehoselambda.addToRolePolicy(lambdastatement);
 // Export the resources if needed
 const crawler = new gluecrawler(analyticsStack, "GlueCrawler", {
   bucket: backend.analyticsstorage.resources.bucket,
-  databaseName: "gdcgameanalytics",
+  databaseName: `${process.env.STACK_NAME}-gdcgameanalytics`,
   tableName: "squashgodot"
 });
 
@@ -86,6 +86,7 @@ backend.addOutput({
     }
   }
 });
+
 const adsImageGeneratorLambda = backend.adsImageGenerator.resources.lambda
 
 const statement = new iam.PolicyStatement({

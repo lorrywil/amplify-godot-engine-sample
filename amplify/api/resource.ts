@@ -79,7 +79,7 @@ export class ApiGatewayConstruct extends Construct {
 
     // Create API key
      this.apiKey = this.api.addApiKey('DefaultApiKey', {
-      apiKeyName: 'analytics-api-key',
+      apiKeyName: `${process.env.STACK_NAME}-analytics-api-key`,
       description: 'API key for Analytics API'
     });
 

@@ -1,15 +1,17 @@
-[gd_scene load_steps=30 format=4 uid="uid://2y3ar4s86yra"]
+[gd_scene load_steps=32 format=4 uid="uid://2y3ar4s86yra"]
 
 [ext_resource type="Script" path="res://Game.gd" id="1_3phx5"]
 [ext_resource type="PackedScene" uid="uid://ha0ar5s2c3m4" path="res://Mob.tscn" id="2_8hth3"]
-[ext_resource type="Shader" path="res://art/ocean.gdshader" id="3_xgfe4"]
-[ext_resource type="PackedScene" uid="uid://b4onwbsqgelrb" path="res://art/island.glb" id="4_5nrlo"]
-[ext_resource type="PackedScene" uid="uid://bsd6s4f3e5b50" path="res://art/squid.glb" id="5_iy51o"]
+[ext_resource type="Shader" path="res://shaders/ocean.gdshader" id="3_xgfe4"]
+[ext_resource type="PackedScene" uid="uid://c75lyfrnhp6ei" path="res://art/3d/level/island.glb" id="4_5nrlo"]
+[ext_resource type="PackedScene" uid="uid://gg3vsx7b2lqb" path="res://art/3d/level/squid.glb" id="5_iy51o"]
 [ext_resource type="PackedScene" uid="uid://dp478jyugrn7o" path="res://Player.tscn" id="6_wt1qd"]
 [ext_resource type="Script" path="res://Score.gd" id="7_3kca3"]
 [ext_resource type="FontFile" uid="uid://bgvm365e5dpl5" path="res://fonts/Attack Of Monster.otf" id="8_didmm"]
 [ext_resource type="PackedScene" uid="uid://bigiifvn1vgvx" path="res://AdButton.tscn" id="9_7xywj"]
-[ext_resource type="Texture2D" uid="uid://cl77ko38feuoq" path="res://ads/moba_3.png" id="10_5uq67"]
+[ext_resource type="Texture2D" uid="uid://dyj1i8mdku0sk" path="res://art/ads/neutral_4.png" id="10_byysd"]
+[ext_resource type="Texture2D" uid="uid://b65favwlrnnfo" path="res://art/ads/neutral_2.png" id="11_ab1dj"]
+[ext_resource type="Texture2D" uid="uid://dch2d3yqlwp0c" path="res://art/ads/neutral_5.png" id="12_gybgw"]
 [ext_resource type="PackedScene" uid="uid://b40jg8sk1vno1" path="res://BlinkingButton.tscn" id="12_qh6dn"]
 
 [sub_resource type="BoxShape3D" id="1"]
@@ -1151,8 +1153,33 @@ offset_bottom = 30.0
 grow_horizontal = 0
 size_flags_horizontal = 8
 
-[node name="Image" parent="UserInterface/Retry/CommercialContainer/ComercialB/MarginContainer/VBoxContainer/Panel" index="0"]
-texture = ExtResource("10_5uq67")
+[node name="Image" parent="UserInterface/Retry/CommercialContainer/CommercialB/MarginContainer/VBoxContainer/Panel" index="0"]
+texture = ExtResource("11_ab1dj")
+
+[node name="Panel" parent="UserInterface/Retry/CommercialContainer/CommercialB/MarginContainer/VBoxContainer/Panel/Image" index="0"]
+offset_left = -34.0
+offset_right = 30.0
+
+[node name="CommercialC" parent="UserInterface/Retry/CommercialContainer" instance=ExtResource("9_7xywj")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 280)
+layout_mode = 1
+anchors_preset = 7
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -308.0
+offset_right = 200.0
+offset_bottom = -28.0
+grow_vertical = 0
+size_flags_horizontal = 8
+
+[node name="Image" parent="UserInterface/Retry/CommercialContainer/CommercialC/MarginContainer/VBoxContainer/Panel" index="0"]
+texture = ExtResource("12_gybgw")
+
+[node name="Panel" parent="UserInterface/Retry/CommercialContainer/CommercialC/MarginContainer/VBoxContainer/Panel/Image" index="0"]
+offset_left = -34.0
+offset_right = 30.0
 
 [node name="CommercialProgressBar" type="ProgressBar" parent="UserInterface/Retry/CommercialContainer"]
 unique_name_in_owner = true

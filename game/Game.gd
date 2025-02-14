@@ -89,10 +89,10 @@ func _on_player_hit(position: Vector3):
 	$MobTimer.stop()
 	$UserInterface/Retry.show()
 	
-	_update_player_score()
-	_refresh_leaderboard()
-	
 	aws_amplify.custom_analytics.record(GlobalData.player_name, "GAME_END", score.score, position.x,(-1 * position.z), sessionID, "")
+	
+	await _update_player_score()
+	await _refresh_leaderboard()
 
 func _on_mob_squashed(position: Vector3):
 	aws_amplify.custom_analytics.record(GlobalData.player_name, "SCORE", score.score, position.x,(-1 * position.z), sessionID, "")

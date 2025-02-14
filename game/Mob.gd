@@ -32,6 +32,7 @@ func initialize(start_position, player_position):
 	$Animation.play("swim")
 
 func squash():
+	squashed.emit(global_position)
 	dead = true
 	collision_shape.disabled = true
 	animation.play("sink")
@@ -41,5 +42,4 @@ func _on_visible_on_screen_notifier_screen_exited():
 	queue_free()
 
 func _on_timer_timeout() -> void:
-	squashed.emit(global_position)
 	queue_free()

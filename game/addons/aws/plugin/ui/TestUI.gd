@@ -15,13 +15,7 @@ extends VBoxContainer
 @onready var response_output: TextEdit = $ResponseSection/ResponseOutput
 @onready var status_label: Label = $StatusSection/StatusLabel
 
-func _ready() -> void:
-	print("_ready")
-	push_error("ERROR:_ready")
-
 func _on_send_button_pressed():
-	print("_on_send_button_pressed")
-	push_error("ERROR:_on_send_button_pressed")
 	# Clear previous response
 	response_output.text = ""
 	status_label.text = "Sending request..."

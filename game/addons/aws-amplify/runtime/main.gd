@@ -57,7 +57,7 @@ func _init(_config_path = DEFAULT_CONFIG_PATH):
 		if config.has(CONFIG.CUSTOM):
 			var custom_config = config[CONFIG.CUSTOM]
 			
-			if config.has(CONFIG.CUSTOM_ANALYTICS):
+			if custom_config.has(CONFIG.CUSTOM_ANALYTICS):
 				custom_analytics = AWSAmplifyCustomAnalytics.new(client, auth, custom_config[CONFIG.CUSTOM_ANALYTICS])
 
 

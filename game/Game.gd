@@ -17,13 +17,14 @@ const COMERCIAL_TIMEOUT = 10
 @onready var leaderboard_retry: Button = %LeaderboardRetry
 @onready var leaderboard_quit: Button = %LeaderboardQuit
 
-@onready var username: String = ""
+var sessionID
 
 func _ready():
 	$UserInterface/Retry.hide()
 	
-	# username = await aws_amplify.auth.get_user_attribute(AWSAmplifyAuth.UserAttributes.EMAIL)
-	username = GlobalData.player_name
+	sessionID = str(int(Time.get_unix_time_from_system()))
+	
+	aws_amplify.custom_analytics.record(GlobalData.player_name,"GAME_START",0,0,0,sessionID,"")
 	
 	var genre = game_genres.selected_genre
 	var commercials = [commercial_a, commercial_b, commercial_c]
@@ -32,11 +33,11 @@ func _ready():
 	var personalized_commercial = commercials[personalized_commercial_index]
 	personalized_commercial.label.text = "Pirates vs Sharks"
 	personalized_commercial.image.texture = null
+	
 	# Dynamic image generation
 	var generated_image_response = await _get_ad_image(genre)
 
 	if !generated_image_response.error:
-
 		var generated_image_b64 = generated_image_response.data
 		var img = Image.new()
 		img.load_png_from_buffer(Marshalls.base64_to_raw(generated_image_b64))
@@ -72,9 +73,12 @@ func _on_mob_timer_timeout():
 	add_child(mob)
 	
 	# We connect the mob to the score label to update the score upon squashing a mob.
-	mob.squashed.connect($UserInterface/Score._on_Mob_squashed)
+	mob.squashed.connect($UserInterface/Score._on_mob_squashed)
+	mob.squashed.connect(_on_mob_squashed)
 
-func _on_player_hit():
+func _on_player_hit(position: Vector3):
+	aws_amplify.custom_analytics.record(GlobalData.player_name, "GAME_END", score.score, position.x,(-1 * position.z), sessionID, "")
+	
 	music_player.play_commercial()
 	commercial_container.visible = true
 	
@@ -86,16 +90,18 @@ func _on_player_hit():
 	await _update_player_score()
 	await _refresh_leaderboard()
 
+func _on_mob_squashed(position: Vector3):
+	aws_amplify.custom_analytics.record(GlobalData.player_name, "SCORE", score.score, position.x,(-1 * position.z), sessionID, "")
 
 func _update_player_score():
 	var current_score = int(score.score)
-	var get_score_response = await aws_amplify.data.query("""getScore(leaderboard: "%s", username: "%s") { score }""" % ["global", username], "GetScore")
+	var get_score_response = await aws_amplify.data.query("""getScore(leaderboard: "%s", username: "%s") { score }""" % ["global", GlobalData.player_name], "GetScore")
 
 	if get_score_response.result:
 		if get_score_response.result.data.getScore == null:
-			await aws_amplify.data.mutation("""createScore(input: {leaderboard: "%s", score: %s, username: "%s"}) { createdAt }""" % ["global", str(current_score), username], "CreateScore")
+			await aws_amplify.data.mutation("""createScore(input: {leaderboard: "%s", score: %s, username: "%s"}) { createdAt }""" % ["global", str(current_score), GlobalData.player_name], "CreateScore")
 		elif int(get_score_response.result.data.getScore.score) < current_score:
-			await aws_amplify.data.mutation("""updateScore(input: {leaderboard: "%s", score: %s, username: "%s"}) { createdAt }""" % ["global", str(current_score), username], "UpdateScore")
+			await aws_amplify.data.mutation("""updateScore(input: {leaderboard: "%s", score: %s, username: "%s"}) { createdAt }""" % ["global", str(current_score), GlobalData.player_name], "UpdateScore")
 	else:
 		print("Error: " + get_score_response.error.message)
 		
@@ -118,8 +124,6 @@ func _on_disconnect_button_pressed() -> void:
 		print(response.error.message)
 
 func _on_leaderboard_retry_pressed() -> void:
-	# TODO: refactor analytics config
-	# aws_amplify.analytics.send(username,"GAME_START",0,0,0,"","")
 	get_parent().change_scene("res://Game.tscn")
 
 func _on_leaderboard_quit_pressed() -> void:
@@ -140,21 +144,15 @@ func _on_user_attributes_button_pressed(toggled) -> void:
 		$UserInterface/PlayerAttributes.visible = false
 
 func _on_commercial_a_pressed() -> void:
-	# TODO: Log the selected commercial to the player profile, We need more info such as if the commercial is neutral or personalized
-	# aws_amplify.custom_analytics.record(username,"AD_CLICK",0,0,0,"","A")
-	print("Commercial A Selected")
+	aws_amplify.custom_analytics.record(GlobalData.player_name,"AD_CLICK",0,0,0,"","A")
 	_on_commercial_pressed()
 
 func _on_commercial_b_pressed() -> void:
-	# TODO: Log the selected commercial to the player profile, We need more info such as if the commercial is neutral or personalized
-	# aws_amplify.custom_analytics.record(username,"AD_CLICK",0,0,0,"","B")
-	print("Commercial B Selected")
+	aws_amplify.custom_analytics.record(GlobalData.player_name,"AD_CLICK",0,0,0,"","B")
 	_on_commercial_pressed()
 
 func _on_commercial_c_pressed() -> void:
-	# TODO: Log the selected commercial to the player profile, We need more info such as if the commercial is neutral or personalized
-	# aws_amplify.custom_analytics.record(username,"AD_CLICK",0,0,0,"","B")
-	print("Commercial C Selected")
+	aws_amplify.custom_analytics.record(GlobalData.player_name,"AD_CLICK",0,0,0,"","C")
 	_on_commercial_pressed() 
 
 func _on_commercial_pressed() -> void:
@@ -180,8 +178,6 @@ func _get_ad_image(genre) -> Dictionary:
 	var generate_image = await aws_amplify.data.query("""adsImageGenerator(prompt: "%s", negativePrompt: "%s")""" % [_sanitize_string(genre.prompt), _sanitize_string(genre.negative_prompt)], "GetImage")
 	var string_response = generate_image.result.data.adsImageGenerator
 	var json_response = JSON.parse_string(string_response)
-
-	print(json_response.statusCode)
 
 	if json_response == null || not(json_response.has("statusCode")):
 		response.error = true

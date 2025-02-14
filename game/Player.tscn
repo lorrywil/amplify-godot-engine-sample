@@ -4,11 +4,9 @@
 [ext_resource type="PackedScene" uid="uid://bnp4vn40j5y75" path="res://art/3d/player/white_ship.glb" id="4_rccks"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_bgwg4"]
-load_path = "res://.godot/imported/ship_0.png-c1cc709a014905993a2207ce314a0c18.s3tc.ctex"
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f4dxg"]
 resource_name = "material_0"
-albedo_color = Color(1, 1, 1, 1)
 albedo_texture = SubResource("CompressedTexture2D_bgwg4")
 metallic = 1.0
 
@@ -162,7 +160,11 @@ outline_size = 30
 
 [node name="WhiteShip" parent="Pivot" instance=ExtResource("4_rccks")]
 transform = Transform3D(-2.18557e-07, 0, 5, 0, 5, 0, -5, 0, -2.18557e-07, 0, 2, -0.5)
+visible = false
 mesh = SubResource("ArrayMesh_w50e1")
+
+[node name="WhiteShip2" parent="Pivot" instance=ExtResource("4_rccks")]
+transform = Transform3D(-2.18557e-07, 0, 5, 0, 5, 0, -5, 0, -2.18557e-07, 0, 2, -0.5)
 
 [node name="CollisionShape" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_wk2ti")

@@ -41,5 +41,5 @@ func _on_visible_on_screen_notifier_screen_exited():
 	queue_free()
 
 func _on_timer_timeout() -> void:
-	squashed.emit()
+	squashed.emit(global_position)
 	queue_free()

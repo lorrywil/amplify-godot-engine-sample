@@ -18,7 +18,7 @@ func record(userid, event, score, xpos, ypos, sessionid, adclicked):
 		"AD-Clicked": adclicked,
 		"Time": str(int(Time.get_unix_time_from_system()))
 	})
-	await _client.send(_endpoint, _headers, HTTPClient.METHOD_PUT, body)
+	_client.send(_endpoint, _headers, HTTPClient.METHOD_PUT, body)
 		
 ## Initializes the AWSAmplifyAnalytics instance.
 ##

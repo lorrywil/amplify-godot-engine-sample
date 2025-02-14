@@ -131,9 +131,10 @@ func _on_leaderboard_retry_pressed() -> void:
 	get_parent().change_scene("res://Game.tscn")
 
 func _on_leaderboard_quit_pressed() -> void:
-	var response = await aws_amplify.auth.sign_out(true)
-	if response.error:
-		print(response.error.message)
+	get_parent().change_scene("res://Title.tscn")
+	#var response = await aws_amplify.auth.sign_out(true)
+	#if response.error:
+	#	print(response.error.message)
 
 func _on_user_attributes_update_button_pressed() -> void:
 	$MobTimer.start()

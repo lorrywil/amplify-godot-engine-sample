@@ -5,6 +5,7 @@ const COMERCIAL_TIMEOUT = 10
 @export var mob_scene: PackedScene
 
 @onready var score: Control = %Score
+@onready var player: Player = $Player
 
 @onready var commercial_container: Control = %CommercialContainer
 @onready var commercial_a: AdButton = %CommercialA
@@ -20,9 +21,12 @@ const COMERCIAL_TIMEOUT = 10
 var sessionID
 
 func _ready():
+	music_player.play_loop()
+	
 	$UserInterface/Retry.hide()
 	
 	sessionID = str(int(Time.get_unix_time_from_system()))
+	player.player_name.text = GlobalData.player_name
 	
 	aws_amplify.custom_analytics.record(GlobalData.player_name,"GAME_START",0,0,0,sessionID,"")
 	
@@ -55,8 +59,6 @@ func _ready():
 		neutral_commercial.image.texture = load("res://art/ads/neutral_%d.png" % neutral_commercial_indices[neutral_commercial_index])
 		neutral_commercial_indices.remove_at(neutral_commercial_index)
 
-	music_player.play_loop()
-
 func _on_mob_timer_timeout():
 	# Create a new instance of the Mob scene.
 	var mob = mob_scene.instantiate()
@@ -77,9 +79,8 @@ func _on_mob_timer_timeout():
 	mob.squashed.connect(_on_mob_squashed)
 
 func _on_player_hit(position: Vector3):
-	aws_amplify.custom_analytics.record(GlobalData.player_name, "GAME_END", score.score, position.x,(-1 * position.z), sessionID, "")
-	
 	music_player.play_commercial()
+	
 	commercial_container.visible = true
 	
 	var commercials = [commercial_a, commercial_b, commercial_c]
@@ -87,8 +88,11 @@ func _on_player_hit(position: Vector3):
 		
 	$MobTimer.stop()
 	$UserInterface/Retry.show()
-	await _update_player_score()
-	await _refresh_leaderboard()
+	
+	_update_player_score()
+	_refresh_leaderboard()
+	
+	aws_amplify.custom_analytics.record(GlobalData.player_name, "GAME_END", score.score, position.x,(-1 * position.z), sessionID, "")
 
 func _on_mob_squashed(position: Vector3):
 	aws_amplify.custom_analytics.record(GlobalData.player_name, "SCORE", score.score, position.x,(-1 * position.z), sessionID, "")

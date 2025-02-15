@@ -10,7 +10,6 @@ const PRFILE_BUTTON = preload("res://ProfileButton.tscn")
 @onready var enter: Button = $Enter
 
 var player_name: String = ""
-var game_genre_data: GameGenres.GenreData = null
 
 func _ready() -> void:
 	player_name = generate_pirate_name()
@@ -25,8 +24,11 @@ func _ready() -> void:
 
 func _on_profile_selected(data):
 	game_genres.selected_genre = data
+	ad_image_generator.generate_image(data)
+	
 	question_1.visible = false
 	answer_1.visible = false
+	
 	get_parent().change_scene("res://Game.tscn")
 
 func _on_text_changed(_new_text: String) -> void:

@@ -23,8 +23,8 @@ export const handler: Handler = async (event, context) => {
         numberOfImages: 1,
         quality: "standard",
         cfgScale: 8.0,
-        height: 512,
-        width: 512,
+        height: 1280,
+        width: 720,
         seed: 0
       }
     })

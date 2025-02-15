@@ -6,9 +6,8 @@ signal image_generated
 var generated_image
 
 func generate_image(genre) -> void:
-	print("GENERATE")
-	var generate_image = await aws_amplify.data.query("""adsImageGenerator(prompt: "%s", negativePrompt: "%s")""" % [_sanitize_string(genre.prompt), _sanitize_string(genre.negative_prompt)], "GetImage")
-	var string_response = generate_image.result.data.adsImageGenerator
+	var _generated_image = await aws_amplify.data.query("""adsImageGenerator(prompt: "%s", negativePrompt: "%s")""" % [_sanitize_string(genre.prompt), _sanitize_string(genre.negative_prompt)], "GetImage")
+	var string_response = _generated_image.result.data.adsImageGenerator
 	var json_response = JSON.parse_string(string_response)
 
 	if json_response == null || not(json_response.has("statusCode")):

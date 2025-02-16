@@ -12,11 +12,14 @@ const schema = a.schema({
   adsImageGenerator: a
     .query()
     .arguments({
-      // Add any arguments your imageGenerator function needs
-      prompt: a.string(),
-      negativePrompt: a.string(), //  Example argument
+      prompt: a.string().required(),
+      negativePrompt: a.string(),
+      width: a.integer(),
+      height: a.integer(),
+      cfgScale: a.float(),
+      seed: a.float()
     })
-    .returns(a.json()) // Adjust the return type based on what your function returns
+    .returns(a.json())
     .handler(a.handler.function(adsImageGenerator))
     .authorization(allow => [allow.publicApiKey()]),
 });

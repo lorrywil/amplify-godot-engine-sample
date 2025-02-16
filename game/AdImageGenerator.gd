@@ -5,14 +5,19 @@ signal image_generated
 
 var generated_image
 
-func generate_image(genre) -> void:
-	var _generated_image = await aws_amplify.data.query("""adsImageGenerator(prompt: "%s", negativePrompt: "%s")""" % [_sanitize_string(genre.prompt), _sanitize_string(genre.negative_prompt)], "GetImage")
-	var string_response = _generated_image.result.data.adsImageGenerator
+func generate_image(p_genre, p_seed = 0, p_width = 1280, p_height = 720, p_cfgScale = 6.5) -> void:
+	var query = """adsImageGenerator(prompt: "%s", negativePrompt: "%s", width: %d, height: %d, cfgScale: %f, seed: %d)""" % [
+		_sanitize_string(p_genre.prompt), 
+		_sanitize_string(p_genre.negative_prompt),
+		p_width, p_height, p_cfgScale, p_seed % 2147483646 # Bedrock constraint seeds cannont exced 2147483646
+	]
+	var response = await aws_amplify.data.query(query, "GetImage")
+	var string_response = response.result.data.adsImageGenerator
 	var json_response = JSON.parse_string(string_response)
 
 	if json_response == null || not(json_response.has("statusCode")):
 		print("error while parsing the response")
-
+		
 	if json_response.statusCode == 200:
 		if json_response.has("body"):
 			if json_response.body.has("images") && json_response.body.images.size() > 0:

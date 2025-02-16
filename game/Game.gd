@@ -128,6 +128,7 @@ func _on_leaderboard_retry_pressed() -> void:
 	get_parent().change_scene("res://Game.tscn")
 
 func _on_leaderboard_quit_pressed() -> void:
+	ad_image_generator.generated_image = null
 	get_parent().change_scene("res://Title.tscn")
 
 func _on_user_attributes_update_button_pressed() -> void:

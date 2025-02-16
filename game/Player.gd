@@ -21,13 +21,19 @@ signal hit
 @onready var animation: AnimationPlayer = $Animation
 @onready var mob_detector: Area3D = $MobDetector
 
+var invicible = true
 var dead = false
 var idle = false
 
 func _ready() -> void:
+	ad_image_generator.image_generated.connect(_on_ad_image_generated)
+	invicible = not ad_image_generator.generated_image
 	dead = false
 	idle = true
 	animation.play("idle")
+	
+func _on_ad_image_generated(_image):
+	invicible = false
 
 func _physics_process(delta):
 	if not dead:
@@ -86,7 +92,7 @@ func die():
 	queue_free()
 
 func _on_MobDetector_body_entered(_body):
-	if not dead:
+	if not invicible and not dead:
 		dead = true
 		player_name.visible = false
 		animation.play("sink")

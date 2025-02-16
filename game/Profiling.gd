@@ -24,7 +24,7 @@ func _ready() -> void:
 
 func _on_profile_selected(data):
 	game_genres.selected_genre = data
-	ad_image_generator.generate_image(data)
+	ad_image_generator.generate_image(data, randi())
 	
 	question_1.visible = false
 	answer_1.visible = false

@@ -5,7 +5,7 @@ signal image_generated
 
 var generated_image
 
-func generate_image(p_genre, p_seed = 0, p_width = 1280, p_height = 720, p_cfgScale = 6.5) -> void:
+func generate_image(p_genre, p_seed = 0, p_width = 576, p_height = 1024, p_cfgScale = 6.5) -> void:
 	var query = """adsImageGenerator(prompt: "%s", negativePrompt: "%s", width: %d, height: %d, cfgScale: %f, seed: %d)""" % [
 		_sanitize_string(p_genre.prompt), 
 		_sanitize_string(p_genre.negative_prompt),

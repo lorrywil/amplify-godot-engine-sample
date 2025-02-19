@@ -11,6 +11,9 @@ const COMERCIAL_TIMEOUT = 10
 @onready var commercial_a: AdButton = %CommercialA
 @onready var commercial_b: AdButton = %CommercialB
 @onready var commercial_c: AdButton = %CommercialC
+@onready var commercial_video_container: Control = %CommercialVideoContainer
+@onready var commercial_video_player: VideoStreamPlayer = %CommercialVideoPlayer
+@onready var commercial_video_button: Button = %CommercialVideoButton
 @onready var commercial_progress_bar: ProgressBar = %CommercialProgressBar
 @onready var commercial_timeout: float = COMERCIAL_TIMEOUT
 @onready var leaderboard_container: Control = %LeaderboardContainer
@@ -22,6 +25,7 @@ var sessionID
 
 func _ready():
 	music_player.play_loop()
+	commercial_video_player.stop()
 	
 	$UserInterface/Retry.hide()
 	
@@ -76,6 +80,8 @@ func _on_mob_timer_timeout():
 	mob.squashed.connect(_on_mob_squashed)
 
 func _on_player_hit(position: Vector3):
+	score.visible = false
+	
 	music_player.play_commercial()
 	
 	commercial_container.visible = true
@@ -156,6 +162,18 @@ func _on_commercial_c_pressed() -> void:
 	_on_commercial_pressed() 
 
 func _on_commercial_pressed() -> void:
+	commercial_a.visible = false
+	commercial_b.visible = false
+	commercial_c.visible = false
+	commercial_video_container.visible = true
+	commercial_video_player.play()
+
+func _on_commercial_video_finished() -> void:
+	commercial_video_player.play()
+	commercial_video_button.visible = true
+	commercial_video_button.grab_focus()
+
+func _on_commercial_video_button_pressed() -> void:
 	commercial_container.visible = false
 	leaderboard_container.visible = true
 	leaderboard_retry.grab_focus()

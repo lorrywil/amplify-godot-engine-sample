@@ -1,3 +1,4 @@
+class_name BlinkingButton
 extends Button
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer

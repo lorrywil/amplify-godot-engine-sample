@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://b43fjlb1ijw4p"]
+[gd_scene load_steps=10 format=3 uid="uid://b43fjlb1ijw4p"]
 
 [ext_resource type="Texture2D" uid="uid://vvdc2qdu005e" path="res://art/ui/main.png" id="1_mma6t"]
 [ext_resource type="FontFile" uid="uid://bgvm365e5dpl5" path="res://fonts/Attack Of Monster.otf" id="2_6pu4l"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" path="res://BlinkingButton.tscn" id="4_vojkn"]
 [ext_resource type="AudioStream" uid="uid://dfhyklmd2e5l1" path="res://art/sounds/speech.mp3" id="4_xdlky"]
 [ext_resource type="VideoStream" path="res://art/videos/title_screen.ogv" id="5_2jwp6"]
+[ext_resource type="PackedScene" uid="uid://bc3ul0qj07eq3" path="res://MusicPlayerButton.tscn" id="7_2gkir"]
 
 [sub_resource type="Animation" id="Animation_32w8q"]
 resource_name = "hide"
@@ -113,6 +114,20 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 20
 theme_override_font_sizes/font_size = 60
 text = "Press A Button"
+
+[node name="MusicPlayerButton" parent="." instance=ExtResource("7_2gkir")]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -130.0
+offset_top = -40.0
+offset_right = -37.0
+offset_bottom = -16.0
+grow_horizontal = 0
+grow_vertical = 0
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="pressed" from="Welcome/Start" to="." method="_on_start_pressed"]

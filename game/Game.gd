@@ -24,8 +24,7 @@ const COMERCIAL_TIMEOUT = 10
 var sessionID
 
 func _ready():
-	music_player.play_loop()
-	commercial_video_player.stop()
+	music_player.play(music_player.Themes.LOOP, 0)
 	
 	$UserInterface/Retry.hide()
 	
@@ -82,7 +81,7 @@ func _on_mob_timer_timeout():
 func _on_player_hit(position: Vector3):
 	score.visible = false
 	
-	music_player.play_commercial()
+	music_player.play(music_player.Themes.COMMERCIAL, 0)
 	
 	commercial_container.visible = true
 	

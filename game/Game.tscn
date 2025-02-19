@@ -1378,8 +1378,6 @@ offset_top = -98.0
 offset_right = -28.0
 offset_bottom = -38.0
 grow_vertical = 0
-focus_next = NodePath("../LeaderboardQuit")
-focus_previous = NodePath("../LeaderboardQuit")
 text = "Retry"
 
 [node name="LeaderboardQuit" parent="UserInterface/Retry/LeaderboardContainer" instance=ExtResource("12_qh6dn")]
@@ -1393,8 +1391,6 @@ offset_top = -98.0
 offset_right = 174.0
 offset_bottom = -38.0
 grow_vertical = 0
-focus_next = NodePath("../LeaderboardRetry")
-focus_previous = NodePath("../LeaderboardRetry")
 text = "Quit"
 
 [node name="Score" type="Control" parent="UserInterface"]

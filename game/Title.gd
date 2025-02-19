@@ -11,7 +11,7 @@ const PROFILING = "res://Profiling.tscn"
 
 func _ready() -> void:
 	start.grab_focus()
-	music_player.play_title()
+	music_player.play(music_player.Themes.TITLE, 0)
 
 func _on_start_pressed() -> void:
 	music_player.audio_stream_player.volume_db = -10

@@ -12,7 +12,8 @@
 [ext_resource type="Texture2D" uid="uid://bk25ie1jat4tb" path="res://art/ads/neutral_4.png" id="10_byysd"]
 [ext_resource type="Texture2D" uid="uid://bmqvloci7ctfq" path="res://art/ads/neutral_2.png" id="11_ab1dj"]
 [ext_resource type="Texture2D" uid="uid://1lquvfxchu8j" path="res://art/ads/neutral_5.png" id="12_gybgw"]
-[ext_resource type="PackedScene" path="res://BlinkingButton.tscn" id="12_qh6dn"]
+[ext_resource type="PackedScene" uid="uid://dnp45s4u2dywx" path="res://BlinkingButton.tscn" id="12_qh6dn"]
+[ext_resource type="PackedScene" uid="uid://y86hjnhq3yo5" path="res://PieChart.tscn" id="13_1gk7c"]
 
 [sub_resource type="BoxShape3D" id="1"]
 size = Vector3(100, 1, 100)
@@ -1013,20 +1014,8 @@ cache/0/30/0/glyphs/519/texture_idx = 0
 [sub_resource type="Theme" id="Theme_wp2yr"]
 default_font = SubResource("FontFile_vhnjv")
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8llhv"]
-bg_color = Color(0, 0, 0, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(1, 1, 0, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1b7un"]
-bg_color = Color(2.11775e-06, 0.640218, 0.256413, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_bottom = 1
-border_color = Color(1, 1, 0, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ygny0"]
+draw_center = false
 
 [sub_resource type="VideoStreamTheora" id="VideoStreamTheora_qi615"]
 file = "res://art/ads/neutral.ogv"
@@ -1180,7 +1169,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 0.0784314)
+color = Color(0, 0, 0, 0.196078)
 
 [node name="CommercialTitle" type="Label" parent="UserInterface/Retry/CommercialContainer"]
 visible = false
@@ -1258,27 +1247,50 @@ texture = ExtResource("12_gybgw")
 offset_left = -34.0
 offset_right = 30.0
 
-[node name="CommercialProgressBar" type="ProgressBar" parent="UserInterface/Retry/CommercialContainer"]
+[node name="CommercialStatisticsContainer" type="Control" parent="UserInterface/Retry/CommercialContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CommercialStatisticsPieChart" parent="UserInterface/Retry/CommercialContainer/CommercialStatisticsContainer" instance=ExtResource("13_1gk7c")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -366.5
+offset_right = 366.5
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ygny0")
+values = Array[float]([58.0, 42.0])
+colors = Array[Color]([Color(0.8, 0.0666667, 0, 1), Color(0.0505394, 0.387502, 0.498014, 1)])
+labels = Array[String](["Personalized", "Neutral"])
+label_radius_ratio = 0.45
+start_angle_degrees = 90.0
+label_display_mode = 3
+label_separator = "
+ "
+value_format = "(%.1f%%)"
+animation_duration = 1.5
+font = ExtResource("8_didmm")
+font_size = 24
+
+[node name="CommercialStatisticsButton" parent="UserInterface/Retry/CommercialContainer/CommercialStatisticsContainer" instance=ExtResource("12_qh6dn")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
 anchors_preset = 7
-anchor_left = 0.5
 anchor_top = 1.0
-anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -175.0
-offset_top = -66.0
-offset_right = 175.0
-offset_bottom = -46.0
-grow_horizontal = 2
+offset_top = -83.0
+offset_bottom = -23.0
 grow_vertical = 0
-theme_override_styles/background = SubResource("StyleBoxFlat_8llhv")
-theme_override_styles/fill = SubResource("StyleBoxFlat_1b7un")
-step = 0.1
-value = 25.0
-rounded = true
-show_percentage = false
+text = "Press Button"
 
 [node name="CommercialVideoContainer" type="Control" parent="UserInterface/Retry/CommercialContainer"]
 unique_name_in_owner = true
@@ -1305,7 +1317,6 @@ offset_bottom = 360.0
 grow_horizontal = 2
 grow_vertical = 2
 stream = SubResource("VideoStreamTheora_qi615")
-autoplay = true
 
 [node name="CommercialVideoButton" parent="UserInterface/Retry/CommercialContainer/CommercialVideoContainer" instance=ExtResource("12_qh6dn")]
 unique_name_in_owner = true
@@ -1436,6 +1447,8 @@ environment = SubResource("Environment_oce2p")
 [connection signal="pressed" from="UserInterface/Retry/CommercialContainer/CommercialA" to="." method="_on_commercial_a_pressed"]
 [connection signal="pressed" from="UserInterface/Retry/CommercialContainer/CommercialB" to="." method="_on_commercial_b_pressed"]
 [connection signal="pressed" from="UserInterface/Retry/CommercialContainer/CommercialC" to="." method="_on_commercial_c_pressed"]
+[connection signal="animation_finished" from="UserInterface/Retry/CommercialContainer/CommercialStatisticsContainer/CommercialStatisticsPieChart" to="." method="_on_commercial_statistics_pie_chart_animation_finished"]
+[connection signal="pressed" from="UserInterface/Retry/CommercialContainer/CommercialStatisticsContainer/CommercialStatisticsButton" to="." method="_on_commercial_statistics_button_pressed"]
 [connection signal="finished" from="UserInterface/Retry/CommercialContainer/CommercialVideoContainer/CommercialVideoPlayer" to="." method="_on_commercial_video_finished"]
 [connection signal="pressed" from="UserInterface/Retry/CommercialContainer/CommercialVideoContainer/CommercialVideoButton" to="." method="_on_commercial_video_button_pressed"]
 [connection signal="pressed" from="UserInterface/Retry/LeaderboardContainer/LeaderboardRetry" to="." method="_on_leaderboard_retry_pressed"]

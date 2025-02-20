@@ -14,17 +14,22 @@ const COMERCIAL_TIMEOUT = 10
 @onready var commercial_video_container: Control = %CommercialVideoContainer
 @onready var commercial_video_player: VideoStreamPlayer = %CommercialVideoPlayer
 @onready var commercial_video_button: Button = %CommercialVideoButton
-@onready var commercial_progress_bar: ProgressBar = %CommercialProgressBar
-@onready var commercial_timeout: float = COMERCIAL_TIMEOUT
+@onready var commercial_statistics_container: Control = %CommercialStatisticsContainer
+@onready var commercial_statistics_pie_chart: PieChart = %CommercialStatisticsPieChart
+@onready var commercial_statistics_button: BlinkingButton = %CommercialStatisticsButton
 @onready var leaderboard_container: Control = %LeaderboardContainer
 @onready var leaderboard: ItemList = %Leaderboard
 @onready var leaderboard_retry: Button = %LeaderboardRetry
 @onready var leaderboard_quit: Button = %LeaderboardQuit
 
 var sessionID
+var theme_index
 
 func _ready():
-	music_player.play(music_player.Themes.LOOP, 0)
+	
+	theme_index = randi_range(0, 1)
+	
+	music_player.play(music_player.Themes.LOOP, theme_index)
 	
 	$UserInterface/Retry.hide()
 	
@@ -81,7 +86,7 @@ func _on_mob_timer_timeout():
 func _on_player_hit(position: Vector3):
 	score.visible = false
 	
-	music_player.play(music_player.Themes.COMMERCIAL, 0)
+	music_player.play(music_player.Themes.COMMERCIAL, theme_index)
 	
 	commercial_container.visible = true
 	
@@ -164,6 +169,16 @@ func _on_commercial_pressed() -> void:
 	commercial_a.visible = false
 	commercial_b.visible = false
 	commercial_c.visible = false
+	
+	commercial_statistics_container.visible = true
+	commercial_statistics_pie_chart.start_animation()
+
+func _on_commercial_statistics_pie_chart_animation_finished() -> void:
+	commercial_statistics_button.visible = true
+	commercial_statistics_button.grab_focus()
+
+func _on_commercial_statistics_button_pressed() -> void:
+	commercial_statistics_container.visible = false
 	commercial_video_container.visible = true
 	commercial_video_player.play()
 
@@ -173,6 +188,6 @@ func _on_commercial_video_finished() -> void:
 	commercial_video_button.grab_focus()
 
 func _on_commercial_video_button_pressed() -> void:
-	commercial_container.visible = false
+	commercial_video_container.visible = false
 	leaderboard_container.visible = true
 	leaderboard_retry.grab_focus()

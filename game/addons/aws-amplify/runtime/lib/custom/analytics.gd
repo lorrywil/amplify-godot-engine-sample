@@ -7,18 +7,8 @@ extends Node
 # TODO: It could also be interesting to define a genereric event enveloppe with all common parameters such as time, userid, sessionid and more 
 # func record(event):
 # 
-func record(userid, event, score, xpos, ypos, sessionid, adclicked):
-	var body = JSON.stringify({
-		"UserID": userid,
-		"SessionID": sessionid,
-		"Event": event,
-		"Score": score,
-		"X-Position": xpos,
-		"Y-Position": ypos,
-		"AD-Clicked": adclicked,
-		"Time": str(int(Time.get_unix_time_from_system()))
-	})
-	_client.send(_endpoint, _headers, HTTPClient.METHOD_PUT, body)
+func record(body):
+	await _client.send(_endpoint, _headers, HTTPClient.METHOD_PUT, body)
 		
 ## Initializes the AWSAmplifyAnalytics instance.
 ##
@@ -29,7 +19,7 @@ func _init(client: AWSAmplifyClient, auth: AWSAmplifyAuth, config: Dictionary) -
 	_client = client
 	_auth = auth
 	_config = config
-	_endpoint = config["endpoint"] + "data/"
+	_endpoint = config["endpoint"]
 	_key = config["apiKeyValue"]
 	_headers = [ 
 		"Content-Type: application/json",

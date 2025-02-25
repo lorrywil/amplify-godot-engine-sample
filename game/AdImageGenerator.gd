@@ -14,7 +14,6 @@ func generate_image(p_genre, p_seed = 0, p_width = 576, p_height = 1024, p_cfgSc
 	var response = await aws_amplify.data.query(query, "GetImage")
 	var string_response = response.result.data.adsImageGenerator
 	var json_response = JSON.parse_string(string_response)
-
 	if json_response == null || not(json_response.has("statusCode")):
 		print("error while parsing the response")
 		

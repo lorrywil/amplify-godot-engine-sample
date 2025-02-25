@@ -6,6 +6,7 @@ import { storage,gluestorage,analyticsstorage } from './storage/resource'
 import { Stack, CustomResource} from "aws-cdk-lib";
 import { Effect, PolicyStatement } from "aws-cdk-lib/aws-iam";
 import { myApiFunction } from "./functions/myApi/resource";
+import { queryFunction } from "./functions/query-data/resource";
 import { FirehoseToS3 } from './analytics/resource';
 import { gluecrawler } from './etl/resources';
 import { ApiGatewayConstruct } from './api/resource';
@@ -23,7 +24,8 @@ export const backend = defineBackend({
     myApiFunction,
     analyticsstorage,
     gluestorage,
-    adsImageGenerator
+    adsImageGenerator,
+    queryFunction
 });
 backend.auth.resources.cfnResources.cfnUserPoolClient.explicitAuthFlows = [
     "ALLOW_CUSTOM_AUTH",
@@ -32,10 +34,10 @@ backend.auth.resources.cfnResources.cfnUserPoolClient.explicitAuthFlows = [
     "ALLOW_USER_PASSWORD_AUTH"
 ]
 
-const analyticsStack = backend.createStack('Gameanalytics');
+export const analyticsStack = backend.createStack('Gameanalytics');
 
 const analyticsStream = new FirehoseToS3(analyticsStack, "GameAnalyticsStream", {
-  streamName: `game-analytics-firehosestream`,
+  streamName: `${process.env.STACK_NAME}-game-analytics-firehosestream`,
   bucket: backend.analyticsstorage.resources.bucket,
 });
 
@@ -43,14 +45,27 @@ const lambdastatement = new PolicyStatement({
   actions: ['firehose:PutRecord', 'firehose:PutRecordBatch'],
   resources: ['arn:aws:firehose:*:*:deliverystream/' + analyticsStream.deliveryStream.deliveryStreamName]
 });
+const athenalambdastatement = new PolicyStatement({
+  actions: ['athena:StartQueryExecution', 'athena:GetQueryExecution', 'athena:GetQueryResults', 'glue:GetTables', 'glue:GetTable','glue:GetPartitions',
+    'glue:GetPartition', 'glue:BatchGetPartition','glue:GetDatabases','glue:GetDatabase','s3:GetBucketLocation','s3:GetObject','s3:ListBucket','s3:PutObject'],
+  resources: ['arn:aws:athena:*:*:workgroup/*',`arn:aws:s3:::${backend.gluestorage.resources.bucket.bucketName}/*`,
+    `arn:aws:s3:::${backend.gluestorage.resources.bucket.bucketName}`,
+    `arn:aws:s3:::${backend.analyticsstorage.resources.bucket.bucketName}/*`,
+    `arn:aws:s3:::${backend.analyticsstorage.resources.bucket.bucketName}`,
+    'arn:aws:s3:::grafana-*','arn:aws:glue:*']
+});
 
+backend.queryFunction.addEnvironment('TABLE_NAME', backend.analyticsstorage.resources.bucket.bucketName);
+backend.queryFunction.addEnvironment('ATHENA_QUERY_LOCATION', backend.gluestorage.resources.bucket.bucketName);
 const firehoselambda = backend.myApiFunction.resources.lambda;
-firehoselambda.addToRolePolicy(lambdastatement);
+const querylambda = backend.queryFunction.resources.lambda;
 
+firehoselambda.addToRolePolicy(lambdastatement);
+querylambda.addToRolePolicy(athenalambdastatement);
 const crawler = new gluecrawler(analyticsStack, "GlueCrawler", {
   bucket: backend.analyticsstorage.resources.bucket,
   databaseName: `${process.env.STACK_NAME}-gdcgameanalytics`,
-  tableName: "squashgodot"
+  tableName: `${process.env.STACK_NAME}-squashgodot`
 });
 
 const apiStack = backend.createStack("analytics-api-stack");
@@ -62,6 +77,7 @@ const { userPool } = backend.auth.resources;*/
 
 const apiGateway = new ApiGatewayConstruct(apiStack, "AnalyticsApi", {
   lambda: backend.myApiFunction.resources.lambda,
+  querylambda: backend.queryFunction.resources.lambda,
   authenticatedRole: backend.auth.resources.authenticatedUserIamRole,
   unauthenticatedRole: backend.auth.resources.unauthenticatedUserIamRole,
   userPoolId: backend.auth.resources.userPool.userPoolId,
@@ -102,7 +118,7 @@ const apiKeyResource = new CustomResource(apiStack, 'ApiKeyResource', {
 backend.addOutput({
   custom: {
     custom_analytics: {
-      endpoint: apiGateway.api.url + "data/",
+      endpoint: apiGateway.api.url,
       region: Stack.of(apiGateway.api).region,
       apiName: apiGateway.api.restApiName,
       apiKeyID: apiGateway.apiKey.keyId,

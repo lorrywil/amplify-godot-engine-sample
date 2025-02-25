@@ -53,6 +53,7 @@ export class gluecrawler extends Construct {
                 jsonPath: '$.Event[$]' // Specify the JSON path to identify the record
             }
         });
+        
 
 
         // Create the database
@@ -140,12 +141,12 @@ export class gluecrawler extends Construct {
                 updateBehavior: 'UPDATE_IN_DATABASE',
                 deleteBehavior: 'LOG'
             },
-            classifiers: [jsonClassifier.ref]
+            //classifiers:    [jsonClassifier.ref]
 
         });
 
         // Add dependencies
-        this.crawler.addDependency(jsonClassifier);
+        //this.crawler.addDependency(jsonClassifier);
         this.crawler.addDependency(this.database);
         this.table.addDependency(this.database);
     }

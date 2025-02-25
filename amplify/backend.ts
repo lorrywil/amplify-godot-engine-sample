@@ -52,7 +52,7 @@ const athenalambdastatement = new PolicyStatement({
     `arn:aws:s3:::${backend.gluestorage.resources.bucket.bucketName}`,
     `arn:aws:s3:::${backend.analyticsstorage.resources.bucket.bucketName}/*`,
     `arn:aws:s3:::${backend.analyticsstorage.resources.bucket.bucketName}`,
-    'arn:aws:s3:::grafana-*','arn:aws:glue:*']
+    'arn:aws:glue:*']
 });
 
 backend.queryFunction.addEnvironment('TABLE_NAME', backend.analyticsstorage.resources.bucket.bucketName);

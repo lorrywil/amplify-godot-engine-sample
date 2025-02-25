@@ -47,12 +47,7 @@ export class gluecrawler extends Construct {
             ],
         }));
 
-        const jsonClassifier = new glue.CfnClassifier(this, 'MyJsonClassifier', {
-            jsonClassifier: {
-                name: 'my-json-classifier',
-                jsonPath: '$.Event[$]' // Specify the JSON path to identify the record
-            }
-        });
+        
         
 
 
@@ -141,12 +136,11 @@ export class gluecrawler extends Construct {
                 updateBehavior: 'UPDATE_IN_DATABASE',
                 deleteBehavior: 'LOG'
             },
-            //classifiers:    [jsonClassifier.ref]
+            
 
         });
 
-        // Add dependencies
-        //this.crawler.addDependency(jsonClassifier);
+        
         this.crawler.addDependency(this.database);
         this.table.addDependency(this.database);
     }

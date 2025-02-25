@@ -16,6 +16,10 @@ async function executeAthenaQuery(query: string): Promise<AthenaRow[]> {
     const startQueryResponse = await client.send(new StartQueryExecutionCommand({
         QueryString: query,
         WorkGroup: process.env.ATHENA_WORKGROUP || 'primary',
+        ResultConfiguration: {
+            OutputLocation: "s3://" + process.env.ATHENA_QUERY_LOCATION
+        }
+        
     }));
 
     const queryExecutionId = startQueryResponse.QueryExecutionId;

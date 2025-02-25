@@ -24,7 +24,15 @@ func _ready() -> void:
 
 func _on_profile_selected(data):
 	game_genres.selected_genre = data
-	ad_image_generator.generate_image(data, randi(), 576, 1024, 6)
+	ad_image_generator.generate_image(
+		game_genres.selected_genre.prompt,
+		game_genres.selected_genre.negative_prompt,
+		[Color.FIREBRICK],
+		576, 
+		1024, 
+		6,
+		randi()
+	)
 	question_1.visible = false
 	answer_1.visible = false
 	

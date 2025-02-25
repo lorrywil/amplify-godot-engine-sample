@@ -45,10 +45,10 @@ func _ready():
 	var personalized_commercial = commercials[personalized_commercial_index]
 	personalized_commercial.label.text = "Pirates vs Sharks"
 
-	ad_image_generator.image_generated.connect(_on_image_generated.bind(personalized_commercial))
+	ad_image_generator.images_generated.connect(_on_image_generated.bind(personalized_commercial))
 	
-	if ad_image_generator.generated_image:
-		personalized_commercial.image.texture = ad_image_generator.generated_image
+	if ad_image_generator.generated_images && not ad_image_generator.generated_images.is_empty():
+		personalized_commercial.image.texture = ad_image_generator.generated_images[0]
 	else:
 		personalized_commercial.image.texture = load(genre.ads[randi() % genre.ads.size()])
 
@@ -61,8 +61,11 @@ func _ready():
 		neutral_commercial.image.texture = load("res://art/ads/neutral_%d.png" % neutral_commercial_indices[neutral_commercial_index])
 		neutral_commercial_indices.remove_at(neutral_commercial_index)
 
-func _on_image_generated(image, commercial: AdButton):
-	commercial.image.texture = image
+func _on_image_generated(result, commercial: AdButton):
+	if result.images:
+		commercial.image.texture = result.images[0]
+	else:
+		print(result.error)
 
 func _on_mob_timer_timeout():
 	# Create a new instance of the Mob scene.
@@ -138,7 +141,7 @@ func _on_leaderboard_retry_pressed() -> void:
 	get_parent().change_scene("res://Game.tscn")
 
 func _on_leaderboard_quit_pressed() -> void:
-	ad_image_generator.generated_image = null
+	ad_image_generator.generated_images = []
 	get_parent().change_scene("res://Title.tscn")
 
 func _on_user_attributes_update_button_pressed() -> void:

@@ -22,37 +22,43 @@ func generate_image(p_prompt: String, p_negative_prompt: String = "", p_colors: 
 	if response.error:
 		print("error: %s" % response.error)
 		images_generated.emit({ "images": null, "error": response.error })	
-	else:
-		var string_response = response.result.data.adsImageGenerator
-		var json_response = JSON.parse_string(string_response)
+		return []
+		
+	if not response.result || not response.result.data:
+		print("error: %s" % response.result)
+		images_generated.emit({ "images": null, "error": response.result })	
+		return []
+		
+	var string_response = response.result.data.adsImageGenerator
+	var json_response = JSON.parse_string(string_response)
 
-		if json_response == null || not(json_response.has("statusCode")):
-			print("error while parsing the response")
-			
-		if json_response.statusCode == 200:
-			if json_response.has("body"):
-				if json_response.body.has("images") && json_response.body.images.size() > 0:
-					generated_images = []
-					for image in json_response.body.images:
-						var img = Image.new()
-						img.load_png_from_buffer(Marshalls.base64_to_raw(image))
-						generated_images.append(ImageTexture.create_from_image(img)	)
-					images_generated.emit({ "images": generated_images, "error": null })
-					return generated_images
-				else:
-					print(JSON.stringify(json_response.body))
-					images_generated.emit({ "images": null, "error": json_response.body })
-					return []
-		else:
-			if json_response.body.has("body"):
+	if json_response == null || not(json_response.has("statusCode")):
+		print("error while parsing the response")
+		
+	if json_response.statusCode == 200:
+		if json_response.has("body"):
+			if json_response.body.has("images") && json_response.body.images.size() > 0:
+				generated_images = []
+				for image in json_response.body.images:
+					var img = Image.new()
+					img.load_png_from_buffer(Marshalls.base64_to_raw(image))
+					generated_images.append(ImageTexture.create_from_image(img)	)
+				images_generated.emit({ "images": generated_images, "error": null })
+				return generated_images
+			else:
 				print(JSON.stringify(json_response.body))
 				images_generated.emit({ "images": null, "error": json_response.body })
 				return []
-		
-		images_generated.emit({ 
-			"image": null,
-			"error": json_response
-		})
+	else:
+		if json_response.body.has("body"):
+			print(JSON.stringify(json_response.body))
+			images_generated.emit({ "images": null, "error": json_response.body })
+			return []
+	
+	images_generated.emit({ 
+		"image": null,
+		"error": json_response
+	})
 	return []
 
 func _sanitize_string(input: String) -> String:

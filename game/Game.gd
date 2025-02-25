@@ -5,6 +5,8 @@ const COMERCIAL_TIMEOUT = 10
 @export var mob_scene: PackedScene
 
 @onready var score: Control = %Score
+@onready var countdown: Countdown = %Countdown
+@onready var game_over: Notification = %GameOver
 @onready var player: Player = $Player
 
 @onready var commercial_container: Control = %CommercialContainer
@@ -66,6 +68,12 @@ func _on_image_generated(result, commercial: AdButton):
 		commercial.image.texture = result.images[0]
 	else:
 		print(result.error)
+		
+	countdown.visible = true
+	countdown.start()
+
+func _on_countdown_timeout() -> void:
+	player.practicing = false
 
 func _on_mob_timer_timeout():
 	# Create a new instance of the Mob scene.
@@ -87,22 +95,26 @@ func _on_mob_timer_timeout():
 	mob.squashed.connect(_on_mob_squashed)
 
 func _on_player_hit(position: Vector3):
-	score.visible = false
-	
-	music_player.play(music_player.Themes.COMMERCIAL, theme_index)
-	
-	commercial_container.visible = true
-	
-	var commercials = [commercial_a, commercial_b, commercial_c]
-	commercials[randi() % commercials.size()].grab_focus()
-		
 	$MobTimer.stop()
 	$UserInterface/Retry.show()
+
+	score.visible = false
+	game_over.display("Try Again!")
+	
+	music_player.play(music_player.Themes.COMMERCIAL, theme_index)
 	
 	aws_amplify.custom_analytics.record(GlobalData.player_name, "GAME_END", score.score, position.x,(-1 * position.z), sessionID, "")
 	
 	await _update_player_score()
 	await _refresh_leaderboard()
+	
+func _on_game_over_timout() -> void:
+	game_over.visible = false
+	
+	commercial_container.visible = true
+	
+	var commercials = [commercial_a, commercial_b, commercial_c]
+	commercials[randi() % commercials.size()].grab_focus()
 
 func _on_mob_squashed(position: Vector3):
 	aws_amplify.custom_analytics.record(GlobalData.player_name, "SCORE", score.score, position.x,(-1 * position.z), sessionID, "")

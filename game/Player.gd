@@ -23,23 +23,20 @@ signal hit
 @onready var shield: MeshInstance3D = %Shield
 @onready var shield_collision_shape: CollisionShape3D = %ShieldCollisionShape
 
-var practicing = true
+var practicing = false:
+	set(p_practising): 
+		practicing = p_practising
+		shield_collision_shape.disabled = not p_practising
+		shield.visible = p_practising
+		
 var dead = false
 var idle = false
 
 func _ready() -> void:
-	ad_image_generator.images_generated.connect(_on_ad_image_generated)
 	practicing = not ad_image_generator.generated_images || ad_image_generator.generated_images.is_empty()
-	shield_collision_shape.disabled = not practicing
-	shield.visible = practicing
 	dead = false
 	idle = true
 	animation.play("idle")
-	
-func _on_ad_image_generated(_response):
-	practicing = false
-	shield_collision_shape.disabled = true
-	shield.visible = false
 	
 func _physics_process(delta):
 	if not dead:

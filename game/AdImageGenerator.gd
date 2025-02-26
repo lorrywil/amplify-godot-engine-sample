@@ -15,7 +15,7 @@ func generate_image(p_prompt: String, p_negative_prompt: String = "", p_colors: 
 		p_width, 
 		p_height, 
 		p_cfgScale, 
-		p_seed, # % 2147483646 # Bedrock constraint seeds cannot exced 2147483646
+		p_seed % 2147483646, # Bedrock constraint seeds cannot exced 2147483646
 		p_number_of_images
 	]
 	var response = await aws_amplify.data.query(query, "GetImage")

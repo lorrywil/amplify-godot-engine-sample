@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://db2w18mtkdywf"
-path="res://.godot/imported/neutral_6.png-67eeb9ef60dad10cdc50242b437ea56f.ctex"
+uid="uid://cwueed2egy4v0"
+path="res://.godot/imported/survival_2.png-a553e0128b6b468ca35ba77f575fe776.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/ads/neutral_6.png"
-dest_files=["res://.godot/imported/neutral_6.png-67eeb9ef60dad10cdc50242b437ea56f.ctex"]
+source_file="res://art/genres/survival_2.png"
+dest_files=["res://.godot/imported/survival_2.png-a553e0128b6b468ca35ba77f575fe776.ctex"]
 
 [params]
 

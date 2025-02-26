@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://c7d6mdebidfc"]
 
 [ext_resource type="FontFile" uid="uid://bgvm365e5dpl5" path="res://fonts/Attack Of Monster.otf" id="1_27kk1"]
-[ext_resource type="Script" path="res://Notification.gd" id="1_osn4c"]
+[ext_resource type="Script" path="res://Messaging.gd" id="1_osn4c"]
 
 [sub_resource type="Animation" id="Animation_lo1ba"]
 resource_name = "fade_out"
@@ -36,7 +36,7 @@ _data = {
 "fade_out": SubResource("Animation_lo1ba")
 }
 
-[node name="Notification" type="Label"]
+[node name="Messaging" type="Label"]
 custom_minimum_size = Vector2(100, 100)
 anchors_preset = 8
 anchor_left = 0.5

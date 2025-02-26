@@ -40,9 +40,7 @@ class GenreData:
 		ads = [
 			"res://art/ads/" + p_name.to_lower().replace(" ", "_") + "_1.png",
 			"res://art/ads/" + p_name.to_lower().replace(" ", "_") + "_2.png",
-			"res://art/ads/" + p_name.to_lower().replace(" ", "_") + "_3.png",
-			"res://art/ads/" + p_name.to_lower().replace(" ", "_") + "_4.png",
-			"res://art/ads/" + p_name.to_lower().replace(" ", "_") + "_5.png"
+			"res://art/ads/" + p_name.to_lower().replace(" ", "_") + "_3.png"
 		]
 
 var genres = {}
@@ -156,7 +154,7 @@ func _initialize_genres():
 
 	# Survival/Crafting
 	genres[GenreType.SURVIVAL] = GenreData.new(
-		"Survival Crafting",
+		"Survival",
 		"Survival/Crafting",
 		{
 			"player_actions": ["Gathering resources", "crafting", "building"],

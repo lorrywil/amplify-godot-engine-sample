@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dk8xnlpkahveu"
-path="res://.godot/imported/racing_4.png-73a13e2ed70c9a16441e5fab7fa184d0.ctex"
+uid="uid://cj7vw0ey6qb16"
+path="res://.godot/imported/survival_3.png-6b532b3a205839b725db6aa7d05be639.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/ads/racing_4.png"
-dest_files=["res://.godot/imported/racing_4.png-73a13e2ed70c9a16441e5fab7fa184d0.ctex"]
+source_file="res://art/ads/survival_3.png"
+dest_files=["res://.godot/imported/survival_3.png-6b532b3a205839b725db6aa7d05be639.ctex"]
 
 [params]
 

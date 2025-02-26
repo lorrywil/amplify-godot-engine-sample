@@ -6,7 +6,7 @@ const COMERCIAL_TIMEOUT = 10
 
 @onready var score: Control = %Score
 @onready var countdown: Countdown = %Countdown
-@onready var game_over: Notification = %GameOver
+@onready var messaging: Messaging = %Messaging
 @onready var player: Player = $Player
 
 @onready var commercial_container: Control = %CommercialContainer
@@ -45,7 +45,6 @@ func _ready():
 	
 	var personalized_commercial_index = randi() % commercials.size()
 	var personalized_commercial = commercials[personalized_commercial_index]
-	personalized_commercial.label.text = "Pirates vs Sharks"
 
 	ad_image_generator.images_generated.connect(_on_image_generated.bind(personalized_commercial))
 	
@@ -53,13 +52,13 @@ func _ready():
 		personalized_commercial.image.texture = ad_image_generator.generated_images[0]
 	else:
 		personalized_commercial.image.texture = load(genre.ads[randi() % genre.ads.size()])
+		messaging.display("Practice Time!", 1)
 
 	commercials.remove_at(personalized_commercial_index)
 	
-	var neutral_commercial_indices = [1, 2, 3, 4, 5]
+	var neutral_commercial_indices = [1, 2, 3]
 	for neutral_commercial in commercials:
 		var neutral_commercial_index = randi() % neutral_commercial_indices.size()
-		neutral_commercial.label.text = "Pirates vs Sharks"
 		neutral_commercial.image.texture = load("res://art/ads/neutral_%d.png" % neutral_commercial_indices[neutral_commercial_index])
 		neutral_commercial_indices.remove_at(neutral_commercial_index)
 
@@ -68,7 +67,8 @@ func _on_image_generated(result, commercial: AdButton):
 		commercial.image.texture = result.images[0]
 	else:
 		print(result.error)
-		
+	
+	messaging.visible = false
 	countdown.visible = true
 	countdown.start()
 
@@ -99,7 +99,7 @@ func _on_player_hit(position: Vector3):
 	$UserInterface/Retry.show()
 
 	score.visible = false
-	game_over.display("Try Again!")
+	messaging.display("Try Again!", 1)
 	
 	music_player.play(music_player.Themes.COMMERCIAL, theme_index)
 	
@@ -109,7 +109,7 @@ func _on_player_hit(position: Vector3):
 	await _refresh_leaderboard()
 	
 func _on_game_over_timout() -> void:
-	game_over.visible = false
+	messaging.visible = false
 	
 	commercial_container.visible = true
 	
@@ -129,7 +129,7 @@ func _update_player_score():
 		elif int(get_score_response.result.data.getScore.score) < current_score:
 			await aws_amplify.data.mutation("""updateScore(input: {leaderboard: "%s", score: %s, username: "%s"}) { createdAt }""" % ["global", str(current_score), GlobalData.player_name], "UpdateScore")
 	else:
-		print("Error: " + get_score_response.error.message)
+		print("Error: " + get_score_response.to_string())
 		
 func _refresh_leaderboard():
 	var request = """listScoreByLeaderboardAndScore(leaderboard: "%s", sortDirection: DESC, limit:%s) { items { score username } }""" % ["global", "30"]

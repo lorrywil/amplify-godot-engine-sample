@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c72xobflnc6hl"
-path="res://.godot/imported/open_world_4.png-bc17792e270c875036e160f6134738c4.ctex"
+uid="uid://ce1fosvswsfmk"
+path="res://.godot/imported/survival_3.png-97006b8aefd14709fb2db08aeb724ae3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/ads/open_world_4.png"
-dest_files=["res://.godot/imported/open_world_4.png-bc17792e270c875036e160f6134738c4.ctex"]
+source_file="res://art/genres/survival_3.png"
+dest_files=["res://.godot/imported/survival_3.png-97006b8aefd14709fb2db08aeb724ae3.ctex"]
 
 [params]
 

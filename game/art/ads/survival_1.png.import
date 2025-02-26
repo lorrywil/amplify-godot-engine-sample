@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ce1fosvswsfmk"
-path="res://.godot/imported/survival_crafting_3.png-0093a31367019fa0f88b14f08c181296.ctex"
+uid="uid://0x5kxdg7tofr"
+path="res://.godot/imported/survival_1.png-c1a4d5039d483159d122381de329687b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/genres/survival_crafting_3.png"
-dest_files=["res://.godot/imported/survival_crafting_3.png-0093a31367019fa0f88b14f08c181296.ctex"]
+source_file="res://art/ads/survival_1.png"
+dest_files=["res://.godot/imported/survival_1.png-c1a4d5039d483159d122381de329687b.ctex"]
 
 [params]
 

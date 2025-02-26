@@ -7,15 +7,15 @@
 [ext_resource type="PackedScene" uid="uid://gg3vsx7b2lqb" path="res://art/3d/level/squid.glb" id="5_iy51o"]
 [ext_resource type="PackedScene" uid="uid://dp478jyugrn7o" path="res://Player.tscn" id="6_wt1qd"]
 [ext_resource type="Script" path="res://Score.gd" id="7_3kca3"]
+[ext_resource type="PackedScene" uid="uid://cjmd1ocsgyp7c" path="res://Background.tscn" id="7_kb1v3"]
 [ext_resource type="FontFile" uid="uid://bgvm365e5dpl5" path="res://fonts/Attack Of Monster.otf" id="8_didmm"]
-[ext_resource type="PackedScene" path="res://AdButton.tscn" id="9_7xywj"]
-[ext_resource type="Texture2D" uid="uid://bk25ie1jat4tb" path="res://art/ads/neutral_4.png" id="10_byysd"]
+[ext_resource type="PackedScene" uid="uid://bb18sl6yib3cf" path="res://AdButton.tscn" id="9_7xywj"]
 [ext_resource type="Texture2D" uid="uid://bmqvloci7ctfq" path="res://art/ads/neutral_2.png" id="11_ab1dj"]
-[ext_resource type="Texture2D" uid="uid://1lquvfxchu8j" path="res://art/ads/neutral_5.png" id="12_gybgw"]
+[ext_resource type="Texture2D" uid="uid://0va311bgwt4i" path="res://art/ads/neutral_3.png" id="11_cawua"]
 [ext_resource type="PackedScene" path="res://BlinkingButton.tscn" id="12_qh6dn"]
 [ext_resource type="PackedScene" path="res://PieChart.tscn" id="13_1gk7c"]
 [ext_resource type="PackedScene" uid="uid://dclv4y1gq2dvs" path="res://Countdown.tscn" id="15_kekse"]
-[ext_resource type="PackedScene" uid="uid://c7d6mdebidfc" path="res://Notification.tscn" id="16_w4v3p"]
+[ext_resource type="PackedScene" uid="uid://c7d6mdebidfc" path="res://Messaging.tscn" id="16_w4v3p"]
 
 [sub_resource type="BoxShape3D" id="1"]
 size = Vector3(100, 1, 100)
@@ -1180,14 +1180,14 @@ grow_horizontal = 2
 grow_vertical = 2
 expand_mode = 1
 
-[node name="ColorRect" type="ColorRect" parent="UserInterface/Retry/CommercialContainer"]
+[node name="Background" parent="UserInterface/Retry/CommercialContainer" instance=ExtResource("7_kb1v3")]
+visible = false
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 0.196078)
+offset_left = -99.0
+offset_top = -116.0
+offset_right = -99.0
+offset_bottom = -116.0
+scale = Vector2(1.2, 1.36)
 
 [node name="CommercialTitle" type="Label" parent="UserInterface/Retry/CommercialContainer"]
 visible = false
@@ -1215,17 +1215,14 @@ layout_mode = 1
 anchors_preset = 4
 anchor_left = 0.0
 anchor_right = 0.0
-offset_left = 60.0
+offset_left = 40.0
 offset_top = -320.0
-offset_right = 420.0
+offset_right = 400.0
 offset_bottom = 320.0
 grow_horizontal = 1
-size_flags_horizontal = 0
+size_flags_horizontal = 8
 
-[node name="Image" parent="UserInterface/Retry/CommercialContainer/CommercialA/MarginContainer/VBoxContainer/Panel" index="0"]
-texture = ExtResource("10_byysd")
-
-[node name="Panel" parent="UserInterface/Retry/CommercialContainer/CommercialA/MarginContainer/VBoxContainer/Panel/Image" index="0"]
+[node name="Panel" parent="UserInterface/Retry/CommercialContainer/CommercialA/MarginContainer/VBoxContainer/Panel/Image" index="1"]
 offset_left = -34.0
 offset_right = 30.0
 
@@ -1241,7 +1238,7 @@ size_flags_horizontal = 8
 [node name="Image" parent="UserInterface/Retry/CommercialContainer/CommercialB/MarginContainer/VBoxContainer/Panel" index="0"]
 texture = ExtResource("11_ab1dj")
 
-[node name="Panel" parent="UserInterface/Retry/CommercialContainer/CommercialB/MarginContainer/VBoxContainer/Panel/Image" index="0"]
+[node name="Panel" parent="UserInterface/Retry/CommercialContainer/CommercialB/MarginContainer/VBoxContainer/Panel/Image" index="1"]
 offset_left = -34.0
 offset_right = 30.0
 
@@ -1251,17 +1248,26 @@ layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -420.0
+offset_left = -400.0
 offset_top = -320.0
-offset_right = -60.0
+offset_right = -40.0
 offset_bottom = 320.0
 grow_horizontal = 0
 size_flags_horizontal = 0
 
 [node name="Image" parent="UserInterface/Retry/CommercialContainer/CommercialC/MarginContainer/VBoxContainer/Panel" index="0"]
-texture = ExtResource("12_gybgw")
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+texture = ExtResource("11_cawua")
 
-[node name="Panel" parent="UserInterface/Retry/CommercialContainer/CommercialC/MarginContainer/VBoxContainer/Panel/Image" index="0"]
+[node name="Panel" parent="UserInterface/Retry/CommercialContainer/CommercialC/MarginContainer/VBoxContainer/Panel/Image" index="1"]
 offset_left = -34.0
 offset_right = 30.0
 
@@ -1480,7 +1486,7 @@ theme_override_font_sizes/font_size = 80
 start_message = "Practice Time!"
 timeout_message = "Let's Go!"
 
-[node name="GameOver" parent="UserInterface/Messages" instance=ExtResource("16_w4v3p")]
+[node name="Messaging" parent="UserInterface/Messages" instance=ExtResource("16_w4v3p")]
 unique_name_in_owner = true
 layout_mode = 1
 text = ""
@@ -1491,7 +1497,7 @@ environment = SubResource("Environment_oce2p")
 [connection signal="hit" from="Player" to="." method="_on_player_hit"]
 [connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
 [connection signal="pressed" from="UserInterface/DisconnectButton" to="." method="_on_disconnect_button_pressed"]
-[connection signal="pressed" from="UserInterface/Retry/CommercialContainer/CommercialA" to="." method="_on_commercial_a_pressed"]
+[connection signal="pressed" from="UserInterface/Retry/CommercialContainer/CommercialA" to="." method="_on_commercial_b_pressed"]
 [connection signal="pressed" from="UserInterface/Retry/CommercialContainer/CommercialB" to="." method="_on_commercial_b_pressed"]
 [connection signal="pressed" from="UserInterface/Retry/CommercialContainer/CommercialC" to="." method="_on_commercial_c_pressed"]
 [connection signal="animation_finished" from="UserInterface/Retry/CommercialContainer/CommercialStatisticsContainer/CommercialStatisticsPieChart" to="." method="_on_commercial_statistics_pie_chart_animation_finished"]
@@ -1501,7 +1507,7 @@ environment = SubResource("Environment_oce2p")
 [connection signal="pressed" from="UserInterface/Retry/LeaderboardContainer/LeaderboardRetry" to="." method="_on_leaderboard_retry_pressed"]
 [connection signal="pressed" from="UserInterface/Retry/LeaderboardContainer/LeaderboardQuit" to="." method="_on_leaderboard_quit_pressed"]
 [connection signal="timeout" from="UserInterface/Messages/Countdown" to="." method="_on_countdown_timeout"]
-[connection signal="timout" from="UserInterface/Messages/GameOver" to="." method="_on_game_over_timout"]
+[connection signal="timout" from="UserInterface/Messages/Messaging" to="." method="_on_game_over_timout"]
 
 [editable path="UserInterface/Retry/CommercialContainer/CommercialA"]
 [editable path="UserInterface/Retry/CommercialContainer/CommercialB"]

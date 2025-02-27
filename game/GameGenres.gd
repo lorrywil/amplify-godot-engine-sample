@@ -67,7 +67,7 @@ func _initialize_genres():
 		["Grand Theft Auto V", "Red Dead Redemption 2", "The Legend of Zelda: Breath of the Wild", 
 		 "Assassin's Creed Valhalla", "Spider-Man 2", "Horizon Zero Dawn", "Cyberpunk 2077", 
 		 "Ghost of Tsushima", "Elden Ring", "Watch Dogs series"],
-		"Create a hyperrealistic promotional image for 'Pirates vs Sharks': A third-person perspective of a weathered pirate captain standing on the bow of a detailed wooden ship, sword drawn, facing a massive megalodon breaching the stormy Caribbean waters. Dramatic lighting, volumetric clouds, ray-traced water reflections, and detailed ship rigging in the style of modern AAA games like Assassin's Creed Black Flag. 8k, cinematic composition. " + GLOBAL_ADDITIONS,
+		"Create a hyperrealistic promotional image for 'Pirates vs Sharks': A third-person perspective of a weathered pirate captain standing on the bow of a detailed wooden ship, sword drawn, facing a massive megalodon breaching the stormy Caribbean waters. Dramatic lighting, volumetric clouds, ray-traced water reflections, and detailed ship rigging in the style of modern AAA games. 8k, cinematic composition. " + GLOBAL_ADDITIONS,
 		"cartoon, anime, cel-shading, low resolution, blurry, pixelated, amateur, mobile game graphics, flat lighting, simplified textures, poor composition, stick figures, children's illustration style, low-poly, unrealistic water effects, basic shadows, missing reflections, plastic-looking materials. " + GLOBAL_NEGATIVE
 	)
 

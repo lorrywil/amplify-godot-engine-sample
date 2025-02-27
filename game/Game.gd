@@ -5,8 +5,9 @@ const COMERCIAL_TIMEOUT = 10
 @export var mob_scene: PackedScene
 
 @onready var score: Control = %Score
+@onready var info: Messaging = %Info
 @onready var countdown: Countdown = %Countdown
-@onready var messaging: Messaging = %Messaging
+@onready var game_over: Messaging = %GameOver
 @onready var player: Player = $Player
 
 @onready var commercial_container: Control = %CommercialContainer
@@ -52,7 +53,7 @@ func _ready():
 		personalized_commercial.image.texture = ad_image_generator.generated_images[0]
 	else:
 		personalized_commercial.image.texture = load(genre.ads[randi() % genre.ads.size()])
-		messaging.display("Practice Time!", 1)
+		info.display("Practice Time!", 1)
 
 	commercials.remove_at(personalized_commercial_index)
 	
@@ -68,7 +69,7 @@ func _on_image_generated(result, commercial: AdButton):
 	else:
 		print(result.error)
 	
-	messaging.visible = false
+	info.visible = false
 	countdown.visible = true
 	countdown.start()
 
@@ -99,7 +100,7 @@ func _on_player_hit(position: Vector3):
 	$UserInterface/Retry.show()
 
 	score.visible = false
-	messaging.display("Try Again!", 1)
+	game_over.display("Try Again!", 1)
 	
 	music_player.play(music_player.Themes.COMMERCIAL, theme_index)
 	
@@ -109,8 +110,7 @@ func _on_player_hit(position: Vector3):
 	await _refresh_leaderboard()
 	
 func _on_game_over_timout() -> void:
-	messaging.visible = false
-	
+	game_over.visible = false
 	commercial_container.visible = true
 	
 	var commercials = [commercial_a, commercial_b, commercial_c]
@@ -142,7 +142,7 @@ func _refresh_leaderboard():
 			var item = items[i]
 			leaderboard.add_item("%s | %s %s" % [str(i + 1), item.username, item.score])
 	else:
-		print(response.error.message)
+		print(response.error)
 
 func _on_disconnect_button_pressed() -> void:
 	var response = await aws_amplify.auth.sign_out(true)
@@ -181,10 +181,7 @@ func _on_commercial_c_pressed() -> void:
 	_on_commercial_pressed() 
 
 func _on_commercial_pressed() -> void:
-	commercial_a.visible = false
-	commercial_b.visible = false
-	commercial_c.visible = false
-	
+	commercial_container.visible = false
 	commercial_statistics_container.visible = true
 	commercial_statistics_pie_chart.start_animation()
 

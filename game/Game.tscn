@@ -10,8 +10,8 @@
 [ext_resource type="PackedScene" uid="uid://cjmd1ocsgyp7c" path="res://Background.tscn" id="7_kb1v3"]
 [ext_resource type="FontFile" uid="uid://bgvm365e5dpl5" path="res://fonts/Attack Of Monster.otf" id="8_didmm"]
 [ext_resource type="PackedScene" uid="uid://bb18sl6yib3cf" path="res://AdButton.tscn" id="9_7xywj"]
-[ext_resource type="Texture2D" uid="uid://bmqvloci7ctfq" path="res://art/ads/neutral_2.png" id="11_ab1dj"]
-[ext_resource type="Texture2D" uid="uid://0va311bgwt4i" path="res://art/ads/neutral_3.png" id="11_cawua"]
+[ext_resource type="Texture2D" uid="uid://bmqvloci7ctfq" path="res://art/images/neutral_2.png" id="11_ab1dj"]
+[ext_resource type="Texture2D" uid="uid://0va311bgwt4i" path="res://art/images/neutral_3.png" id="11_cawua"]
 [ext_resource type="PackedScene" path="res://BlinkingButton.tscn" id="12_qh6dn"]
 [ext_resource type="PackedScene" path="res://PieChart.tscn" id="13_1gk7c"]
 [ext_resource type="PackedScene" uid="uid://dclv4y1gq2dvs" path="res://Countdown.tscn" id="15_kekse"]
@@ -1140,7 +1140,6 @@ corner_radius_bottom_left = 16
 draw_center = false
 
 [sub_resource type="VideoStreamTheora" id="VideoStreamTheora_qi615"]
-file = "res://art/ads/neutral.ogv"
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_ng6ds"]
 
@@ -1250,20 +1249,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_wp2yr")
 
-[node name="DisconnectButton" type="Button" parent="UserInterface"]
-visible = false
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -163.0
-offset_top = 16.0
-offset_right = -16.0
-offset_bottom = 62.0
-grow_horizontal = 0
-theme_override_font_sizes/font_size = 24
-text = "Disconnect"
-
 [node name="Retry" type="ColorRect" parent="UserInterface"]
 unique_name_in_owner = true
 layout_mode = 1
@@ -1276,6 +1261,7 @@ color = Color(0, 0, 0, 0.447059)
 
 [node name="CommercialContainer" type="Control" parent="UserInterface/Retry"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1655,7 +1641,6 @@ environment = SubResource("Environment_oce2p")
 
 [connection signal="hit" from="Player" to="." method="_on_player_hit"]
 [connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
-[connection signal="pressed" from="UserInterface/DisconnectButton" to="." method="_on_disconnect_button_pressed"]
 [connection signal="pressed" from="UserInterface/Retry/CommercialContainer/CommercialA" to="." method="_on_commercial_b_pressed"]
 [connection signal="pressed" from="UserInterface/Retry/CommercialContainer/CommercialB" to="." method="_on_commercial_b_pressed"]
 [connection signal="pressed" from="UserInterface/Retry/CommercialContainer/CommercialC" to="." method="_on_commercial_c_pressed"]

@@ -56,7 +56,7 @@ func generate_image(p_prompt: String, p_negative_prompt: String = "", p_colors: 
 			return []
 	
 	images_generated.emit({ 
-		"image": null,
+		"images": null,
 		"error": json_response
 	})
 	return []

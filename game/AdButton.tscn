@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://bb18sl6yib3cf"]
 
 [ext_resource type="Script" path="res://AdButton.gd" id="1_g2te2"]
-[ext_resource type="Texture2D" uid="uid://bjw5dxt3ffbfm" path="res://art/ads/neutral_1.png" id="2_r0580"]
+[ext_resource type="Texture2D" uid="uid://bjw5dxt3ffbfm" path="res://art/images/neutral_1.png" id="2_r0580"]
 [ext_resource type="FontFile" uid="uid://bgvm365e5dpl5" path="res://fonts/Attack Of Monster.otf" id="3_ii7jh"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i0q88"]

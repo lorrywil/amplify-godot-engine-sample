@@ -1,5 +1,54 @@
 extends Node
 
+var NEUTRAL_TAGLINES = [
+	"Beyond The Horizon",
+	"Legends of the Deep",
+	"Masters of the Sea",
+	"Tides of Destiny",
+	"Ocean's Challenge",
+	"Dark Waters Rising",
+	"Waters Unknown",
+	"Deep Blue Legacy",
+	"Sea of Dreams",
+	"Waves of Fortune"
+]
+
+var NEUTRAL_CALL_TO_ACTIONS = [
+	"Play Now",
+	"Begin Adventure",
+	"Join Today",
+	"Start Journey",
+	"Play Free",
+	"Download Now",
+	"Join Battle",
+	"Start Playing",
+	"Join Others",
+	"Begin Now"
+]
+
+var GAME_OVER_MESSAGES = [
+	"Davy Jones' Locker Claims Another...",
+	"The Sharks Had Their Final Say",
+	"Your Tale Ends in the Deep",
+	"Sleeping With the Fishes",
+	"The Sea Shows No Mercy",
+	"A Feast for the Sharks",
+	"Your Ship's Final Voyage",
+	"The Ocean Claims Its Prize",
+	"Not Even a Splash Left",
+	"A Sailor's Final Journey",
+	"The Perfect Shark Snack",
+	"Should've Brought a Bigger Boat...",
+	"The Deep Blue Wins Again",
+	"Lost to the Endless Sea",
+	"A Pirate's Last Adventure",
+	"Today's Special: Pirate Soup",
+	"The Sharks Send Their Regards",
+	"Even Captain Hook Lasted Longer",
+	"That's Why We Need Lifeboats",
+	"The Sea Was Hungry Today"
+]
+
 const COMERCIAL_TIMEOUT = 10
 
 @export var mob_scene: PackedScene
@@ -42,17 +91,21 @@ func _ready():
 	aws_amplify.custom_analytics.record(GlobalData.player_name, "GAME_START", 0, 0, 0, sessionID, "")
 	
 	var genre = game_genres.selected_genre
+	
+	# Images
 	var commercials = [commercial_a, commercial_b, commercial_c]
 	
 	var personalized_commercial_index = randi() % commercials.size()
 	var personalized_commercial = commercials[personalized_commercial_index]
+	personalized_commercial.title.text = game_genres.selected_genre.tagline
+	personalized_commercial.button.text = game_genres.selected_genre.call_to_action
 
 	ad_image_generator.images_generated.connect(_on_image_generated.bind(personalized_commercial))
 	
 	if ad_image_generator.generated_images && not ad_image_generator.generated_images.is_empty():
 		personalized_commercial.image.texture = ad_image_generator.generated_images[0]
 	else:
-		personalized_commercial.image.texture = load(genre.ads[randi() % genre.ads.size()])
+		personalized_commercial.image.texture = load(genre.images[randi() % genre.images.size()])
 		info.display("Practice Time!", 1)
 
 	commercials.remove_at(personalized_commercial_index)
@@ -60,8 +113,14 @@ func _ready():
 	var neutral_commercial_indices = [1, 2, 3]
 	for neutral_commercial in commercials:
 		var neutral_commercial_index = randi() % neutral_commercial_indices.size()
-		neutral_commercial.image.texture = load("res://art/ads/neutral_%d.png" % neutral_commercial_indices[neutral_commercial_index])
+		neutral_commercial.title.text = NEUTRAL_TAGLINES[randi() % NEUTRAL_TAGLINES.size()]
+		neutral_commercial.image.texture = load("res://art/images/neutral_%d.png" % neutral_commercial_indices[neutral_commercial_index])
+		neutral_commercial.button.text = NEUTRAL_CALL_TO_ACTIONS[randi() % NEUTRAL_CALL_TO_ACTIONS.size()]
 		neutral_commercial_indices.remove_at(neutral_commercial_index)
+
+	# Video
+	#commercial_video_player.stream.file = game_genres.selected_genre.videos[0]
+	commercial_video_player.stream.file = "res://art/videos/neutral_1.ogv"
 
 func _on_image_generated(result, commercial: AdButton):
 	if result.images:
@@ -100,7 +159,7 @@ func _on_player_hit(position: Vector3):
 	$UserInterface/Retry.show()
 
 	score.visible = false
-	game_over.display("Try Again!", 1)
+	game_over.display(GAME_OVER_MESSAGES[randi() % GAME_OVER_MESSAGES.size()], 1)
 	
 	music_player.play(music_player.Themes.COMMERCIAL, theme_index)
 	

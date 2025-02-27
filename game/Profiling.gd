@@ -24,10 +24,11 @@ func _ready() -> void:
 
 func _on_profile_selected(data):
 	game_genres.selected_genre = data
+	
 	ad_image_generator.generate_image(
 		game_genres.selected_genre.prompt,
 		game_genres.selected_genre.negative_prompt,
-		[], #[Color.FIREBRICK],
+		[Color.FIREBRICK],
 		576, 
 		1024, 
 		6,

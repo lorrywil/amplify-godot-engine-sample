@@ -63,8 +63,9 @@ const COMERCIAL_TIMEOUT = 10
 @onready var commercial_a: AdButton = %CommercialA
 @onready var commercial_b: AdButton = %CommercialB
 @onready var commercial_c: AdButton = %CommercialC
-@onready var commercial_video_container: Control = %CommercialVideoContainer
+@onready var commercial_video_commentary: TypingRichTextLabel = %CommercialVideoCommentary
 @onready var commercial_video_player: VideoStreamPlayer = %CommercialVideoPlayer
+@onready var commercial_video_container: Control = %CommercialVideoContainer
 @onready var commercial_video_button: Button = %CommercialVideoButton
 @onready var commercial_statistics_container: Control = %CommercialStatisticsContainer
 @onready var commercial_statistics_pie_chart: PieChart = %CommercialStatisticsPieChart
@@ -119,8 +120,8 @@ func _ready():
 		neutral_commercial_indices.remove_at(neutral_commercial_index)
 
 	# Video
-	#commercial_video_player.stream.file = game_genres.selected_genre.videos[0]
-	commercial_video_player.stream.file = "res://art/videos/neutral_1.ogv"
+	commercial_video_player.stream = VideoStreamTheora.new()
+	commercial_video_player.stream.file = game_genres.selected_genre.videos[0]
 
 func _on_image_generated(result, commercial: AdButton):
 	if result.images:
@@ -252,6 +253,7 @@ func _on_commercial_statistics_button_pressed() -> void:
 	commercial_statistics_container.visible = false
 	commercial_video_container.visible = true
 	commercial_video_player.play()
+	commercial_video_commentary.type_text(game_genres.selected_genre.voice_over, true)
 
 func _on_commercial_video_finished() -> void:
 	commercial_video_player.play()

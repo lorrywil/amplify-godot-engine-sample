@@ -246,9 +246,10 @@ func _on_commercial_c_pressed() -> void:
 	_on_commercial_pressed() 
 
 func _on_commercial_pressed() -> void:
+	var clicks = await GameAnalytics.query()
 	commercial_container.visible = false
 	commercial_statistics_container.visible = true
-	var clicks = await GameAnalytics.query()
+	
 	commercial_statistics_pie_chart.values = clicks
 	commercial_statistics_pie_chart.start_animation()
 

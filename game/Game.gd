@@ -1,18 +1,71 @@
 extends Node
 
+var NEUTRAL_TAGLINES = [
+	"Beyond The Horizon",
+	"Legends of the Deep",
+	"Masters of the Sea",
+	"Tides of Destiny",
+	"Ocean's Challenge",
+	"Dark Waters Rising",
+	"Waters Unknown",
+	"Deep Blue Legacy",
+	"Sea of Dreams",
+	"Waves of Fortune"
+]
+
+var NEUTRAL_CALL_TO_ACTIONS = [
+	"Play Now",
+	"Begin Adventure",
+	"Join Today",
+	"Start Journey",
+	"Play Free",
+	"Download Now",
+	"Join Battle",
+	"Start Playing",
+	"Join Others",
+	"Begin Now"
+]
+
+var GAME_OVER_MESSAGES = [
+	"Davy Jones' Locker Claims Another...",
+	"The Sharks Had Their Final Say",
+	"Your Tale Ends in the Deep",
+	"Sleeping With the Fishes",
+	"The Sea Shows No Mercy",
+	"A Feast for the Sharks",
+	"Your Ship's Final Voyage",
+	"The Ocean Claims Its Prize",
+	"Not Even a Splash Left",
+	"A Sailor's Final Journey",
+	"The Perfect Shark Snack",
+	"Should've Brought a Bigger Boat...",
+	"The Deep Blue Wins Again",
+	"Lost to the Endless Sea",
+	"A Pirate's Last Adventure",
+	"Today's Special: Pirate Soup",
+	"The Sharks Send Their Regards",
+	"Even Captain Hook Lasted Longer",
+	"That's Why We Need Lifeboats",
+	"The Sea Was Hungry Today"
+]
+
 const COMERCIAL_TIMEOUT = 10
 
 @export var mob_scene: PackedScene
 
 @onready var score: Control = %Score
+@onready var info: Messaging = %Info
+@onready var countdown: Countdown = %Countdown
+@onready var game_over: Messaging = %GameOver
 @onready var player: Player = $Player
 
 @onready var commercial_container: Control = %CommercialContainer
 @onready var commercial_a: AdButton = %CommercialA
 @onready var commercial_b: AdButton = %CommercialB
 @onready var commercial_c: AdButton = %CommercialC
-@onready var commercial_video_container: Control = %CommercialVideoContainer
+@onready var commercial_video_commentary: TypingRichTextLabel = %CommercialVideoCommentary
 @onready var commercial_video_player: VideoStreamPlayer = %CommercialVideoPlayer
+@onready var commercial_video_container: Control = %CommercialVideoContainer
 @onready var commercial_video_button: Button = %CommercialVideoButton
 @onready var commercial_statistics_container: Control = %CommercialStatisticsContainer
 @onready var commercial_statistics_pie_chart: PieChart = %CommercialStatisticsPieChart
@@ -37,33 +90,53 @@ func _ready():
 	sessionID = str(int(Time.get_unix_time_from_system()))
 	player.player_name.text = GlobalData.player_name
 	
+	aws_amplify.custom_analytics.record(GlobalData.player_name, "GAME_START", 0, 0, 0, sessionID, "")
 	
+	var genre = game_genres.selected_genre
 	
+	# Images
 	var commercials = [commercial_a, commercial_b, commercial_c]
 	GameAnalytics.record(GlobalData.player_name, "GAME_START", 0, 0, 0, sessionID, "","")
 	GameAnalytics.record(GlobalData.player_name, "SELECTED_GENRE",0,0,0,sessionID,"",genre.name)
 	var personalized_commercial_index = randi() % commercials.size()
 	var personalized_commercial = commercials[personalized_commercial_index]
-	personalized_commercial.is_personalized = true
-	personalized_commercial.label.text = "Pirates vs Sharks"
+	personalized_commercial.title.text = game_genres.selected_genre.tagline
+	personalized_commercial.button.text = game_genres.selected_genre.call_to_action
 
-	ad_image_generator.image_generated.connect(_on_image_generated.bind(personalized_commercial))
-	if ad_image_generator.generated_image:
-		personalized_commercial.image.texture = ad_image_generator.generated_image
+	ad_image_generator.images_generated.connect(_on_image_generated.bind(personalized_commercial))
+	
+	if ad_image_generator.generated_images && not ad_image_generator.generated_images.is_empty():
+		personalized_commercial.image.texture = ad_image_generator.generated_images[0]
 	else:
-		personalized_commercial.image.texture = load(genre.ads[randi() % genre.ads.size()])
+		personalized_commercial.image.texture = load(genre.images[randi() % genre.images.size()])
+		info.display("Practice Time!", 1)
 
 	commercials.remove_at(personalized_commercial_index)
 	
-	var neutral_commercial_indices = [1, 2, 3, 4, 5]
+	var neutral_commercial_indices = [1, 2, 3]
 	for neutral_commercial in commercials:
 		var neutral_commercial_index = randi() % neutral_commercial_indices.size()
-		neutral_commercial.label.text = "Pirates vs Sharks"
-		neutral_commercial.image.texture = load("res://art/ads/neutral_%d.png" % neutral_commercial_indices[neutral_commercial_index])
+		neutral_commercial.title.text = NEUTRAL_TAGLINES[randi() % NEUTRAL_TAGLINES.size()]
+		neutral_commercial.image.texture = load("res://art/images/neutral_%d.png" % neutral_commercial_indices[neutral_commercial_index])
+		neutral_commercial.button.text = NEUTRAL_CALL_TO_ACTIONS[randi() % NEUTRAL_CALL_TO_ACTIONS.size()]
 		neutral_commercial_indices.remove_at(neutral_commercial_index)
 
-func _on_image_generated(image, commercial: AdButton):
-	commercial.image.texture = image
+	# Video
+	commercial_video_player.stream = VideoStreamTheora.new()
+	commercial_video_player.stream.file = game_genres.selected_genre.videos[0]
+
+func _on_image_generated(result, commercial: AdButton):
+	if result.images:
+		commercial.image.texture = result.images[0]
+	else:
+		print(result.error)
+	
+	info.visible = false
+	countdown.visible = true
+	countdown.start()
+
+func _on_countdown_timeout() -> void:
+	player.practicing = false
 
 func _on_mob_timer_timeout():
 	# Create a new instance of the Mob scene.
@@ -85,23 +158,25 @@ func _on_mob_timer_timeout():
 	mob.squashed.connect(_on_mob_squashed)
 
 func _on_player_hit(position: Vector3):
+	$MobTimer.stop()
+	$UserInterface/Retry.show()
+
 	score.visible = false
+	game_over.display(GAME_OVER_MESSAGES[randi() % GAME_OVER_MESSAGES.size()], 1)
 	
 	music_player.play(music_player.Themes.COMMERCIAL, theme_index)
 	
+	aws_amplify.custom_analytics.record(GlobalData.player_name, "GAME_END", score.score, position.x,(-1 * position.z), sessionID, "")
+	
+	await _update_player_score()
+	await _refresh_leaderboard()
+	
+func _on_game_over_timout() -> void:
+	game_over.visible = false
 	commercial_container.visible = true
 	
 	var commercials = [commercial_a, commercial_b, commercial_c]
 	commercials[randi() % commercials.size()].grab_focus()
-		
-	$MobTimer.stop()
-	$UserInterface/Retry.show()
-	
-	GameAnalytics.record(GlobalData.player_name, "GAME_END", score.score, snappedf(position.x,0.1),snappedf((-1 * position.z),0.1), sessionID, "","")
-	
-	
-	await _update_player_score()
-	await _refresh_leaderboard()
 
 func _on_mob_squashed(position: Vector3):
 	GameAnalytics.record(GlobalData.player_name, "SCORE", score.score,snappedf(position.x,0.1),snappedf((-1 * position.z),0.1), sessionID, "","")
@@ -116,7 +191,7 @@ func _update_player_score():
 		elif int(get_score_response.result.data.getScore.score) < current_score:
 			await aws_amplify.data.mutation("""updateScore(input: {leaderboard: "%s", score: %s, username: "%s"}) { createdAt }""" % ["global", str(current_score), GlobalData.player_name], "UpdateScore")
 	else:
-		print("Error: " + get_score_response.error.message)
+		print("Error: " + get_score_response.to_string())
 		
 func _refresh_leaderboard():
 	var request = """listScoreByLeaderboardAndScore(leaderboard: "%s", sortDirection: DESC, limit:%s) { items { score username } }""" % ["global", "30"]
@@ -129,7 +204,7 @@ func _refresh_leaderboard():
 			var item = items[i]
 			leaderboard.add_item("%s | %s %s" % [str(i + 1), item.username, item.score])
 	else:
-		print(response.error.message)
+		print(response.error)
 
 func _on_disconnect_button_pressed() -> void:
 	var response = await aws_amplify.auth.sign_out(true)
@@ -140,7 +215,7 @@ func _on_leaderboard_retry_pressed() -> void:
 	get_parent().change_scene("res://Game.tscn")
 
 func _on_leaderboard_quit_pressed() -> void:
-	ad_image_generator.generated_image = null
+	ad_image_generator.generated_images = []
 	get_parent().change_scene("res://Title.tscn")
 
 func _on_user_attributes_update_button_pressed() -> void:
@@ -171,12 +246,10 @@ func _on_commercial_c_pressed() -> void:
 	_on_commercial_pressed() 
 
 func _on_commercial_pressed() -> void:
-	commercial_a.visible = false
-	commercial_b.visible = false
-	commercial_c.visible = false
+	commercial_container.visible = false
+	commercial_statistics_container.visible = true
 	var clicks = await GameAnalytics.query()
 	commercial_statistics_pie_chart.values = clicks
-	commercial_statistics_container.visible = true
 	commercial_statistics_pie_chart.start_animation()
 
 func _on_commercial_statistics_pie_chart_animation_finished() -> void:
@@ -187,6 +260,7 @@ func _on_commercial_statistics_button_pressed() -> void:
 	commercial_statistics_container.visible = false
 	commercial_video_container.visible = true
 	commercial_video_player.play()
+	commercial_video_commentary.type_text(game_genres.selected_genre.voice_over, true)
 
 func _on_commercial_video_finished() -> void:
 	commercial_video_player.play()

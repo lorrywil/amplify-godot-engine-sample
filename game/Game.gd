@@ -89,7 +89,7 @@ func _ready():
 	$UserInterface/Retry.hide()
 	sessionID = str(int(Time.get_unix_time_from_system()))
 	player.player_name.text = GlobalData.player_name
-	
+	var genre = game_genres.selected_genre
 	
 	# Images
 	var commercials = [commercial_a, commercial_b, commercial_c]

@@ -90,9 +90,6 @@ func _ready():
 	sessionID = str(int(Time.get_unix_time_from_system()))
 	player.player_name.text = GlobalData.player_name
 	
-	aws_amplify.custom_analytics.record(GlobalData.player_name, "GAME_START", 0, 0, 0, sessionID, "")
-	
-	var genre = game_genres.selected_genre
 	
 	# Images
 	var commercials = [commercial_a, commercial_b, commercial_c]
@@ -165,8 +162,6 @@ func _on_player_hit(position: Vector3):
 	game_over.display(GAME_OVER_MESSAGES[randi() % GAME_OVER_MESSAGES.size()], 1)
 	
 	music_player.play(music_player.Themes.COMMERCIAL, theme_index)
-	
-	aws_amplify.custom_analytics.record(GlobalData.player_name, "GAME_END", score.score, position.x,(-1 * position.z), sessionID, "")
 	
 	await _update_player_score()
 	await _refresh_leaderboard()

@@ -174,7 +174,8 @@ func _on_commercial_pressed() -> void:
 	commercial_a.visible = false
 	commercial_b.visible = false
 	commercial_c.visible = false
-	GameAnalytics.query()
+	var clicks = await GameAnalytics.query()
+	commercial_statistics_pie_chart.values = clicks
 	commercial_statistics_container.visible = true
 	commercial_statistics_pie_chart.start_animation()
 

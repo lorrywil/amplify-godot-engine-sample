@@ -97,9 +97,11 @@ func _ready():
 	GameAnalytics.record(GlobalData.player_name, "SELECTED_GENRE",0,0,0,sessionID,"",genre.name)
 	var personalized_commercial_index = randi() % commercials.size()
 	var personalized_commercial = commercials[personalized_commercial_index]
+	
 	personalized_commercial.title.text = game_genres.selected_genre.tagline
 	personalized_commercial.button.text = game_genres.selected_genre.call_to_action
-
+	personalized_commercial.is_personalized = true
+	
 	ad_image_generator.images_generated.connect(_on_image_generated.bind(personalized_commercial))
 	
 	if ad_image_generator.generated_images && not ad_image_generator.generated_images.is_empty():
@@ -226,17 +228,21 @@ func _on_user_attributes_button_pressed(toggled) -> void:
 		$UserInterface/PlayerAttributes.visible = false
 
 func _on_commercial_a_pressed() -> void:
+	
 	var ad_type = "personalized" if commercial_a.is_personalized else "neutral"
+	print(ad_type)
 	GameAnalytics.record(GlobalData.player_name,"AD_CLICK",0,0,0,sessionID,ad_type,genre.name)
 	_on_commercial_pressed()
 
 func _on_commercial_b_pressed() -> void:
 	var ad_type = "personalized" if commercial_b.is_personalized else "neutral"
+	print(ad_type)
 	GameAnalytics.record(GlobalData.player_name,"AD_CLICK",0,0,0,sessionID,ad_type,genre.name)
 	_on_commercial_pressed()
 
 func _on_commercial_c_pressed() -> void:
 	var ad_type = "personalized" if commercial_c.is_personalized else "neutral"
+	print(ad_type)
 	GameAnalytics.record(GlobalData.player_name,"AD_CLICK",0,0,0,sessionID,ad_type,genre.name)
 	_on_commercial_pressed() 
 

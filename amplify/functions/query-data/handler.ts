@@ -89,18 +89,21 @@ export const handler = async (event: LambdaEvent) => {
         const rows = await executeAthenaQuery(query);
         
         if (!rows || rows.length < 2) {
+            console.log('Error, no rows returned');
             throw new Error('No results returned from query');
+            
         }
 
         // Ensure data exists and has the expected structure
         const data = rows[1].Data;
         if (!data || data.length < 2) {
+            console.log('Error, invalid response');
             throw new Error('Invalid data structure returned from query');
         }
 
         const personalizedCount = parseInt(data[0].VarCharValue || '0');
         const neutralCount = parseInt(data[1].VarCharValue || '0');
-
+        console.log('Successfully retrieved ad click counts', personalizedCount, neutralCount)
         return {
             statusCode: 200,
             body: JSON.stringify({
